@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { Header, Footer } from './components'
-import { HomePage } from './pages';
+import { Home } from './pages';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
 
       <main className='w-full flex-1'>
         <Routes>
-          <Route path='/' element={<HomePage />} />
+          <Route path='/' element={<Home />} />
         </Routes>
       </main>
 

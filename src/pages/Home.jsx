@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Star } from 'lucide-react';
 import { features, testimonials } from "../data";
 
-export function HomePage() {
+export function Home() {
     return (
         <>
             <section className="w-full bg-[rgb(var(--color-primary-700))] py-35">
@@ -40,7 +40,7 @@ export function HomePage() {
                             bg-[rgb(var(--color-primary-800))] hover:bg-[rgb(var(--color-primary-900))] transition-colors duration-200
                             focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
                         >
-                            <spa>Get Started Free</spa>
+                            <span>Get Started Free</span>
                             <ArrowRight className='w-5 h-5' />
                         </Link>
 
