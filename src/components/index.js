@@ -1,2 +1,2 @@
-export { Header } from "./Header";
-export { Footer } from "./Footer";
+export { Header } from "./shared/Header";
+export { Footer } from "./shared/Footer";
