@@ -1,10 +1,7 @@
 import { Check } from 'lucide-react';
-import { useRegister } from '@/hooks/useRegister';
-import { profileOptions } from '../data/profileOptions';
-import { gender } from '../data/gender';
-
-type ProfileOptionValueType = (typeof profileOptions)[number]['value'];
-type GenderOptionValueType = (typeof gender)[number]['value'];
+import { useRegister } from '@/context/register/useRegister';
+import { profileOptions, gender } from '../data';
+import type { ProfileOptionValue, GenderOptionValue } from '../types';
 
 export function ProfileDetails() {
   const { state, dispatch } = useRegister();
@@ -15,7 +12,7 @@ export function ProfileDetails() {
     (option) => option.value === selectedProfileOption,
   );
 
-  function handleProfileOptionChange(value: ProfileOptionValueType) {
+  function handleProfileOptionChange(value: ProfileOptionValue) {
     const selectedOption = profileOptions.find(
       (option) => option.value === value,
     );
@@ -23,14 +20,14 @@ export function ProfileDetails() {
     if (!selectedOption) return;
 
     dispatch({
-      type: 'UPDATE_FORM',
+      type: 'UPDATE_FIELD',
       payload: { profileFor: value, gender: selectedOption.gender ?? '' },
     });
   }
 
-  function handleGenderOptionChange(value: GenderOptionValueType) {
+  function handleGenderOptionChange(value: GenderOptionValue) {
     dispatch({
-      type: 'UPDATE_FORM',
+      type: 'UPDATE_FIELD',
       payload: { gender: value },
     });
   }

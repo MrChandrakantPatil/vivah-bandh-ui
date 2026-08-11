@@ -1,30 +1,27 @@
-import { Route, Routes, useLocation } from 'react-router-dom';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import { Route, Routes } from 'react-router-dom';
 
-import { DashboardLayout } from '@/pages/Dashboard/DashboardLayout';
-import { Home } from '@/pages/Home/Home';
-import { Dashboard } from '@/pages/Dashboard/pages/Home/DashboardHome';
+import { PublicLayout } from './layouts/public';
+import { DashboardLayout } from '@/layouts/dashboard';
+
+import { Home } from '@/pages/public/home';
+import { About } from '@/pages/public/about';
+
+import { Dashboard } from '@/pages/dashboard/home';
+import { Chats } from '@/pages/dashboard/chats';
 
 function App() {
-  const location = useLocation();
-  const isDashboard = location.pathname.startsWith('/dashboard');
-
   return (
-    <div className="w-screen flex flex-col">
-      {!isDashboard && <Header />}
+    <Routes>
+      <Route element={<PublicLayout />}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Route>
 
-      <main className="w-full flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-          </Route>
-        </Routes>
-      </main>
-
-      {!isDashboard && <Footer />}
-    </div>
+      <Route element={<DashboardLayout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/matches" element={<Chats />} />
+      </Route>
+    </Routes>
   );
 }
 
