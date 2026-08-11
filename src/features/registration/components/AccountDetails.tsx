@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { useRegister } from '@/hooks/useRegister';
+import { useRegister } from '@/context/register/useRegister';
+import { useRegisterValidation } from '../hooks/useRegisterValidation';
 
 export function AccountDetails() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { state, handleBlur, handleFocus, handleChange } = useRegister();
+  const { state } = useRegister();
+  const { handleBlur, handleFocus, handleChange } = useRegisterValidation();
 
   return (
     <>

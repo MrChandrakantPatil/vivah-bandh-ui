@@ -6,6 +6,7 @@ import {
   ShieldCheck,
   CheckCircle,
 } from 'lucide-react';
+import type { ProgressBarProps } from '../types';
 
 const stepIcons = [
   UserRound,
@@ -14,11 +15,6 @@ const stepIcons = [
   ShieldCheck,
   CheckCircle,
 ];
-
-interface ProgressBarProps {
-  currentStep: number;
-  totalSteps: number;
-}
 
 export function ProgressBar({ currentStep, totalSteps = 5 }: ProgressBarProps) {
   return (
