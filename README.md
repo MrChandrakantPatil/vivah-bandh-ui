@@ -102,7 +102,7 @@ src/
 
 - `pages`        *****> Route-level pages
 
-- `features`     => Business/domain-specific modules (registration, authentication, etc.)
+- `features`     ----- Business/domain-specific modules (registration, authentication, etc.)
 
 - `components`   => Shared reusable UI components
 
