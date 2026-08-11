@@ -94,19 +94,19 @@ src/
 ```
 
 
-## Folder                 Responsibilities
------------------------------------------------------------------------
-`assets`                  Images, icons, fonts and other static assets
+## Folder Responsibilities
 
-`layouts`                 Application layouts (Public, Dashboard, Auth, etc.)
+`assets`       => Images, icons, fonts and other static assets
 
-`pages`                   Route-level pages
+`layouts`      => Application layouts (Public, Dashboard, Auth, etc.)
 
-`features`                Business/domain-specific modules (registration, authentication, etc.)
+`pages`        => Route-level pages
 
-`components`              Shared reusable UI components
+`features`     => Business/domain-specific modules (registration, authentication, etc.)
 
-`context`                 Global state using React Context API
+`components`   => Shared reusable UI components
+
+`context`      => Global state using React Context API
 
 `hooks`                   Shared custom hooks
 
