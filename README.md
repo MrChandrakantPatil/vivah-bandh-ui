@@ -92,9 +92,8 @@ src/
 └── main.tsx
 ```
 
-## Folder Responsibilities
 
-  Folder                    Responsibility
+  Folder                    Responsibilities
   -----------------------------------------------------------------------
   `assets`                  Images, icons, fonts and other static assets
 
@@ -120,7 +119,6 @@ src/
 
   `router`                  Route configuration
 
-  -----------------------------------------------------------------------
 
 ## Folder Guidelines
 
