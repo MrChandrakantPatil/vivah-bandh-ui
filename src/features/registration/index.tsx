@@ -9,12 +9,7 @@ import { BasicDetails } from './components/BasicDetails';
 import { ReligionDetails } from './components/ReligionDetails';
 import { AccountDetails } from './components/AccountDetails';
 import { ConfirmDetails } from './components/ConfirmDetails';
-import type { RegistrationStep } from './types';
-
-interface RegistrationModelProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import type { RegistrationModelProps, RegistrationStep } from './types';
 
 const slideVariants: Variants = {
   enter: (direction) => ({ x: direction > 0 ? '100%' : '-100%' }),
