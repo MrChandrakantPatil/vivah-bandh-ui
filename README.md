@@ -68,10 +68,10 @@ src/
 │   └── ...
 │
 ├── context/
-│   ├── register/
-│   │   ├── RegisterContext.ts
-│   │   ├── RegisterProvider.tsx
-│   │   ├── useRegister.ts
+│   ├── registration/
+│   │   ├── RegistrationContext.ts
+│   │   ├── RegistrationProvider.tsx
+│   │   ├── useRegistration.ts
 │   │   ├── reducer.ts
 │   │   ├── initialState.ts
 │   │   ├── types.ts

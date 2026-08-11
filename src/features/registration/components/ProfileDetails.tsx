@@ -1,10 +1,10 @@
 import { Check } from 'lucide-react';
-import { useRegister } from '@/context/register/useRegister';
+import { useRegistration } from '@/context/registration/useRegistration';
 import { profileOptions, gender } from '../data';
 import type { ProfileOptionValue, GenderOptionValue } from '../types';
 
 export function ProfileDetails() {
-  const { state, dispatch } = useRegister();
+  const { state, dispatch } = useRegistration();
 
   const selectedProfileOption = state.formData.profileFor;
   const selectedGender = state.formData.gender;

@@ -1,6 +1,6 @@
-import { type RegisterState } from './types';
+import { type RegistrationState } from './types';
 
-export const initialState: RegisterState = {
+export const initialState: RegistrationState = {
   currentStep: 1,
   direction: 1,
   formData: {

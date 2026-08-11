@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import '@/index.css';
 import App from '@/App.jsx';
-import { RegisterProvider } from '@/context/register';
+import { RegistrationProvider } from '@/context/registration';
 
 const rootElement = document.getElementById('root');
 
@@ -13,10 +13,10 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <RegisterProvider>
+    <RegistrationProvider>
       <BrowserRouter>
         <App />
       </BrowserRouter>
-    </RegisterProvider>
+    </RegistrationProvider>
   </StrictMode>,
 );

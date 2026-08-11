@@ -1,7 +1,7 @@
 import { type Dispatch } from 'react';
 import { validators } from '@/features/registration/utils';
 
-export interface RegisterState {
+export interface RegistrationState {
   currentStep: number;
   direction: number;
 
@@ -28,7 +28,7 @@ export interface RegisterState {
   errors: Record<string, string>;
 }
 
-export type RegisterAction =
+export type RegistrationAction =
   | {
       type: 'NEXT_STEP';
     }
@@ -37,11 +37,11 @@ export type RegisterAction =
     }
   | {
       type: 'UPDATE_FIELD';
-      payload: Partial<RegisterState['formData']>;
+      payload: Partial<RegistrationState['formData']>;
     }
   | {
       type: 'UPDATE_DOB';
-      payload: Partial<RegisterState['formData']['dob']>;
+      payload: Partial<RegistrationState['formData']['dob']>;
     }
   | {
       type: 'SET_ERRORS';
@@ -51,12 +51,12 @@ export type RegisterAction =
       type: 'RESET_FORM';
     };
 
-export interface RegisterContextValue {
-  state: RegisterState;
-  dispatch: Dispatch<RegisterAction>;
+export interface RegistrationContextValue {
+  state: RegistrationState;
+  dispatch: Dispatch<RegistrationAction>;
 }
 
-export type RegisterFieldKey =
-  keyof RegisterState['formData'] | keyof RegisterState['formData']['dob'];
+export type RegistrationFieldKey =
+  keyof RegistrationState['formData'] | keyof RegistrationState['formData']['dob'];
 
 export type ValidatableFieldKey = keyof typeof validators;
