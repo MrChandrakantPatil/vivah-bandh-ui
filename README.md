@@ -94,7 +94,6 @@ src/
 
 ## Folder Responsibilities
 
-  -----------------------------------------------------------------------
   Folder                    Responsibility
   -----------------------------------------------------------------------
   `assets`                  Images, icons, fonts and other static assets
@@ -120,6 +119,7 @@ src/
   `types`                   Shared TypeScript types
 
   `router`                  Route configuration
+
   -----------------------------------------------------------------------
 
 ## Folder Guidelines
