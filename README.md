@@ -96,7 +96,7 @@ src/
 
 ## Folder Responsibilities
 
-- `assets`       => Images, icons, fonts and other static assets
+- `assets`       ---> Images, icons, fonts and other static assets
 
 - `layouts`      => Application layouts (Public, Dashboard, Auth, etc.)
 
