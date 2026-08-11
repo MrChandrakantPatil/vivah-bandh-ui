@@ -1,73 +1,129 @@
-# React + TypeScript + Vite
+# Vivah Bandh UI - Project Structure
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Folder Structure
 
-Currently, two official plugins are available:
+src/
+│
+├── assets/
+│
+├── layouts/
+│   ├── public/
+│   │   ├── index.tsx
+│   │   ├── components/
+│   │   ├── data.ts
+│   │   ├── constants.ts
+│   │   ├── utils.ts
+│   │   └── types.ts
+│   │
+│   ├── dashboard/
+│   │   └── ...
+│   │
+│   └── auth/
+│       └── ...
+│
+├── pages/
+│   ├── public/
+│   │   ├── home/
+│   │   │   ├── index.tsx
+│   │   │   ├── components/
+│   │   │   ├── data.ts
+│   │   │   ├── constants.ts
+│   │   │   ├── utils.ts
+│   │   │   └── types.ts
+│   │   │
+│   │   ├── about/
+│   │   │   └── ...
+│   │   ├── privacy/
+│   │   │   └── ...
+│   │   └── terms/
+│   │       └── ...
+│   │
+│   └── dashboard/
+│       ├── home/
+│       │   └── ...
+│       ├── profile/
+│       │   └── ...
+│       ├── matches/
+│       │   └── ...
+│       └── ...
+│
+├── features/
+│   ├── registration/
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── data.ts
+│   │   ├── constants.ts
+│   │   ├── utils.ts
+│   │   └── types.ts
+│   │
+│   ├── authentication/
+│   │   └── ...
+│   └── ...
+│
+├── components/
+│   ├── Button/
+│   ├── Input/
+│   ├── Modal/
+│   └── ...
+│
+├── context/
+│   ├── register/
+│   │   ├── RegisterContext.ts
+│   │   ├── RegisterProvider.tsx
+│   │   ├── useRegister.ts
+│   │   ├── reducer.ts
+│   │   ├── initialState.ts
+│   │   ├── types.ts
+│   │   └── index.ts
+│   │
+│   ├── auth/
+│   │   └── ...
+│   └── ...
+│
+├── hooks/
+├── services/
+├── utils/
+├── constants/
+├── types/
+├── router/
+│
+├── App.tsx
+└── main.tsx
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Folder Responsibilities
 
-## React Compiler
+  -----------------------------------------------------------------------
+  Folder                    Responsibility
+  -----------------------------------------------------------------------
+  `assets`                  Images, icons, fonts and other static assets
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+  `layouts`                 Application layouts (Public, Dashboard, Auth, etc.)
 
-## Expanding the ESLint configuration
+  `pages`                   Route-level pages
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+  `features`                Business/domain-specific modules (registration, authentication, etc.)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+  `components`              Shared reusable UI components
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+  `context`                 Global state using React Context API
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+  `hooks`                   Shared custom hooks
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+  `services`                API and service layer
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+  `utils`                   Shared helper functions
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+  `constants`               Shared application constants
+
+  `types`                   Shared TypeScript types
+
+  `router`                  Route configuration
+  -----------------------------------------------------------------------
+
+## Folder Guidelines
+
+-   Keep components as close as possible to where they are used.
+-   Use `index.tsx` as the main component file for pages and layouts.
+-   Use `index.ts` as a barrel export where appropriate.
+-   Create `data.ts`, `constants.ts`, `utils.ts`, and `types.ts` only when a feature or page actually needs them.
+-   Move components to the shared `components` folder only when they are reused across multiple features or layouts.

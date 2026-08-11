@@ -1,21 +1,8 @@
-import {
-  User,
-  Calendar,
-  Mail,
-  Phone,
-  Heart,
-  Users,
-  type LucideIcon,
-} from 'lucide-react';
-import { useRegister } from '@/hooks/useRegister';
+import { User, Calendar, Mail, Phone, Heart, Users } from 'lucide-react';
+import { useRegister } from '@/context/register/useRegister';
+import { type DetailCardProps } from '../types';
 
-interface DetailCardPropTypes {
-  title: string;
-  value: string;
-  icon: LucideIcon;
-}
-
-const DetailCard = ({ title, value, icon: Icon }: DetailCardPropTypes) => (
+const DetailCard = ({ title, value, icon: Icon }: DetailCardProps) => (
   <div className="flex items-top gap-3 rounded-lg border border-gray-200 bg-white px-3 py-4">
     <Icon size={20} className="text-pink-500 shrink-0" />
 
