@@ -2,6 +2,7 @@
 
 ## Folder Structure
 
+``` text
 src/
 │
 ├── assets/
@@ -89,6 +90,7 @@ src/
 │
 ├── App.tsx
 └── main.tsx
+```
 
 ## Folder Responsibilities
 
