@@ -1,5 +1,6 @@
 # Vivah Bandh UI - Project Structure
 
+
 ## Folder Structure
 
 ``` text
@@ -93,6 +94,7 @@ src/
 ```
 
 
+
   Folder                    Responsibilities
   -----------------------------------------------------------------------
   `assets`                  Images, icons, fonts and other static assets
@@ -118,6 +120,7 @@ src/
   `types`                   Shared TypeScript types
 
   `router`                  Route configuration
+
 
 
 ## Folder Guidelines
