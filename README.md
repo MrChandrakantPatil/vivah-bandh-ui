@@ -98,9 +98,9 @@ src/
 
 - `assets`       ---> Images, icons, fonts and other static assets
 
-- `layouts`      => Application layouts (Public, Dashboard, Auth, etc.)
+- `layouts`      ***** Application layouts (Public, Dashboard, Auth, etc.)
 
-- `pages`        => Route-level pages
+- `pages`        *****> Route-level pages
 
 - `features`     => Business/domain-specific modules (registration, authentication, etc.)
 
