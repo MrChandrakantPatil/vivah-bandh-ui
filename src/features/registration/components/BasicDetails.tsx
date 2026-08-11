@@ -1,9 +1,9 @@
-import { useRegister } from '@/context/register/useRegister';
-import { useRegisterValidation } from '../hooks/useRegisterValidation';
+import { useRegistration } from '@/context/registration/useRegistration';
+import { useRegistrationValidation } from '../hooks/useRegistrationValidation';
 
 export function BasicDetails() {
-  const { state, dispatch } = useRegister();
-  const { handleBlur, handleFocus, handleChange } = useRegisterValidation();
+  const { state, dispatch } = useRegistration();
+  const { handleBlur, handleFocus, handleChange } = useRegistrationValidation();
 
   const dobError = state.errors.day || state.errors.month || state.errors.year;
 

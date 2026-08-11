@@ -1,4 +1,4 @@
-import type { RegistrationStep, RegisterField } from './types';
+import type { RegistrationStep, RegistrationField } from './types';
 
 export const validators = {
   firstName: (value: string) => {
@@ -145,7 +145,7 @@ export const validators = {
 
 export const stepValidators: Record<
   RegistrationStep,
-  (FormData: RegisterField) => boolean
+  (FormData: RegistrationField) => boolean
 > = {
   1: (formData) => {
     const requiresGender = ['myself', 'relative', 'friend'].includes(

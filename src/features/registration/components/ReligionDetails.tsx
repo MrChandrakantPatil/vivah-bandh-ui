@@ -1,9 +1,9 @@
-import { useRegister } from '@/context/register/useRegister';
-import { useRegisterValidation } from '../hooks/useRegisterValidation';
+import { useRegistration } from '@/context/registration/useRegistration';
+import { useRegistrationValidation } from '../hooks/useRegistrationValidation';
 
 export function ReligionDetails() {
-  const { state } = useRegister();
-  const { handleBlur, handleFocus, handleChange } = useRegisterValidation();
+  const { state } = useRegistration();
+  const { handleBlur, handleFocus, handleChange } = useRegistrationValidation();
 
   return (
     <>

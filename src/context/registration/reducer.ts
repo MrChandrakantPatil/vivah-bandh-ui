@@ -1,10 +1,10 @@
 import { initialState } from './initialState';
-import { type RegisterState, type RegisterAction } from './types';
+import { type RegistrationState, type RegistrationAction } from './types';
 
-export function registerReducer(
-  state: RegisterState,
-  action: RegisterAction,
-): RegisterState {
+export function registrationReducer(
+  state: RegistrationState,
+  action: RegistrationAction,
+): RegistrationState {
   switch (action.type) {
     case 'NEXT_STEP':
       return {

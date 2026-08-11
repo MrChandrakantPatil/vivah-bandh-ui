@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { X } from 'lucide-react';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
-import { useRegister } from '@/context/register';
+import { useRegistration } from '@/context/registration';
 import { stepValidators } from './utils';
 import { ProgressBar } from './components/ProgressBar';
 import { ProfileDetails } from './components/ProfileDetails';
@@ -23,14 +23,14 @@ const slideVariants: Variants = {
 };
 
 export function RegistrationModal({ isOpen, onClose }: RegistrationModelProps) {
-  const { state, dispatch } = useRegister();
+  const { state, dispatch } = useRegistration();
   const [isFirstRender, setIsFirstRender] = useState(true);
-  const registerModalRef = useRef<HTMLDivElement | null>(null);
+  const registrationModalRef = useRef<HTMLDivElement | null>(null);
 
   function handleOutsideModalClick(e: React.MouseEvent<HTMLDivElement>) {
     if (
-      registerModalRef.current &&
-      !registerModalRef.current.contains(e.target as Node)
+      registrationModalRef.current &&
+      !registrationModalRef.current.contains(e.target as Node)
     ) {
       dispatch({ type: 'RESET_FORM' });
       setIsFirstRender(true);
@@ -94,7 +94,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModelProps) {
       onClick={handleOutsideModalClick}
     >
       <motion.div
-        ref={registerModalRef}
+        ref={registrationModalRef}
         className="relative bg-white w-full max-w-lg min-h-150 rounded-lg shadow-xl text-black"
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}

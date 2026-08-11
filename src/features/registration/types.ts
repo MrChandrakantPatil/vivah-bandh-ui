@@ -1,6 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 import { profileOptions, gender } from './data';
-import type { RegisterState } from '@/context/register';
+import type { RegistrationState } from '@/context/registration';
 
 export interface DetailCardProps {
   title: string;
@@ -19,4 +19,4 @@ export interface ProgressBarProps {
 
 export type RegistrationStep = 1 | 2 | 3 | 4 | 5;
 
-export type RegisterField = RegisterState['formData'];
+export type RegistrationField = RegistrationState['formData'];

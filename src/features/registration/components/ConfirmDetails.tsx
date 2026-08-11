@@ -1,5 +1,5 @@
 import { User, Calendar, Mail, Phone, Heart, Users } from 'lucide-react';
-import { useRegister } from '@/context/register/useRegister';
+import { useRegistration } from '@/context/registration/useRegistration';
 import { type DetailCardProps } from '../types';
 
 const DetailCard = ({ title, value, icon: Icon }: DetailCardProps) => (
@@ -17,7 +17,7 @@ const DetailCard = ({ title, value, icon: Icon }: DetailCardProps) => (
 );
 
 export function ConfirmDetails() {
-  const { state } = useRegister();
+  const { state } = useRegistration();
 
   return (
     <>

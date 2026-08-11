@@ -1,11 +1,11 @@
-import { useRegister } from '@/context/register';
+import { useRegistration } from '@/context/registration';
 import { validators } from '../utils';
-import type { RegisterFieldKey, ValidatableFieldKey } from '@/context/register';
+import type { RegistrationFieldKey, ValidatableFieldKey } from '@/context/registration';
 
-export function useRegisterValidation() {
-  const { dispatch } = useRegister();
+export function useRegistrationValidation() {
+  const { dispatch } = useRegistration();
 
-  const handleChange = (field: RegisterFieldKey, value: string) => {
+  const handleChange = (field: RegistrationFieldKey, value: string) => {
     dispatch({
       type: 'UPDATE_FIELD',
       payload: { [field]: value },
