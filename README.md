@@ -1,9 +1,8 @@
 # Vivah Bandh UI - Project Structure
 
-
 ## Folder Structure
 
-``` text
+```text
 src/
 │
 ├── assets/
@@ -93,38 +92,36 @@ src/
 └── main.tsx
 ```
 
-
 ## Folder Responsibilities
 
-- `assets`       ----- Images, icons, fonts and other static assets
+- `assets` ── Images, icons, fonts and other static assets
 
-- `layouts`      ----- Application layouts (Public, Dashboard, Auth, etc.)
+- `layouts` ── Application layouts (Public, Dashboard, Auth, etc.)
 
-- `pages`        ----- Route-level pages
+- `pages` ── Route-level pages
 
-- `features`     ----- Business/domain-specific modules (registration, authentication, etc.)
+- `features` ── Business/domain-specific modules (registration, authentication, etc.)
 
-- `components`   ----- Shared reusable UI components
+- `components` ── Shared reusable UI components
 
-- `context`      ----- Global state using React Context API
+- `context` ── Global state using React Context API
 
-- `hooks`        ----- Shared custom hooks
+- `hooks` ── Shared custom hooks
 
-- `services`     ----- API and service layer
+- `services` ── API and service layer
 
-- `utils`        ----- Shared helper functions
+- `utils` ── Shared helper functions
 
-- `constants`    ----- Shared application constants
+- `constants` ── Shared application constants
 
-- `types`        ----- Shared TypeScript types
+- `types` ── Shared TypeScript types
 
-- `router`       ----- Route configuration
-
+- `router` ── Route configuration
 
 ## Folder Guidelines
 
--   Keep components as close as possible to where they are used.
--   Use `index.tsx` as the main component file for pages and layouts.
--   Use `index.ts` as a barrel export where appropriate.
--   Create `data.ts`, `constants.ts`, `utils.ts`, and `types.ts` only when a feature or page actually needs them.
--   Move components to the shared `components` folder only when they are reused across multiple features or layouts.
+- Keep components as close as possible to where they are used.
+- Use `index.tsx` as the main component file for pages and layouts.
+- Use `index.ts` as a barrel export where appropriate.
+- Create `data.ts`, `constants.ts`, `utils.ts`, and `types.ts` only when a feature or page actually needs them.
+- Move components to the shared `components` folder only when they are reused across multiple features or layouts.

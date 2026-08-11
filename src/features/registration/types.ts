@@ -2,6 +2,11 @@ import type { LucideIcon } from 'lucide-react';
 import { profileOptions, gender } from './data';
 import type { RegisterState } from '@/context/register';
 
+export interface RegistrationModelProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
 export interface DetailCardProps {
   title: string;
   value: string;
