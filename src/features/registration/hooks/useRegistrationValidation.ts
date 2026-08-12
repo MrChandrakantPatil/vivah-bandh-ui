@@ -1,6 +1,9 @@
 import { useRegistration } from '@/context/registration';
 import { validators } from '../utils';
-import type { RegistrationFieldKey, ValidatableFieldKey } from '@/context/registration';
+import type {
+  RegistrationFieldKey,
+  ValidatableFieldKey,
+} from '@/context/registration';
 
 export function useRegistrationValidation() {
   const { dispatch } = useRegistration();

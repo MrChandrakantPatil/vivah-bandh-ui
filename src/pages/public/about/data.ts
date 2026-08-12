@@ -1,49 +1,67 @@
-import { Heart, Users, Shield, MessageCircle } from 'lucide-react';
+import {
+  Heart,
+  Shield,
+  Users,
+  MessageCircle,
+  UserPlus,
+  Search,
+  HeartHandshake,
+} from 'lucide-react';
 
-export const features = [
+export const values = [
   {
     icon: Heart,
-    title: 'Find Your Perfect Match',
+    title: 'Meaningful Connections',
     description:
-      'Advanced matching algorithm to find your ideal life partner based on compatibility.',
-  },
-  {
-    icon: Users,
-    title: 'Verified Profiles',
-    description:
-      'All profiles are manually verified to ensure authenticity and trust.',
+      'We believe finding a life partner is about more than matching profiles. It is about finding someone who shares your values and dreams.',
   },
   {
     icon: Shield,
-    title: 'Privacy & Security',
+    title: 'Trust & Privacy',
     description:
-      'Your personal information is protected with industry-standard security measures.',
+      'Your personal information matters. We are committed to creating a safe and respectful environment for every member.',
+  },
+  {
+    icon: Users,
+    title: 'Family Values',
+    description:
+      'Marriage brings two individuals and families together. Vivah Bandh is designed with Indian family values at its heart.',
   },
   {
     icon: MessageCircle,
     title: 'Safe Communication',
     description:
-      'Built-in chat system for safe and private conversations with potential matches.',
+      'Connect with potential matches through a respectful and secure communication experience.',
   },
 ];
 
-export const testimonials = [
+export const steps = [
   {
-    name: 'Priya & Rajesh',
-    location: 'Mumbai',
-    text: 'We found each other on Vivah Bandh and got married within 6 months.',
-    rating: 3,
+    number: '01',
+    icon: UserPlus,
+    title: 'Create Your Profile',
+    description:
+      'Tell us about yourself, your interests, values and what you are looking for in a life partner.',
   },
   {
-    name: 'Anjali & Amit',
-    location: 'Kolhapur',
-    text: 'The detailed profiles and matching system helped us find our perfect match.',
-    rating: 5,
+    number: '02',
+    icon: Search,
+    title: 'Discover Matches',
+    description:
+      'Explore profiles and discover people who match your preferences and compatibility.',
   },
   {
-    name: 'Kavya & Suresh',
-    location: 'Nashik',
-    text: "Vivah Bandh's privacy features gave us confidence to share our details.",
-    rating: 4,
+    number: '03',
+    icon: Heart,
+    title: 'Connect',
+    description:
+      'Show interest and start meaningful conversations with people you feel connected to.',
+  },
+  {
+    number: '04',
+    icon: HeartHandshake,
+    title: 'Begin Your Journey',
+    description:
+      'Take the next step towards building a meaningful relationship and a beautiful future together.',
   },
 ];
