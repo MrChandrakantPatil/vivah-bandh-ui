@@ -57,6 +57,7 @@ export interface RegistrationContextValue {
 }
 
 export type RegistrationFieldKey =
-  keyof RegistrationState['formData'] | keyof RegistrationState['formData']['dob'];
+  | keyof RegistrationState['formData']
+  | keyof RegistrationState['formData']['dob'];
 
 export type ValidatableFieldKey = keyof typeof validators;
