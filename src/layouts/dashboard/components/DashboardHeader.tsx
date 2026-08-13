@@ -5,15 +5,16 @@ import {
   Bell,
   Menu,
   X,
-  Heart,
   PanelLeftClose,
   PanelLeftOpen,
+  Crown,
 } from 'lucide-react';
 import { NotificationBadge } from './NotificationBadge';
 import { Avatar } from './Avatar';
 import { ProfileCard } from './ProfileCard';
 import { useHandleOutsideClick } from '@/hooks/useHandleOutsideClick';
 import type { HeaderIconPropTypes, DashboardHeaderPropTypes } from '../types';
+import { logo, logoIcon } from '@/assets/images';
 
 function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
   return (
@@ -48,7 +49,7 @@ export function DashboardHeader({
   });
 
   return (
-    <header className="sticky top-0 z-30 h-16 md:h-21.25 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <header className="sticky top-0 z-30 h-16 md:h-21.25 bg-white/95 backdrop-blur-md border-b border-gray-200">
       <div className="flex items-center justify-between h-full px-4 sm:px-8 md:px-8 lg:px-10">
         {showSearch ? (
           <div className="flex items-center w-full gap-2">
@@ -99,17 +100,43 @@ export function DashboardHeader({
               </button>
 
               {/* Mobile Logo */}
-              <div className="flex items-center gap-2 md:hidden">
-                <Heart className="w-7 h-7 text-[#e13060]" />
+              <div className="flex w-full max-w-50 md:hidden">
+                <img
+                  src={logo}
+                  alt="Vivah Bandh"
+                  className="hidden sm:block w-full h-auto"
+                />
 
-                <span className="hidden sm:block font-serif text-xl font-bold text-[#e13060]">
-                  Vivah Bandh
-                </span>
+                <img
+                  src={logoIcon}
+                  alt="Vivah Bandh"
+                  className="sm:hidden w-10 h-10 object-contain"
+                />
               </div>
             </div>
 
             {/* Right Section */}
             <div className="flex items-center gap-4 lg:gap-5">
+              <button
+                type="button"
+                className="
+                  flex items-center justify-center w-7 h-7 
+                  p-0 bg-[#e21c56] border border-[#e21c56] rounded-full
+                  md:w-auto md:h-auto md:px-4 md:py-2 md:border-[#fcb4ca] md:rounded-md md:bg-[#fdf6f7]
+                "
+              >
+                <Crown
+                  size={16}
+                  className="fill-white text-white md:fill-[#feac09] md:text-[#feac09]"
+                />
+
+                <span className="hidden md:inline ml-2 text-[#e21c56] font-bold text-xs">
+                  Upgrade to Premium
+                </span>
+              </button>
+
+              <div className="w-px h-7 bg-gray-200" />
+
               <HeaderIcon
                 aria-label="Search"
                 onClick={() => setShowSearch(true)}

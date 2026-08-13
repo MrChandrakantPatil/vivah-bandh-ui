@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Heart } from 'lucide-react';
-import { SIDEBAR_WIDTH } from '../constants';
 import { sidebarMenu } from '../data';
 import { NotificationBadge } from './NotificationBadge';
 import { SidebarTooltip } from './SidebarTooltip';
-import { COLLAPSED_WIDTH } from '../constants';
+import { SIDEBAR_WIDTH, COLLAPSED_WIDTH } from '../constants';
 import type { DashboardSidebarProp, TooltipState } from '../types';
+import { logo, logoIcon, devider } from '@/assets/images';
+import { Crown } from 'lucide-react';
 
 export function DashboardSidebar({
   isSidebarOpen,
@@ -22,33 +22,33 @@ export function DashboardSidebar({
       `}
       style={{ width: isCollapsed ? COLLAPSED_WIDTH : SIDEBAR_WIDTH }}
     >
-      <div className="relative">
-        <Link
-          to="/"
-          className={`flex items-center py-5 px-4 ${isCollapsed ? '' : 'justify-between'}`}
-        >
-          <div className="flex items-center min-w-0">
-            <Heart size={40} className="shrink-0 text-[#e13060]" />
-
-            <div
-              className={`
-                overflow-hidden whitespace-nowrap transition-all duration-300 ease-in-out
-                ${isCollapsed ? 'w-0 opacity-0 ml-0' : 'w-42.5 opacity-100 ml-3'}
+      <div className="border-b border-gray-200 overflow-hidden">
+        <Link to="/" className="grid items-center w-full h-21 px-1">
+          <img
+            src={logo}
+            alt="Vivah Bandh"
+            className={`
+                col-start-1 row-start-1
+                w-60 h-auto mx-auto
+                transition-opacity duration-300
+                ${isCollapsed ? 'opacity-0' : 'opacity-100'}
               `}
-            >
-              <h2 className="font-serif text-2xl font-bold text-[#e13060] leading-none whitespace-nowrap">
-                Vivah Bandh
-              </h2>
+          />
 
-              <p className="mt-1 text-xs text-gray-500 whitespace-nowrap">
-                Find Your Soulmate
-              </p>
-            </div>
-          </div>
+          <img
+            src={logoIcon}
+            alt="Vivah Bandh"
+            className={`
+                col-start-1 row-start-1
+                w-12 h-12 object-contain mx-auto
+                transition-opacity duration-300
+                ${isCollapsed ? 'opacity-100' : 'opacity-0'}
+              `}
+          />
         </Link>
       </div>
 
-      <nav className="flex-1 px-3 py-4 overflow-y-auto">
+      <nav className="flex-1 py-4 overflow-y-auto px-3">
         {sidebarMenu.map((item) => {
           const Icon = item.icon;
 
@@ -94,6 +94,48 @@ export function DashboardSidebar({
             </NavLink>
           );
         })}
+
+        <div className="w-full h-4 overflow-hidden mt-4 mb-4">
+          <img
+            src={devider}
+            alt="Vivah Bandh"
+            className="col-start-1 row-start-1 h-auto mx-auto transition-opacity duration-300"
+          />
+        </div>
+
+        <div className="text-center">
+          <div
+            className={`flex items-center justify-center w-9 h-9 mx-auto bg-[#e21c56] rounded-full`}
+          >
+            <Crown size={20} className="text-white fill-white" />
+          </div>
+
+          <div
+            className={`
+              transition-opacity
+              ${isCollapsed ? 'opacity-0 pointer-events-none duration-0' : 'opacity-100 delay-300 duration-200'}
+            `}
+          >
+            <h3 className="text-[#e21c56] font-semibold my-2">
+              Upgrade to Premium
+            </h3>
+
+            <p className="text-gray-600 text-sm mb-4">
+              Unlock all features and connect with the right matches.
+            </p>
+
+            <button
+              type="button"
+              className="
+                  flex items-center justify-center
+                  mx-auto px-4 py-2 bg-[#e21c56] hover:bg-red-600
+                  border border-[#e21c56] rounded-md text-white text-sm font-bold
+                "
+            >
+              Upgrade Now
+            </button>
+          </div>
+        </div>
       </nav>
 
       <SidebarTooltip
