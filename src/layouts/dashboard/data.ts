@@ -9,7 +9,6 @@ import {
   Star,
   Calendar,
   User,
-  Crown,
   CircleQuestionMark,
 } from 'lucide-react';
 import type { SidebarMenu } from './types';
@@ -73,12 +72,6 @@ export const sidebarMenu: SidebarMenu[] = [
     label: 'My Profile',
     icon: User,
     path: '/profile',
-  },
-  {
-    id: 10,
-    label: 'Premium',
-    icon: Crown,
-    path: '/premium',
   },
   {
     id: 11,
