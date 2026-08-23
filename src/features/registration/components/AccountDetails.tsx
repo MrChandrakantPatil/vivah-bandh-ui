@@ -24,12 +24,12 @@ export function AccountDetails() {
           onFocus={() => handleFocus('email')}
           className={`
             w-full py-3 pr-10 pl-4
-            rounded-md
+            rounded-md border
             outline-none peer
             ${
               state.errors.email
-                ? 'border border-red-500'
-                : 'border border-gray-300 focus:border-pink-500'
+                ? 'border-[rgb(var(--color-primary-500))]'
+                : 'border-gray-300 focus:border-gray-700'
             }
           `}
         />
@@ -37,20 +37,21 @@ export function AccountDetails() {
         <label
           htmlFor="email"
           className="
-            absolute top-3 left-4 peer-not-placeholder-shown:left-3
+            absolute top-3 left-4 peer-not-placeholder-shown:left-3 peer-not-placeholder-shown:-top-2
             peer-not-placeholder-shown:px-1
             peer-not-placeholder-shown:bg-white
             text-gray-500 peer-not-placeholder-shown:text-xs
             transition-all duration-200
-            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
-            peer-not-placeholder-shown:-top-2
+            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-gray-700 peer-focus:text-xs peer-focus:-top-2
           "
         >
           Email
         </label>
 
         {state.errors.email && (
-          <p className="mt-1 ml-1 text-red-500 text-sm">{state.errors.email}</p>
+          <p className="mt-1 ml-1 text-[rgb(var(--color-primary-500))] text-sm">
+            {state.errors.email}
+          </p>
         )}
       </div>
 
@@ -67,12 +68,12 @@ export function AccountDetails() {
           onFocus={() => handleFocus('mobile')}
           className={`
             w-full py-3 pr-10 pl-4
-            rounded-md
+            rounded-md border
             outline-none peer
             ${
               state.errors.mobile
-                ? 'border border-red-500'
-                : 'border border-gray-300 focus:border-pink-500'
+                ? 'border-[rgb(var(--color-primary-300))]'
+                : 'border-gray-300 focus:border-gray-700'
             }
           `}
         />
@@ -80,20 +81,19 @@ export function AccountDetails() {
         <label
           htmlFor="mobileNumber"
           className="
-            absolute top-3 left-4 peer-not-placeholder-shown:left-3
+            absolute top-3 left-4 peer-not-placeholder-shown:left-3 peer-not-placeholder-shown:-top-2
             peer-not-placeholder-shown:px-1
             peer-not-placeholder-shown:bg-white
             text-gray-500 peer-not-placeholder-shown:text-xs
             transition-all duration-200
-            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
-            peer-not-placeholder-shown:-top-2
+            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-gray-700 peer-focus:text-xs peer-focus:-top-2
           "
         >
           Mobile Number
         </label>
 
         {state.errors.mobile && (
-          <p className="mt-1 ml-1 text-red-500 text-sm">
+          <p className="mt-1 ml-1 text-[rgb(var(--color-primary-500))] text-sm">
             {state.errors.mobile}
           </p>
         )}
@@ -111,12 +111,12 @@ export function AccountDetails() {
             onFocus={() => handleFocus('password')}
             className={`
               w-full py-3 pr-10 pl-4
-              rounded-md
+              rounded-md border
               outline-none peer
               ${
                 state.errors.password
-                  ? 'border border-red-500'
-                  : 'border border-gray-300 focus:border-pink-500'
+                  ? 'border-[rgb(var(--color-primary-300))]'
+                  : 'border-gray-300 focus:border-gray-700'
               }
             `}
           />
@@ -135,13 +135,12 @@ export function AccountDetails() {
           <label
             htmlFor="password"
             className="
-              absolute top-3 left-4 peer-not-placeholder-shown:left-3
+              absolute top-3 left-4 peer-not-placeholder-shown:left-3 peer-not-placeholder-shown:-top-2
               peer-not-placeholder-shown:px-1
               peer-not-placeholder-shown:bg-white
               text-gray-500 peer-not-placeholder-shown:text-xs
               transition-all duration-200
-              peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
-              peer-not-placeholder-shown:-top-2
+              peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-gray-700 peer-focus:text-xs peer-focus:-top-2
             "
           >
             Password
@@ -149,7 +148,7 @@ export function AccountDetails() {
         </div>
 
         {state.errors.password && (
-          <p className="mt-1 ml-1 text-red-500 text-sm">
+          <p className="mt-1 ml-1 text-[rgb(var(--color-primary-500))] text-sm">
             {state.errors.password}
           </p>
         )}
@@ -173,12 +172,12 @@ export function AccountDetails() {
             onFocus={() => handleFocus('confirmPassword')}
             className={`
               w-full px-4 py-3 pr-12
-              rounded-md
+              rounded-md border
               outline-none peer
               ${
                 state.errors.confirmPassword
-                  ? 'border border-red-500'
-                  : 'border border-gray-300 focus:border-pink-500'
+                  ? 'border-[rgb(var(--color-primary-300))]'
+                  : 'border-gray-300 focus:border-gray-700'
               }
             `}
           />
@@ -197,13 +196,12 @@ export function AccountDetails() {
           <label
             htmlFor="confirmPassword"
             className="
-              absolute top-3 left-4 peer-not-placeholder-shown:left-3
+              absolute top-3 left-4 peer-not-placeholder-shown:left-3 peer-not-placeholder-shown:-top-2
               peer-not-placeholder-shown:px-1
               peer-not-placeholder-shown:bg-white
               text-gray-500 peer-not-placeholder-shown:text-xs
               transition-all duration-200
-              peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
-              peer-not-placeholder-shown:-top-2
+              peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-gray-700 peer-focus:text-xs peer-focus:-top-2
             "
           >
             Confirm Password
@@ -211,7 +209,7 @@ export function AccountDetails() {
         </div>
 
         {state.errors.confirmPassword && (
-          <p className="mt-1 ml-1 text-red-500 text-sm">
+          <p className="mt-1 ml-1 text-[rgb(var(--color-primary-500))] text-sm">
             {state.errors.confirmPassword}
           </p>
         )}
