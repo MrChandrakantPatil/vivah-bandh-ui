@@ -1,5 +1,6 @@
-import { Heart, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { logo } from '@/assets/images';
 
 export function Footer() {
   return (
@@ -7,11 +8,17 @@ export function Footer() {
       <div className="px-4 mx-auto sm:px-6 lg:px-8 container">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div className="md:col-span-2 col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <Heart className="w-8 h-8 text-[rgb(var(--color-primary-600))]" />
-
-              <div className="font-medium text-2xl">Vivah Bandh</div>
-            </div>
+            <img
+              src={logo}
+              alt="Vivah Bandh"
+              className="
+                w-16 h-auto mb-4
+                transition-transform duration-200
+                group-hover:scale-105
+                sm:w-55 md:w-60 lg:w-65
+                object-contain
+              "
+            />
 
             <p className="max-w-md mb-4 text-gray-300">
               Your trusted platform for finding your perfect life partner. Join

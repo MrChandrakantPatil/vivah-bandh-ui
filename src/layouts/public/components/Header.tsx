@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { RegistrationModal } from '@/features/registration';
+import { logo, logoIcon } from '@/assets/images';
 
 export function Header() {
   const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState(false);
@@ -28,23 +28,27 @@ export function Header() {
         <div
           className="
             flex items-center justify-between
-            h-18 px-4 mx-auto
+            h-20 px-4 mx-auto
             sm:px-6 lg:px-8
             container
           "
         >
           <Link to="/" className="flex items-center space-x-2 group">
-            <Heart className="w-12 h-12 text-[rgb(var(--color-primary-600))] transition-transform duration-200 group-hover:scale-115" />
+            <picture>
+              <source media="(max-width: 639px)" srcSet={logoIcon} />
 
-            <div className="flex-col sm:flex hidden">
-              <div className="font-bold text-gray-900 text-2xl transition-colors duration-200 group-hover:text-[rgb(var(--color-primary-600))]">
-                Vivah Bandh
-              </div>
-
-              <div className="text-gray-500 text-xs -mt-1">
-                Find Your Soulmate
-              </div>
-            </div>
+              <img
+                src={logo}
+                alt="Vivah Bandh"
+                className="
+                  w-16 h-auto
+                  transition-transform duration-200
+                  group-hover:scale-105
+                  sm:w-55 md:w-60 lg:w-65
+                  object-contain
+                "
+              />
+            </picture>
           </Link>
 
           <nav></nav>
