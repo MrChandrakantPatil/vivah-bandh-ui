@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Heart, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { values, steps } from './data';
+import { logoIcon } from '@/assets/images';
 
 export function About() {
   return (
@@ -72,7 +73,16 @@ export function About() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <Heart className="w-32 h-32 text-[rgb(var(--color-primary-500))]" />
+              <img
+                src={logoIcon}
+                alt="Vivah Bandh"
+                className="
+                  w-35 h-auto mb-4
+                  transition-transform duration-200
+                  group-hover:scale-105
+                  object-contain
+                "
+              />
             </motion.div>
           </div>
         </div>
