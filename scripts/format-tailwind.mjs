@@ -34,7 +34,7 @@ const GROUPS = [
 
       /^(inset|inset-x|inset-y)-/,
 
-      /^(top|right|bottom|left)-/,
+      /^-?(top|right|bottom|left)-/,
 
       /^(start|end)-/,
 

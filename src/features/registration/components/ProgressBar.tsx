@@ -42,9 +42,9 @@ export function ProgressBar({ currentStep, totalSteps = 5 }: ProgressBarProps) {
                   transition-all duration-300
                   ${
                     isCompleted
-                      ? 'bg-pink-500 border-pink-500 text-white'
+                      ? 'bg-[rgb(var(--color-primary-500))] border-[rgb(var(--color-primary-500))] text-white'
                       : isActive
-                        ? 'bg-pink-50 border-pink-500 text-pink-500 shadow-md scale-110'
+                        ? 'bg-pink-50 border-[rgb(var(--color-primary-500))] text-[rgb(var(--color-primary-500))] shadow-md scale-110'
                         : 'bg-white border-gray-300 text-gray-400'
                   }
                 `}
@@ -60,7 +60,11 @@ export function ProgressBar({ currentStep, totalSteps = 5 }: ProgressBarProps) {
                         h-full
                         rounded-full
                         transition-all duration-500
-                        ${isCompleted ? 'w-full bg-pink-500' : 'w-0'}
+                        ${
+                          isCompleted
+                            ? 'w-full bg-[rgb(var(--color-primary-500))]'
+                            : 'w-0'
+                        }
                       `}
                     />
                   </div>

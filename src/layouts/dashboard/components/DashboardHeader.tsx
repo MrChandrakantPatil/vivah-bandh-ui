@@ -34,7 +34,7 @@ function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
       {!!count && (
         <NotificationBadge
           count={count}
-          className="absolute md:-top-2 md:-right-2 -top-1.5 -right-1.5"
+          className="absolute -top-1.5 -right-1.5 md:-top-2 md:-right-2"
         />
       )}
     </button>

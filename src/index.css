@@ -1,5 +1,95 @@
+/* =========================================================
+   TAILWIND
+   ========================================================= */
+
 @import 'tailwindcss';
 
+/* =========================================================
+   THEME TOKENS
+   ========================================================= */
+
+@theme {
+  /* =======================================================
+     PRIMARY COLORS
+     ======================================================= */
+
+  --color-primary-50: 251 234 239; /* #FBEAEF */
+  --color-primary-100: 244 209 219; /* #F4D1DB */
+  --color-primary-200: 235 174 189; /* #EBAEBD */
+  --color-primary-300: 220 128 151; /* #DC8097 */
+  --color-primary-400: 205 82 116; /* #CD5274 */
+  --color-primary-500: 238 76 119; /* #EE4C77 */
+  --color-primary-600: 235 61 105; /* #EB3D69 */
+  --color-primary-700: 219 50 90; /* #DB325A */
+  --color-primary-800: 196 35 73; /* #C42349 */
+  --color-primary-900: 166 27 60; /* #A61B3C */
+
+  /* =======================================================
+     SEMANTIC COLORS
+     ======================================================= */
+
+  --color-background: 24 25 31; /* #18191F */
+  --color-surface: 31 32 40; /* #1F2028 */
+
+  --color-text: 243 244 246; /* #F3F4F6 */
+  --color-text-muted: 156 163 175; /* #9CA3AF */
+
+  --color-border: 55 57 66; /* #373942 */
+
+  --color-primary-soft: 61 31 42; /* #3D1F2A */
+
+  /* =======================================================
+     STATUS COLORS
+     ======================================================= */
+
+  --color-success: 34 211 101; /* #22D365 */
+  --color-warning: 251 171 55; /* #FBAB37 */
+  --color-info: 59 130 246; /* #3B82F6 */
+  --color-error: 239 68 68; /* #EF4444 */
+}
+
+/* =========================================================
+   BOX SIZING
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #ffffff;
+  color: rgb(var(--color-text));
+  letter-spacing: 0.18px;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================================
+   INPUT AUTOFILL
+   ========================================================= */
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
+  -webkit-text-fill-color: #333435 !important;
+}
+
+/* =========================================================
+   SCROLLBAR UTILITIES
+   ========================================================= */
+
+/* Hide scrollbar */
 .hide-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -9,6 +99,7 @@
   display: none;
 }
 
+/* Filter scrollbar */
 .filter-scrollbar {
   scrollbar-gutter: stable;
 }
@@ -22,101 +113,10 @@
 }
 
 .filter-scrollbar::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: rgb(75 77 88);
   border-radius: 9999px;
 }
 
 .filter-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #9ca3af;
-}
-
-/* ================= LIGHT THEME ================= */
-@theme {
-  /* ===== PRIMARY (Brand - Purple/Pink Scale) ===== */
-  --color-primary-50: 254 247 255; /* very light lavender */
-  --color-primary-100: 253 238 255; /* light lavender */
-  --color-primary-200: 252 220 255; /* soft pastel purple */
-  --color-primary-300: 250 187 255; /* light vibrant purple */
-  --color-primary-400: 246 135 255; /* medium purple */
-  --color-primary-500: 237 75 255; /* primary brand color */
-  --color-primary-600: 214 36 232; /* strong purple (default main) */
-  --color-primary-700: 179 27 196; /* deep purple */
-  --color-primary-800: 146 24 160; /* darker purple */
-  --color-primary-900: 122 26 130; /* darkest purple */
-
-  /* ===== SEMANTIC COLORS ===== */
-  --color-text: 17 24 39; /* gray-900 (main text) */
-  --color-text-muted: 107 114 128; /* gray-500 (secondary text) */
-  --color-bg: 255 255 255; /* white (background) */
-  --color-border: 229 231 235; /* gray-200 (borders/dividers) */
-}
-
-/* ================= DARK THEME ================= */
-@media (prefers-color-scheme: dark) {
-  @theme {
-    /* ===== PRIMARY (slightly brighter for dark UI) ===== */
-    --color-primary-500: 236 72 255; /* brighter purple (hover/active) */
-    --color-primary-600: 217 70 239; /* main dark mode primary */
-
-    /* ===== SEMANTIC COLORS ===== */
-    --color-text: 243 244 246; /* gray-100 (main text) */
-    --color-text-muted: 156 163 175; /* gray-400 (secondary text) */
-    --color-bg: 22 23 29; /* dark background */
-    --color-border: 46 48 58; /* dark border */
-  }
-}
-
-/* ================= GLOBAL STYLES ================= */
-
-:root {
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px,
-    /* soft shadow */ rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif; /* body font */
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif; /* heading font */
-  --mono: ui-monospace, Consolas, monospace; /* code font */
-
-  /* font: 18px/145% var(--sans); */
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-
-  /* Use Tailwind tokens */
-  color: rgb(var(--color-text)); /* main text color */
-  /* background: rgb(var(--color-bg)); page background */
-
-  -webkit-font-smoothing: antialiased;
-}
-
-@media (max-width: 1024px) {
-  :root {
-    font-size: 16px; /* responsive font size */
-  }
-}
-
-body {
-  margin: 0;
-}
-
-#root {
-  margin: 0 auto;
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px white inset !important;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  background: rgb(107 109 120);
 }

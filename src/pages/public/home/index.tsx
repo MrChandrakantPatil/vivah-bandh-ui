@@ -38,10 +38,10 @@ export function Home() {
               className="
                 flex items-center justify-center gap-2
                 px-8 py-4
-                bg-[rgb(var(--color-primary-800))] rounded-lg
+                bg-[rgb(var(--color-primary-900))] rounded-lg
                 font-medium text-white text-lg
                 transition-colors duration-200
-                hover:bg-[rgb(var(--color-primary-900))] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+                hover:bg-[rgb(var(--color-primary-800))] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
               "
             >
               <span>Get Started Free</span>

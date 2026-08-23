@@ -182,7 +182,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModelProps) {
                   ${
                     isContinueDisabled
                       ? 'bg-gray-300 cursor-not-allowed'
-                      : 'bg-pink-400 border border-pink-500 hover:bg-pink-500'
+                      : 'bg-[rgb(var(--color-primary-400))] border border-[rgb(var(--color-primary-500))] hover:bg-[rgb(var(--color-primary-500))]'
                   }
                 `}
                 onClick={handleContinueBtnClick}

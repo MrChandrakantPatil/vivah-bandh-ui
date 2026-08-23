@@ -33,13 +33,12 @@ export function BasicDetails() {
               onFocus={() => handleFocus('firstName')}
               className={`
                 w-full px-4 py-3
-                rounded-md border border-gray-300
-                focus:border-pink-500
+                rounded-md border
                 outline-none peer
                 ${
                   state.errors.firstName
-                    ? 'border border-red-500'
-                    : 'border border-gray-300 focus:border-pink-500'
+                    ? 'border-[rgb(var(--color-primary-500))]'
+                    : 'border-gray-300 focus:border-gray-700'
                 }
               `}
             />
@@ -47,20 +46,19 @@ export function BasicDetails() {
             <label
               htmlFor="firstName"
               className="
-                absolute top-3 left-4 peer-not-placeholder-shown:left-3
+                absolute top-3 left-4 peer-not-placeholder-shown:left-3 peer-not-placeholder-shown:-top-2
                 peer-not-placeholder-shown:px-1
                 peer-not-placeholder-shown:bg-white
                 text-gray-500 peer-not-placeholder-shown:text-xs
                 transition-all duration-200
-                peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
-                peer-not-placeholder-shown:-top-2
+                peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-gray-700 peer-focus:text-xs peer-focus:-top-2
               "
             >
               First Name
             </label>
 
             {state.errors.firstName && (
-              <p className="mt-1 ml-1 text-red-500 text-sm">
+              <p className="mt-1 ml-1 text-[rgb(var(--color-primary-500))] text-sm">
                 {state.errors.firstName}
               </p>
             )}
@@ -82,13 +80,12 @@ export function BasicDetails() {
               onFocus={() => handleFocus('lastName')}
               className={`
                 w-full px-4 py-3
-                rounded-md border border-gray-300
-                focus:border-pink-500
+                rounded-md border
                 outline-none peer
                 ${
                   state.errors.lastName
-                    ? 'border border-red-500'
-                    : 'border border-gray-300 focus:border-pink-500'
+                    ? 'border-[rgb(var(--color-primary-500))]'
+                    : 'border-gray-300 focus:border-gray-700'
                 }
               `}
             />
@@ -96,20 +93,19 @@ export function BasicDetails() {
             <label
               htmlFor="lastName"
               className="
-                absolute top-3 left-4 peer-not-placeholder-shown:left-3
+                absolute top-3 left-4 peer-not-placeholder-shown:left-3 peer-not-placeholder-shown:-top-2
                 peer-not-placeholder-shown:px-1
                 peer-not-placeholder-shown:bg-white
                 text-gray-500 peer-not-placeholder-shown:text-xs
                 transition-all duration-200
-                peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
-                peer-not-placeholder-shown:-top-2
+                peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-gray-700 peer-focus:text-xs peer-focus:-top-2
               "
             >
               Last Name
             </label>
 
             {state.errors.lastName && (
-              <p className="mt-1 ml-1 text-red-500 text-sm">
+              <p className="mt-1 ml-1 text-[rgb(var(--color-primary-500))] text-sm">
                 {state.errors.lastName}
               </p>
             )}
@@ -139,13 +135,12 @@ export function BasicDetails() {
               onFocus={() => handleFocus('day')}
               className={`
                 w-full px-4 py-3
-                rounded-md border border-gray-300
-                focus:border-pink-500
+                rounded-md border
                 outline-none peer
                 ${
                   state.errors.day
-                    ? 'border border-red-500'
-                    : 'border border-gray-300 focus:border-pink-500'
+                    ? 'border-[rgb(var(--color-primary-500))]'
+                    : 'border-gray-300 focus:border-gray-700'
                 }
               `}
             />
@@ -153,13 +148,12 @@ export function BasicDetails() {
             <label
               htmlFor="day"
               className="
-                absolute left-3
+                absolute left-3 -top-2
                 px-1
                 bg-white
                 text-gray-500 text-xs
                 transition-all duration-200
-                peer-focus:text-pink-500
-                -top-2
+                peer-focus:text-gray-700
               "
             >
               Day
@@ -182,13 +176,12 @@ export function BasicDetails() {
               onFocus={() => handleFocus('month')}
               className={`
                 w-full px-4 py-3
-                rounded-md border border-gray-300
-                focus:border-pink-500
+                rounded-md border
                 outline-none peer
                 ${
                   state.errors.month
-                    ? 'border border-red-500'
-                    : 'border border-gray-300 focus:border-pink-500'
+                    ? 'border-[rgb(var(--color-primary-500))]'
+                    : 'border-gray-300 focus:border-gray-700'
                 }
               `}
             />
@@ -196,13 +189,12 @@ export function BasicDetails() {
             <label
               htmlFor="month"
               className="
-                absolute left-3
+                absolute left-3 -top-2
                 px-1
                 bg-white
                 text-gray-500 text-xs
                 transition-all duration-200
-                peer-focus:text-pink-500
-                -top-2
+                peer-focus:text-gray-700
               "
             >
               Month
@@ -225,13 +217,12 @@ export function BasicDetails() {
               onFocus={() => handleFocus('year')}
               className={`
                 w-full px-4 py-3
-                rounded-md border border-gray-300
-                focus:border-pink-500
+                rounded-md border
                 outline-none peer
                 ${
                   state.errors.year
-                    ? 'border border-red-500'
-                    : 'border border-gray-300 focus:border-pink-500'
+                    ? 'border-[rgb(var(--color-primary-500))]'
+                    : 'border-gray-300 focus:border-gray-700'
                 }
               `}
             />
@@ -239,13 +230,12 @@ export function BasicDetails() {
             <label
               htmlFor="year"
               className="
-                absolute left-3
+                absolute left-3 -top-2
                 px-1
                 bg-white
                 text-gray-500 text-xs
                 transition-all duration-200
-                peer-focus:text-pink-500
-                -top-2
+                peer-focus:text-gray-700
               "
             >
               Year
@@ -254,7 +244,9 @@ export function BasicDetails() {
         </div>
 
         {dobError && (
-          <p className="mt-1 ml-1 text-red-500 text-sm">{dobError}</p>
+          <p className="mt-1 ml-1 text-[rgb(var(--color-primary-500))] text-sm">
+            {dobError}
+          </p>
         )}
       </div>
     </>

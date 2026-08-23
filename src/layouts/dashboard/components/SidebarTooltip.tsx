@@ -20,10 +20,10 @@ export function SidebarTooltip({
       <div className="relative">
         <div
           className="
-            absolute top-1/2
+            absolute top-1/2 -left-1
             w-2 h-2
             bg-slate-900
-            -left-1 -translate-y-1/2 rotate-45
+            -translate-y-1/2 rotate-45
           "
         />
 
