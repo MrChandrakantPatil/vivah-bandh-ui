@@ -29,11 +29,17 @@ export function ProgressBar({ currentStep, totalSteps = 5 }: ProgressBarProps) {
           return (
             <div
               key={step}
-              className={`flex items-center ${step !== totalSteps ? 'flex-1' : ''}`}
+              className={`
+                flex items-center
+                ${step !== totalSteps ? 'flex-1' : ''}
+              `}
             >
               <div
                 className={`
-                  flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300
+                  flex items-center justify-center
+                  w-8 h-8
+                  rounded-full border-2
+                  transition-all duration-300
                   ${
                     isCompleted
                       ? 'bg-pink-500 border-pink-500 text-white'
@@ -48,10 +54,12 @@ export function ProgressBar({ currentStep, totalSteps = 5 }: ProgressBarProps) {
 
               {step !== totalSteps && (
                 <div className="flex-1 mx-1">
-                  <div className="h-1 rounded-full bg-gray-200 overflow-hidden">
+                  <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
                     <div
                       className={`
-                        h-full rounded-full transition-all duration-500
+                        h-full
+                        rounded-full
+                        transition-all duration-500
                         ${isCompleted ? 'w-full bg-pink-500' : 'w-0'}
                       `}
                     />

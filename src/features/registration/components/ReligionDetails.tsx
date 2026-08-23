@@ -21,28 +21,34 @@ export function ReligionDetails() {
           onBlur={(e) => handleBlur('religion', e.target.value)}
           onFocus={() => handleFocus('religion')}
           className={`
-            peer w-full rounded-md px-4 py-3 pr-12 outline-none
-            ${state.errors.religion ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+            w-full px-4 py-3 pr-12
+            rounded-md
+            outline-none peer
+            ${
+              state.errors.religion
+                ? 'border border-red-500'
+                : 'border border-gray-300 focus:border-pink-500'
+            }
           `}
         />
 
         <label
           htmlFor="religion"
           className="
-            absolute left-4 top-3 text-gray-500 transition-all duration-200
-            peer-focus:-top-2 peer-focus:left-3 peer-focus:text-xs peer-focus:bg-white peer-focus:px-1 peer-focus:text-pink-500
-            peer-not-placeholder-shown:-top-2
-            peer-not-placeholder-shown:left-3
-            peer-not-placeholder-shown:text-xs
-            peer-not-placeholder-shown:bg-white
+            absolute top-3 left-4 peer-not-placeholder-shown:left-3
             peer-not-placeholder-shown:px-1
+            peer-not-placeholder-shown:bg-white
+            text-gray-500 peer-not-placeholder-shown:text-xs
+            transition-all duration-200
+            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
+            peer-not-placeholder-shown:-top-2
           "
         >
           Religion
         </label>
 
         {state.errors.religion && (
-          <p className="text-red-500 text-sm mt-1 ml-1">
+          <p className="mt-1 ml-1 text-red-500 text-sm">
             {state.errors.religion}
           </p>
         )}
@@ -63,28 +69,34 @@ export function ReligionDetails() {
           onBlur={(e) => handleBlur('community', e.target.value)}
           onFocus={() => handleFocus('community')}
           className={`
-            peer w-full rounded-md px-4 py-3 pr-12 outline-none
-            ${state.errors.community ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+            w-full px-4 py-3 pr-12
+            rounded-md
+            outline-none peer
+            ${
+              state.errors.community
+                ? 'border border-red-500'
+                : 'border border-gray-300 focus:border-pink-500'
+            }
           `}
         />
 
         <label
           htmlFor="community"
           className="
-            absolute left-4 top-3 text-gray-500 transition-all duration-200
-            peer-focus:-top-2 peer-focus:left-3 peer-focus:text-xs peer-focus:bg-white peer-focus:px-1 peer-focus:text-pink-500
-            peer-not-placeholder-shown:-top-2
-            peer-not-placeholder-shown:left-3
-            peer-not-placeholder-shown:text-xs
-            peer-not-placeholder-shown:bg-white
+            absolute top-3 left-4 peer-not-placeholder-shown:left-3
             peer-not-placeholder-shown:px-1
+            peer-not-placeholder-shown:bg-white
+            text-gray-500 peer-not-placeholder-shown:text-xs
+            transition-all duration-200
+            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
+            peer-not-placeholder-shown:-top-2
           "
         >
           Community
         </label>
 
         {state.errors.community && (
-          <p className="text-red-500 text-sm mt-1 ml-1">
+          <p className="mt-1 ml-1 text-red-500 text-sm">
             {state.errors.community}
           </p>
         )}

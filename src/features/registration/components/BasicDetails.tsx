@@ -32,28 +32,35 @@ export function BasicDetails() {
               onBlur={(e) => handleBlur('firstName', e.target.value)}
               onFocus={() => handleFocus('firstName')}
               className={`
-                peer w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-pink-500
-                ${state.errors.firstName ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+                w-full px-4 py-3
+                rounded-md border border-gray-300
+                focus:border-pink-500
+                outline-none peer
+                ${
+                  state.errors.firstName
+                    ? 'border border-red-500'
+                    : 'border border-gray-300 focus:border-pink-500'
+                }
               `}
             />
 
             <label
               htmlFor="firstName"
               className="
-                absolute left-4 top-3 text-gray-500 transition-all duration-200
-                peer-focus:-top-2 peer-focus:left-3 peer-focus:text-xs peer-focus:bg-white peer-focus:px-1 peer-focus:text-pink-500
-                peer-not-placeholder-shown:-top-2
-                peer-not-placeholder-shown:left-3
-                peer-not-placeholder-shown:text-xs
-                peer-not-placeholder-shown:bg-white
+                absolute top-3 left-4 peer-not-placeholder-shown:left-3
                 peer-not-placeholder-shown:px-1
+                peer-not-placeholder-shown:bg-white
+                text-gray-500 peer-not-placeholder-shown:text-xs
+                transition-all duration-200
+                peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
+                peer-not-placeholder-shown:-top-2
               "
             >
               First Name
             </label>
 
             {state.errors.firstName && (
-              <p className="text-red-500 text-sm mt-1 ml-1">
+              <p className="mt-1 ml-1 text-red-500 text-sm">
                 {state.errors.firstName}
               </p>
             )}
@@ -74,28 +81,35 @@ export function BasicDetails() {
               onBlur={(e) => handleBlur('lastName', e.target.value)}
               onFocus={() => handleFocus('lastName')}
               className={`
-                peer w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-pink-500
-                ${state.errors.lastName ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+                w-full px-4 py-3
+                rounded-md border border-gray-300
+                focus:border-pink-500
+                outline-none peer
+                ${
+                  state.errors.lastName
+                    ? 'border border-red-500'
+                    : 'border border-gray-300 focus:border-pink-500'
+                }
               `}
             />
 
             <label
               htmlFor="lastName"
               className="
-                absolute left-4 top-3 text-gray-500 transition-all duration-200
-                peer-focus:-top-2 peer-focus:left-3 peer-focus:text-xs peer-focus:bg-white peer-focus:px-1 peer-focus:text-pink-500
-                peer-not-placeholder-shown:-top-2
-                peer-not-placeholder-shown:left-3
-                peer-not-placeholder-shown:text-xs
-                peer-not-placeholder-shown:bg-white
+                absolute top-3 left-4 peer-not-placeholder-shown:left-3
                 peer-not-placeholder-shown:px-1
+                peer-not-placeholder-shown:bg-white
+                text-gray-500 peer-not-placeholder-shown:text-xs
+                transition-all duration-200
+                peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
+                peer-not-placeholder-shown:-top-2
               "
             >
               Last Name
             </label>
 
             {state.errors.lastName && (
-              <p className="text-red-500 text-sm mt-1 ml-1">
+              <p className="mt-1 ml-1 text-red-500 text-sm">
                 {state.errors.lastName}
               </p>
             )}
@@ -124,14 +138,29 @@ export function BasicDetails() {
               onBlur={(e) => handleBlur('day', e.target.value)}
               onFocus={() => handleFocus('day')}
               className={`
-                peer w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-pink-500
-                ${state.errors.day ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+                w-full px-4 py-3
+                rounded-md border border-gray-300
+                focus:border-pink-500
+                outline-none peer
+                ${
+                  state.errors.day
+                    ? 'border border-red-500'
+                    : 'border border-gray-300 focus:border-pink-500'
+                }
               `}
             />
 
             <label
               htmlFor="day"
-              className="absolute left-3 -top-2 text-gray-500 transition-all duration-200 bg-white px-1 text-xs peer-focus:text-pink-500"
+              className="
+                absolute left-3
+                px-1
+                bg-white
+                text-gray-500 text-xs
+                transition-all duration-200
+                peer-focus:text-pink-500
+                -top-2
+              "
             >
               Day
             </label>
@@ -152,14 +181,29 @@ export function BasicDetails() {
               onBlur={(e) => handleBlur('month', e.target.value)}
               onFocus={() => handleFocus('month')}
               className={`
-                peer w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-pink-500
-                ${state.errors.month ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+                w-full px-4 py-3
+                rounded-md border border-gray-300
+                focus:border-pink-500
+                outline-none peer
+                ${
+                  state.errors.month
+                    ? 'border border-red-500'
+                    : 'border border-gray-300 focus:border-pink-500'
+                }
               `}
             />
 
             <label
               htmlFor="month"
-              className="absolute left-3 -top-2 text-gray-500 transition-all duration-200 bg-white px-1 text-xs  peer-focus:text-pink-500"
+              className="
+                absolute left-3
+                px-1
+                bg-white
+                text-gray-500 text-xs
+                transition-all duration-200
+                peer-focus:text-pink-500
+                -top-2
+              "
             >
               Month
             </label>
@@ -180,14 +224,29 @@ export function BasicDetails() {
               onBlur={(e) => handleBlur('year', e.target.value)}
               onFocus={() => handleFocus('year')}
               className={`
-                peer w-full border border-gray-300 rounded-md px-4 py-3 outline-none focus:border-pink-500
-                ${state.errors.year ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+                w-full px-4 py-3
+                rounded-md border border-gray-300
+                focus:border-pink-500
+                outline-none peer
+                ${
+                  state.errors.year
+                    ? 'border border-red-500'
+                    : 'border border-gray-300 focus:border-pink-500'
+                }
               `}
             />
 
             <label
               htmlFor="year"
-              className="absolute left-3 -top-2 text-gray-500 transition-all duration-200 bg-white px-1 text-xs peer-focus:text-pink-500"
+              className="
+                absolute left-3
+                px-1
+                bg-white
+                text-gray-500 text-xs
+                transition-all duration-200
+                peer-focus:text-pink-500
+                -top-2
+              "
             >
               Year
             </label>
@@ -195,7 +254,7 @@ export function BasicDetails() {
         </div>
 
         {dobError && (
-          <p className="text-red-500 text-sm mt-1 ml-1">{dobError}</p>
+          <p className="mt-1 ml-1 text-red-500 text-sm">{dobError}</p>
         )}
       </div>
     </>

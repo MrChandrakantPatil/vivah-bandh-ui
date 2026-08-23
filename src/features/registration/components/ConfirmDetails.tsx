@@ -3,15 +3,21 @@ import { useRegistration } from '@/context/registration/useRegistration';
 import { type DetailCardProps } from '../types';
 
 const DetailCard = ({ title, value, icon: Icon }: DetailCardProps) => (
-  <div className="flex items-top gap-3 rounded-lg border border-gray-200 bg-white px-3 py-4">
-    <Icon size={20} className="text-pink-500 shrink-0" />
+  <div
+    className="
+      flex items-top gap-3
+      px-3 py-4
+      bg-white rounded-lg border border-gray-200
+    "
+  >
+    <Icon size={20} className="shrink-0 text-pink-500" />
 
     <div className="min-w-0">
-      <h4 className="font-medium text-sm text-gray-800 leading-none">
+      <h4 className="leading-none font-medium text-gray-800 text-sm">
         {title}
       </h4>
 
-      <p className="mt-0.5 text-sm text-gray-500 truncate">{value || '-'}</p>
+      <p className="mt-0.5 text-gray-500 text-sm truncate">{value || '-'}</p>
     </div>
   </div>
 );
@@ -23,7 +29,7 @@ export function ConfirmDetails() {
     <>
       <h2 className="font-semibold text-gray-800 text-2xl">Confirm Details</h2>
 
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-gray-500 text-sm">
         Review your details before submitting.
       </p>
 

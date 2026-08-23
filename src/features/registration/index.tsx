@@ -85,25 +85,42 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModelProps) {
 
   return (
     <div
-      className="fixed inset-0 w-screen h-screen bg-black/50 z-50 flex justify-center items-center"
+      className="
+        fixed inset-0 z-50
+        flex items-center justify-center
+        w-screen h-screen
+        bg-black/50
+      "
       onClick={handleOutsideModalClick}
     >
       <motion.div
         ref={registrationModalRef}
-        className="relative bg-white w-full max-w-lg min-h-150 rounded-lg shadow-xl text-black"
+        className="
+          relative
+          w-full max-w-lg min-h-150
+          bg-white shadow-xl rounded-lg
+          text-black
+        "
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.25 }}
       >
-        <div className="w-full h-full flex flex-col">
+        <div className="flex flex-col w-full h-full">
           <div className="px-8 py-4 border-b border-gray-200">
             <div className="flex items-center justify-between">
-              <h2 className="text-center font-semibold text-gray-900 text-3xl">
+              <h2 className="font-semibold text-gray-900 text-3xl text-center">
                 Create Profile
               </h2>
 
               <button
-                className="flex items-center justify-center w-10 h-10 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition"
+                className="
+                  flex items-center justify-center
+                  w-10 h-10
+                  rounded-full
+                  text-gray-500
+                  transition
+                  hover:bg-gray-100 hover:text-gray-700
+                "
                 onClick={handleClose}
               >
                 <X className="w-5 h-5" />
@@ -114,7 +131,7 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModelProps) {
           <div className="flex-1 px-8">
             <ProgressBar currentStep={state.currentStep} totalSteps={5} />
 
-            <div className="relative overflow-hidden mt-8 min-h-112.5">
+            <div className="relative min-h-112.5 mt-8 overflow-hidden">
               <AnimatePresence mode="sync" custom={state.direction}>
                 <motion.div
                   className="absolute inset-0 w-full"
@@ -141,8 +158,15 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModelProps) {
                 type="button"
                 onClick={() => dispatch({ type: 'PREV_STEP' })}
                 className={`
-                  px-8 py-2 border border-gray-300 rounded-full font-medium text-gray-700 hover:bg-gray-50
-                  ${state.currentStep === 1 ? 'opacity-0 pointer-events-none' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}
+                  px-8 py-2
+                  rounded-full border border-gray-300
+                  font-medium text-gray-700
+                  hover:bg-gray-50
+                  ${
+                    state.currentStep === 1
+                      ? 'opacity-0 pointer-events-none'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                  }
                 `}
               >
                 Back
@@ -152,8 +176,14 @@ export function RegistrationModal({ isOpen, onClose }: RegistrationModelProps) {
                 type="button"
                 disabled={isContinueDisabled}
                 className={`
-                  px-8 py-2 rounded-full font-semibold text-white
-                  ${isContinueDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-pink-400 border border-pink-500 hover:bg-pink-500'}
+                  px-8 py-2
+                  rounded-full
+                  font-semibold text-white
+                  ${
+                    isContinueDisabled
+                      ? 'bg-gray-300 cursor-not-allowed'
+                      : 'bg-pink-400 border border-pink-500 hover:bg-pink-500'
+                  }
                 `}
                 onClick={handleContinueBtnClick}
               >

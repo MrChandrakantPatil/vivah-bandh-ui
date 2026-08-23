@@ -42,14 +42,24 @@ export function ProfileDetails() {
         {profileOptions.map((option, index) => (
           <div
             key={index}
-            className="flex items-center pl-4 py-1.5 pr-1.5 border border-gray-300 rounded-full"
+            className="
+              flex items-center
+              py-1.5 pr-1.5 pl-4
+              rounded-full border border-gray-300
+            "
             onClick={() => handleProfileOptionChange(option.value)}
           >
             <div className="flex-1 text-gray-700 text-md">{option.label}</div>
             <div
               className={`
-                flex items-center justify-center w-6 h-6 ml-4 rounded-full border
-                ${selectedProfileOption === option.value ? 'bg-pink-500 border-pink-500' : 'bg-gray-100 border-gray-200'}
+                flex items-center justify-center
+                w-6 h-6 ml-4
+                rounded-full border
+                ${
+                  selectedProfileOption === option.value
+                    ? 'bg-pink-500 border-pink-500'
+                    : 'bg-gray-100 border-gray-200'
+                }
               `}
             >
               {selectedProfileOption === option.value && (
@@ -68,7 +78,11 @@ export function ProfileDetails() {
             {gender.map((gender, index) => (
               <div
                 key={index}
-                className="flex items-center pl-4 py-1.5 pr-1.5 border border-gray-300 rounded-full"
+                className="
+                  flex items-center
+                  py-1.5 pr-1.5 pl-4
+                  rounded-full border border-gray-300
+                "
                 onClick={() => handleGenderOptionChange(gender.value)}
               >
                 <div className="flex-1 text-gray-700 text-md">
@@ -77,9 +91,15 @@ export function ProfileDetails() {
 
                 <div
                   className={`
-                  flex items-center justify-center w-6 h-6 ml-4 rounded-full border
-                  ${selectedGender === gender.value ? 'bg-pink-500 border-pink-500' : 'bg-gray-100 border-gray-200'}
-                `}
+                    flex items-center justify-center
+                    w-6 h-6 ml-4
+                    rounded-full border
+                    ${
+                      selectedGender === gender.value
+                        ? 'bg-pink-500 border-pink-500'
+                        : 'bg-gray-100 border-gray-200'
+                    }
+                  `}
                 >
                   {selectedGender === gender.value && (
                     <Check size={16} className="text-white" />
