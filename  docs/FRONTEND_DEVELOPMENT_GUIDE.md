@@ -7,17 +7,17 @@ engineering approach for the **Vivah Bandh** matrimony web application.
 
 The frontend will be built with a modern React-based stack focused on:
 
--   Maintainability
--   Reusability
--   Performance
--   Type safety
--   Responsive design
--   Scalable state management
--   Clean API integration
--   Consistent UI/UX
-
+- Maintainability
+- Reusability
+- Performance
+- Type safety
+- Responsive design
+- Scalable state management
+- Clean API integration
+- Consistent UI/UX
 
 ## 2. Frontend Tech Stack
+
 ```
   Area                   Technology                       Purpose
 ------------------------
@@ -42,7 +42,7 @@ The frontend will be built with a modern React-based stack focused on:
 
 ## 3. Recommended Frontend Architecture
 
-``` text
+```text
 React Application
         │
         ├── Pages / Routes
@@ -68,10 +68,9 @@ The frontend should follow a **feature-oriented architecture** rather
 than placing every component into one large generic components
 directory.
 
-
 ## 4. Suggested Project Structure
 
-``` text
+```text
 src/
 │
 ├── app/
@@ -140,7 +139,6 @@ src/
 └── main.tsx
 ```
 
-
 ## 5. React
 
 React will be the primary UI framework.
@@ -149,17 +147,17 @@ Use functional components and React Hooks.
 
 Recommended practices:
 
--   Prefer small, focused components.
--   Keep business logic outside presentation components where practical.
--   Create reusable components for repeated UI patterns.
--   Avoid unnecessary component-level complexity.
--   Use composition instead of deeply nested prop chains.
--   Use `React.memo` only when there is a measurable benefit.
--   Keep feature-specific components inside their feature directory.
+- Prefer small, focused components.
+- Keep business logic outside presentation components where practical.
+- Create reusable components for repeated UI patterns.
+- Avoid unnecessary component-level complexity.
+- Use composition instead of deeply nested prop chains.
+- Use `React.memo` only when there is a measurable benefit.
+- Keep feature-specific components inside their feature directory.
 
 Example:
 
-``` text
+```text
 features/
 └── matches/
     ├── components/
@@ -172,27 +170,26 @@ features/
     └── index.ts
 ```
 
-
 ## 6. TypeScript
 
 TypeScript should be used throughout the frontend.
 
 Use types for:
 
--   API responses
--   API requests
--   User profiles
--   Match data
--   Bookmark data
--   Interest data
--   Form values
--   Component props
--   Redux state
--   Configuration
+- API responses
+- API requests
+- User profiles
+- Match data
+- Bookmark data
+- Interest data
+- Form values
+- Component props
+- Redux state
+- Configuration
 
 Example:
 
-``` ts
+```ts
 export interface UserProfile {
   id: string;
   name: string;
@@ -207,12 +204,11 @@ Avoid using `any` unless there is a strong reason.
 
 Prefer:
 
-``` ts
-unknown
+```ts
+unknown;
 ```
 
 when the type is genuinely unknown.
-
 
 ## 7. Vite
 
@@ -220,21 +216,20 @@ Vite will be used as the frontend build tool.
 
 Benefits:
 
--   Fast development server
--   Fast Hot Module Replacement
--   Simple configuration
--   Excellent React + TypeScript support
--   Fast production builds
+- Fast development server
+- Fast Hot Module Replacement
+- Simple configuration
+- Excellent React + TypeScript support
+- Fast production builds
 
 Recommended commands:
 
-``` bash
+```bash
 npm create vite@latest
 npm install
 npm run dev
 npm run build
 ```
-
 
 ## 8. Tailwind CSS
 
@@ -242,26 +237,23 @@ Tailwind CSS will be the primary styling solution.
 
 Use Tailwind for:
 
--   Layout
--   Responsive design
--   Spacing
--   Typography
--   Colors
--   Borders
--   Shadows
--   Responsive breakpoints
--   States such as hover/focus/disabled
+- Layout
+- Responsive design
+- Spacing
+- Typography
+- Colors
+- Borders
+- Shadows
+- Responsive breakpoints
+- States such as hover/focus/disabled
 
 Example:
 
-``` tsx
-<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-  ...
-</div>
+```tsx
+<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">...</div>
 ```
 
 Avoid mixing large amounts of inline CSS with Tailwind unless necessary.
-
 
 ## 9. shadcn/ui
 
@@ -269,26 +261,26 @@ Use shadcn/ui for common reusable UI patterns.
 
 Potential components:
 
--   Button
--   Dialog
--   Dropdown
--   Select
--   Tabs
--   Input
--   Checkbox
--   Radio Group
--   Sheet
--   Tooltip
--   Toast
--   Alert
--   Card
+- Button
+- Dialog
+- Dropdown
+- Select
+- Tabs
+- Input
+- Checkbox
+- Radio Group
+- Sheet
+- Tooltip
+- Toast
+- Alert
+- Card
 
 Application-specific components should be built on top of these
 primitives.
 
 Example:
 
-``` text
+```text
 shadcn Button
       ↓
 VivahButton
@@ -296,14 +288,13 @@ VivahButton
 Feature usage
 ```
 
-
 ## 10. Redux Toolkit
 
 Redux Toolkit should be used for global client-side state.
 
 Potential Redux state:
 
-``` text
+```text
 auth
 user
 preferences
@@ -317,7 +308,7 @@ Use local React state for state that is only required by one component.
 
 Example:
 
-``` text
+```text
 Local React State
     ↓
 Modal open/close
@@ -329,26 +320,25 @@ Temporary UI state
 Use Redux for state that needs to be shared across multiple areas of the
 application.
 
-
 ## 11. RTK Query
 
 RTK Query should handle server/API state.
 
 Use RTK Query for:
 
--   Matches
--   Profiles
--   Search results
--   Bookmarks
--   Interests
--   Notifications
--   User settings
--   Subscriptions
--   Chat API data
+- Matches
+- Profiles
+- Search results
+- Bookmarks
+- Interests
+- Notifications
+- User settings
+- Subscriptions
+- Chat API data
 
 Example:
 
-``` ts
+```ts
 const { data, isLoading, error } = useGetMatchesQuery({
   page: 1,
   limit: 20,
@@ -357,21 +347,20 @@ const { data, isLoading, error } = useGetMatchesQuery({
 
 RTK Query provides:
 
--   API caching
--   Request lifecycle handling
--   Loading states
--   Error states
--   Cache invalidation
--   Refetching
+- API caching
+- Request lifecycle handling
+- Loading states
+- Error states
+- Cache invalidation
+- Refetching
 
 Avoid creating manual Redux reducers for every API response.
-
 
 ## 12. State Management Strategy
 
 Use the following decision rule:
 
-``` text
+```text
 Does only one component need the state?
         │
        YES
@@ -397,29 +386,27 @@ Does many parts of the application need it?
    Redux Toolkit
 ```
 
-
 ## 13. React Hook Form
 
 Use React Hook Form for forms.
 
 Important forms include:
 
--   Registration
--   Login
--   Profile creation
--   Profile editing
--   Partner preferences
--   Search filters
--   Contact forms
--   Subscription-related forms
+- Registration
+- Login
+- Profile creation
+- Profile editing
+- Partner preferences
+- Search filters
+- Contact forms
+- Subscription-related forms
 
 Benefits:
 
--   Minimal re-renders
--   Easy validation integration
--   Good TypeScript support
--   Simple form state management
-
+- Minimal re-renders
+- Easy validation integration
+- Good TypeScript support
+- Simple form state management
 
 ## 14. Zod
 
@@ -427,7 +414,7 @@ Use Zod for schema validation.
 
 Example:
 
-``` ts
+```ts
 const profileSchema = z.object({
   name: z.string().min(2),
   age: z.number().min(18),
@@ -439,14 +426,13 @@ Integrate Zod with React Hook Form.
 
 This gives the application consistent form validation.
 
-
 ## 15. Routing
 
 Use React Router.
 
 Suggested route structure:
 
-``` text
+```text
 /
 ├── /login
 ├── /register
@@ -466,7 +452,7 @@ Protected routes should require authentication.
 
 Example:
 
-``` text
+```text
 Public Routes
     ├── Login
     ├── Register
@@ -481,14 +467,13 @@ Protected Routes
     └── Settings
 ```
 
-
 ## 16. Authentication
 
 Frontend authentication should integrate with the Node.js REST API.
 
 Recommended approach:
 
-``` text
+```text
 React
   ↓
 Login API
@@ -505,14 +490,13 @@ in `localStorage`.
 
 The application should have:
 
--   Login
--   Logout
--   Registration
--   Session restoration
--   Protected routes
--   Unauthorized handling
--   Token/session expiry handling
-
+- Login
+- Logout
+- Registration
+- Session restoration
+- Protected routes
+- Unauthorized handling
+- Token/session expiry handling
 
 ## 17. Matches Feature
 
@@ -520,7 +504,7 @@ The matches feature is one of the primary modules.
 
 Suggested structure:
 
-``` text
+```text
 features/matches/
 ├── components/
 │   ├── MatchCard.tsx
@@ -535,15 +519,14 @@ features/matches/
 
 The UI can support:
 
--   Recommended matches
--   New matches
--   Recently active profiles
--   Match percentage
--   Quick actions
--   Bookmark
--   Send interest
--   View profile
-
+- Recommended matches
+- New matches
+- Recently active profiles
+- Match percentage
+- Quick actions
+- Bookmark
+- Send interest
+- View profile
 
 ## 18. Bookmark Feature
 
@@ -551,7 +534,7 @@ Bookmarking should be treated as a separate feature.
 
 UI:
 
-``` text
+```text
 Profile Card
      │
      ├── View Profile
@@ -561,7 +544,7 @@ Profile Card
 
 API integration:
 
-``` text
+```text
 POST   /api/bookmarks/:profileId
 DELETE /api/bookmarks/:profileId
 GET    /api/bookmarks
@@ -570,39 +553,37 @@ GET    /api/bookmarks
 Frontend should update the bookmark state immediately when practical and
 synchronize it with the API.
 
-
 ## 19. Search & Filters
 
 Search should support:
 
--   Age
--   Location
--   Height
--   Education
--   Occupation
--   Marital status
--   Community
--   Other partner preferences
+- Age
+- Location
+- Height
+- Education
+- Occupation
+- Marital status
+- Community
+- Other partner preferences
 
 Keep filter state in the URL when it is useful for:
 
--   Sharing search results
--   Browser refresh
--   Back/forward navigation
--   Bookmarking a search
+- Sharing search results
+- Browser refresh
+- Back/forward navigation
+- Bookmarking a search
 
 Example:
 
-``` text
+```text
 /search?ageMin=25&ageMax=30&city=Pune
 ```
-
 
 ## 20. Profile Components
 
 Create reusable profile components:
 
-``` text
+```text
 ProfileCard
 ProfileHeader
 ProfilePhotoGallery
@@ -617,12 +598,11 @@ ProfileActions
 
 The same components can be reused across:
 
--   Match cards
--   Search results
--   Profile page
--   Bookmarks
--   Interests
-
+- Match cards
+- Search results
+- Profile page
+- Bookmarks
+- Interests
 
 ## 21. Responsive Design
 
@@ -630,7 +610,7 @@ The application should follow a mobile-first approach.
 
 Recommended breakpoints:
 
-``` text
+```text
 Mobile
 ↓
 sm
@@ -644,13 +624,12 @@ xl
 
 Primary targets:
 
--   Mobile
--   Tablet
--   Laptop
--   Desktop
+- Mobile
+- Tablet
+- Laptop
+- Desktop
 
 The UI should not depend on a fixed desktop layout.
-
 
 ## 22. API Layer
 
@@ -658,7 +637,7 @@ Keep API integration separate from UI components.
 
 Recommended:
 
-``` text
+```text
 services/
 └── api/
     ├── authApi.ts
@@ -674,12 +653,11 @@ RTK Query can combine these APIs into the application API layer.
 
 Components should consume hooks rather than directly calling `fetch`.
 
-
 ## 23. Error Handling
 
 Every API-driven feature should handle:
 
-``` text
+```text
 Loading
 Success
 Empty
@@ -688,7 +666,7 @@ Error
 
 Example:
 
-``` text
+```text
 Loading
    ↓
 Success → Display data
@@ -704,27 +682,25 @@ Error → Display error state
 
 Do not leave blank screens when an API fails.
 
-
 ## 24. Performance
 
 Important frontend performance practices:
 
--   Lazy-load routes
--   Lazy-load heavy components
--   Optimize images
--   Use responsive image sizes
--   Avoid unnecessary re-renders
--   Use React.memo selectively
--   Use useMemo/useCallback only where useful
--   Use RTK Query caching
--   Virtualize very large lists if required
--   Avoid unnecessary global state
--   Split large components
--   Keep bundle size under control
+- Lazy-load routes
+- Lazy-load heavy components
+- Optimize images
+- Use responsive image sizes
+- Avoid unnecessary re-renders
+- Use React.memo selectively
+- Use useMemo/useCallback only where useful
+- Use RTK Query caching
+- Virtualize very large lists if required
+- Avoid unnecessary global state
+- Split large components
+- Keep bundle size under control
 
 For match/profile lists, pagination or infinite scrolling should be
 preferred over loading thousands of profiles at once.
-
 
 ## 25. Accessibility
 
@@ -732,19 +708,18 @@ The UI should follow accessible HTML practices.
 
 Important areas:
 
--   Semantic HTML
--   Keyboard navigation
--   Focus management
--   Proper labels
--   Accessible dialogs
--   Accessible buttons
--   Alt text for images
--   Sufficient color contrast
--   Screen-reader-friendly states
+- Semantic HTML
+- Keyboard navigation
+- Focus management
+- Proper labels
+- Accessible dialogs
+- Accessible buttons
+- Alt text for images
+- Sufficient color contrast
+- Screen-reader-friendly states
 
 shadcn/ui components can help, but accessibility still needs to be
 verified in the application.
-
 
 ## 26. Testing Strategy
 
@@ -752,44 +727,44 @@ verified in the application.
 
 Use:
 
-``` text
+```text
 Jest
 ```
 
 Test:
 
--   Utility functions
--   Hooks
--   Business logic
+- Utility functions
+- Hooks
+- Business logic
 
 ### Component Tests
 
 Use:
 
-``` text
+```text
 React Testing Library
 ```
 
 Test:
 
--   Profile card
--   Match card
--   Bookmark button
--   Search filters
--   Forms
--   Modals
+- Profile card
+- Match card
+- Bookmark button
+- Search filters
+- Forms
+- Modals
 
 ### E2E Tests
 
 Use:
 
-``` text
+```text
 Playwright
 ```
 
 Important flows:
 
-``` text
+```text
 Registration
 Login
 Profile creation
@@ -801,12 +776,11 @@ Accept interest
 Logout
 ```
 
-
 ## 27. Code Quality
 
 Use:
 
-``` text
+```text
 ESLint
 Prettier
 TypeScript
@@ -816,7 +790,7 @@ lint-staged
 
 Before a commit:
 
-``` text
+```text
 Code
  ↓
 ESLint
@@ -830,14 +804,13 @@ Tests
 Commit
 ```
 
-
 ## 28. Environment Configuration
 
 Use environment variables for configuration.
 
 Example:
 
-``` text
+```text
 .env.development
 .env.staging
 .env.production
@@ -845,13 +818,13 @@ Example:
 
 Frontend variables should use the Vite convention:
 
-``` text
+```text
 VITE_API_BASE_URL
 ```
 
 Never put secrets such as:
 
-``` text
+```text
 Database passwords
 Private API keys
 JWT secrets
@@ -862,20 +835,19 @@ in frontend environment variables.
 
 Anything exposed to the React application should be treated as public.
 
-
 ## 29. Frontend Development Principles
 
 ### Component Design
 
 Prefer:
 
-``` text
+```text
 Small + reusable + focused
 ```
 
 instead of:
 
-``` text
+```text
 One huge component containing everything
 ```
 
@@ -900,10 +872,9 @@ Use Tailwind consistently.
 
 Use the simplest state solution that solves the problem.
 
-
 ## 30. Recommended Development Flow
 
-``` text
+```text
 Requirement
     ↓
 Feature Design
@@ -935,12 +906,11 @@ Build
 Deployment
 ```
 
-
 ## 31. Final Frontend Stack
 
 The recommended frontend stack for Vivah Bandh is:
 
-``` text
+```text
 React.js
     +
 TypeScript

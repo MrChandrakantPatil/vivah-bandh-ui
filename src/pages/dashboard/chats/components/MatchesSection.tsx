@@ -28,12 +28,12 @@ export function MatchesSection() {
             type="button"
             onClick={scrollLeft}
             className="
-              absolute top-1/3 z-10
+              absolute top-1/3 z-10 -left-5
               flex items-center justify-center
               w-9 h-9
               bg-white shadow rounded-full border border-gray-200
               text-gray-600
-              -left-5 -translate-y-1/2
+              -translate-y-1/2
             "
           >
             <ChevronLeft size={20} />
@@ -115,12 +115,12 @@ export function MatchesSection() {
             type="button"
             onClick={scrollRight}
             className="
-              absolute top-1/3 z-10
+              absolute top-1/3 z-10 -right-5
               flex items-center justify-center
               w-9 h-9
               bg-white shadow rounded-full border border-gray-200
               text-gray-600
-              -right-5 -translate-y-1/2
+              -translate-y-1/2
             "
           >
             <ChevronRight size={20} />

@@ -139,19 +139,18 @@ export function ProfileCard() {
   return (
     <div
       className="
-        absolute top-full left-auto z-50
+        absolute top-full left-auto z-50 -right-4
         mt-3
         lg:-right-6
-        -right-4
       "
     >
       <div
         className="
-          absolute right-5 z-10
+          absolute right-5 z-10 -top-2
           w-4 h-4
           bg-pink-300 border-l border-t border-gray-200
           sm:right-6 lg:right-8.5
-          -top-2 rotate-45
+          rotate-45
         "
       />
 

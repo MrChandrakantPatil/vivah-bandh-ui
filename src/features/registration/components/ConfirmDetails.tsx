@@ -10,7 +10,7 @@ const DetailCard = ({ title, value, icon: Icon }: DetailCardProps) => (
       bg-white rounded-lg border border-gray-200
     "
   >
-    <Icon size={20} className="shrink-0 text-pink-500" />
+    <Icon size={20} className="shrink-0 text-[rgb(var(--color-primary-500))]" />
 
     <div className="min-w-0">
       <h4 className="leading-none font-medium text-gray-800 text-sm">

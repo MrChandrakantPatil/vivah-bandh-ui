@@ -57,7 +57,7 @@ export function ProfileDetails() {
                 rounded-full border
                 ${
                   selectedProfileOption === option.value
-                    ? 'bg-pink-500 border-pink-500'
+                    ? 'bg-[rgb(var(--color-primary-500))] border-[rgb(var(--color-primary-500))]'
                     : 'bg-gray-100 border-gray-200'
                 }
               `}
@@ -96,7 +96,7 @@ export function ProfileDetails() {
                     rounded-full border
                     ${
                       selectedGender === gender.value
-                        ? 'bg-pink-500 border-pink-500'
+                        ? 'bg-[rgb(var(--color-primary-500))] border-[rgb(var(--color-primary-500))]'
                         : 'bg-gray-100 border-gray-200'
                     }
                   `}

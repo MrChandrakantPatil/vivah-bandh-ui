@@ -22,12 +22,12 @@ export function ReligionDetails() {
           onFocus={() => handleFocus('religion')}
           className={`
             w-full px-4 py-3 pr-12
-            rounded-md
+            rounded-md border
             outline-none peer
             ${
               state.errors.religion
-                ? 'border border-red-500'
-                : 'border border-gray-300 focus:border-pink-500'
+                ? 'border-[rgb(var(--color-primary-500))]'
+                : 'border-gray-300 focus:border-gray-700'
             }
           `}
         />
@@ -35,20 +35,19 @@ export function ReligionDetails() {
         <label
           htmlFor="religion"
           className="
-            absolute top-3 left-4 peer-not-placeholder-shown:left-3
+            absolute top-3 left-4 peer-not-placeholder-shown:left-3 peer-not-placeholder-shown:-top-2
             peer-not-placeholder-shown:px-1
             peer-not-placeholder-shown:bg-white
             text-gray-500 peer-not-placeholder-shown:text-xs
             transition-all duration-200
-            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
-            peer-not-placeholder-shown:-top-2
+            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-gray-700 peer-focus:text-xs peer-focus:-top-2
           "
         >
           Religion
         </label>
 
         {state.errors.religion && (
-          <p className="mt-1 ml-1 text-red-500 text-sm">
+          <p className="mt-1 ml-1 text-[rgb(var(--color-primary-500))] text-sm">
             {state.errors.religion}
           </p>
         )}
@@ -70,12 +69,12 @@ export function ReligionDetails() {
           onFocus={() => handleFocus('community')}
           className={`
             w-full px-4 py-3 pr-12
-            rounded-md
+            rounded-md border
             outline-none peer
             ${
               state.errors.community
-                ? 'border border-red-500'
-                : 'border border-gray-300 focus:border-pink-500'
+                ? 'border-[rgb(var(--color-primary-500))]'
+                : 'border-gray-300 focus:border-gray-700'
             }
           `}
         />
@@ -83,20 +82,19 @@ export function ReligionDetails() {
         <label
           htmlFor="community"
           className="
-            absolute top-3 left-4 peer-not-placeholder-shown:left-3
+            absolute top-3 left-4 peer-not-placeholder-shown:left-3 peer-not-placeholder-shown:-top-2
             peer-not-placeholder-shown:px-1
             peer-not-placeholder-shown:bg-white
             text-gray-500 peer-not-placeholder-shown:text-xs
             transition-all duration-200
-            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
-            peer-not-placeholder-shown:-top-2
+            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-gray-700 peer-focus:text-xs peer-focus:-top-2
           "
         >
           Community
         </label>
 
         {state.errors.community && (
-          <p className="mt-1 ml-1 text-red-500 text-sm">
+          <p className="mt-1 ml-1 text-[rgb(var(--color-primary-500))] text-sm">
             {state.errors.community}
           </p>
         )}
