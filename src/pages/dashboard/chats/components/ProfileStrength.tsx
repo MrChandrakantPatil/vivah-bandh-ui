@@ -20,10 +20,10 @@ export function ProfileStrength() {
   const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className="p-5 border border-gray-200 rounded-lg shadow text-gray-600">
+    <div className="p-5 shadow rounded-lg border border-gray-200 text-gray-600">
       <h4 className="font-bold text-md">Profile Strength</h4>
 
-      <div className="flex justify-between items-center gap-4 my-6">
+      <div className="flex items-center justify-between gap-4 my-6">
         <div className="w-25 mx-auto">
           <div className="relative w-full aspect-square">
             <svg
@@ -76,7 +76,13 @@ export function ProfileStrength() {
         </div>
       </div>
 
-      <button className="w-full px-4 py-2.5 bg-[#fef5f7] border border-red-500 rounded-lg font-semibold text-red-600 text-xs">
+      <button
+        className="
+          w-full px-4 py-2.5
+          bg-[#fef5f7] rounded-lg border border-red-500
+          font-semibold text-red-600 text-xs
+        "
+      >
         Improve Profile
       </button>
     </div>

@@ -23,8 +23,10 @@ export function DashboardLayout() {
 
       <div
         className={`
-          flex-1 min-w-0 transition-all duration-300 
-          ${isCollapsed ? 'ml-18' : 'md:ml-68.75'}
+          flex-1
+          min-w-0
+          transition-all duration-300
+          ${isCollapsed ? 'ml-17.5' : 'md:ml-68.75'}
         `}
       >
         <DashboardHeader
@@ -33,8 +35,16 @@ export function DashboardLayout() {
           setIsCollapsed={setIsCollapsed}
         />
 
-        <main>
-          <Outlet />
+        <main
+          className="
+            px-4 py-4
+            bg-[#fdfdfe]
+            sm:px-6 md:px-8 lg:px-10 sm:py-6 lg:py-8
+          "
+        >
+          <div className="max-w-400 mx-auto text-gray-700">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>

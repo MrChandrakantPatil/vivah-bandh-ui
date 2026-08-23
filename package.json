@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "lint:fix": "eslint . --fix",
-    "format": "prettier . --write",
+    "format": "prettier . --write && node scripts/format-tailwind.mjs && prettier . --write",
     "format:check": "prettier . --check",
     "type-check": "tsc -p tsconfig.app.json --noEmit"
   },

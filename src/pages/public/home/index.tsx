@@ -6,8 +6,8 @@ import { features, testimonials } from './data';
 export function Home() {
   return (
     <>
-      <section className="w-full bg-[rgb(var(--color-primary-700))] py-35">
-        <div className="container mx-auto px-4 text-center">
+      <section className="w-full py-35 bg-[rgb(var(--color-primary-700))]">
+        <div className="px-4 mx-auto text-center container">
           <motion.h1
             className="mb-6 font-bold text-5xl md:text-7xl"
             initial={{ opacity: 0, y: 20 }}
@@ -28,7 +28,7 @@ export function Home() {
           </motion.p>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col justify-center gap-4 sm:flex-row"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -36,10 +36,12 @@ export function Home() {
             <Link
               to="/register"
               className="
-                flex items-center justify-center gap-2 
-                px-8 py-4 text-lg text-white font-medium rounded-lg 
-                bg-[rgb(var(--color-primary-800))] hover:bg-[rgb(var(--color-primary-900))] transition-colors duration-200
-                focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+                flex items-center justify-center gap-2
+                px-8 py-4
+                bg-[rgb(var(--color-primary-800))] rounded-lg
+                font-medium text-white text-lg
+                transition-colors duration-200
+                hover:bg-[rgb(var(--color-primary-900))] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
               "
             >
               <span>Get Started Free</span>
@@ -49,9 +51,11 @@ export function Home() {
             <Link
               to="/login"
               className="
-                px-8 p-4 text-lg font-medium rounded-lg border border-white
-              hover:bg-white hover:text-[rgb(var(--color-primary-600))] transition-colors duration-200
-                focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
+                p-4 px-8
+                rounded-lg border border-white
+                font-medium text-lg
+                transition-colors duration-200
+                hover:bg-white hover:text-[rgb(var(--color-primary-600))] focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2
               "
             >
               Already a Member?
@@ -60,9 +64,9 @@ export function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-white py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
+      <section className="w-full py-20 bg-white">
+        <div className="px-4 mx-auto container">
+          <div className="mb-16 text-center">
             <h3 className="mb-4 font-bold text-gray-900 text-4xl">
               Why Choose Vivah Bandh?
             </h3>
@@ -74,7 +78,7 @@ export function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
             {features.map((feature, index) => {
               const Icon = feature.icon;
 
@@ -82,8 +86,11 @@ export function Home() {
                 <motion.div
                   key={index}
                   className="
-                    p-6 border border-gray-300 rounded-lg text-black text-center
-                    shadow-sm hover:shadow-md transition-shadow duration-200
+                    p-6
+                    shadow-sm rounded-lg border border-gray-300
+                    text-black text-center
+                    transition-shadow duration-200
+                    hover:shadow-md
                   "
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 1 }}
@@ -104,9 +111,9 @@ export function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-gray-50 py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
+      <section className="w-full py-20 bg-gray-50">
+        <div className="px-4 mx-auto container">
+          <div className="grid gap-8 text-center md:grid-cols-3">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -149,8 +156,8 @@ export function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-white py-20">
-        <div className="container mx-auto px-4">
+      <section className="w-full py-20 bg-white">
+        <div className="px-4 mx-auto container">
           <div className="mb-16 text-center">
             <h2 className="mb-4 font-bold text-gray-900 text-4xl">
               Success Stories
@@ -161,13 +168,16 @@ export function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid gap-8 md:grid-cols-3">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
                 className="
-                  p-6 bg-white rounded-xl border border-gray-200 text-center
-                  shadow-sm hover:shadow-md transition-shadow duration-200
+                  p-6
+                  bg-white shadow-sm rounded-xl border border-gray-200
+                  text-center
+                  transition-shadow duration-200
+                  hover:shadow-md
                 "
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -178,7 +188,14 @@ export function Home() {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`w-5 h-5 ${i < testimonial.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                      className={`
+                        w-5 h-5
+                        ${
+                          i < testimonial.rating
+                            ? 'text-yellow-400 fill-current'
+                            : 'text-gray-300'
+                        }
+                      `}
                     />
                   ))}
                 </div>
@@ -200,8 +217,8 @@ export function Home() {
         </div>
       </section>
 
-      <section className="w-full bg-[rgb(var(--color-primary-700))] py-20">
-        <div className="container mx-auto px-4 text-center text-white">
+      <section className="w-full py-20 bg-[rgb(var(--color-primary-700))]">
+        <div className="px-4 mx-auto text-white text-center container">
           <motion.h2
             className="mb-6 font-bold text-4xl"
             initial={{ opacity: 0, y: 20 }}
@@ -213,7 +230,7 @@ export function Home() {
           </motion.h2>
 
           <motion.p
-            className="mb-8 max-w-2xl mx-auto font-semibold text-xl"
+            className="max-w-2xl mx-auto mb-8 font-semibold text-xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -232,9 +249,11 @@ export function Home() {
             <Link
               to="/register"
               className="
-                inline-flex items-center gap-2 px-8 py-4
-                bg-white hover:bg-gray-100
-                rounded-lg font-semibold text-[rgb(var(--color-primary-600))] text-lg
+                inline-flex items-center gap-2
+                px-8 py-4
+                bg-white rounded-lg
+                font-semibold text-[rgb(var(--color-primary-600))] text-lg
+                hover:bg-gray-100
               "
             >
               Start Your Journey Today

@@ -18,9 +18,22 @@ export function SidebarTooltip({
       }}
     >
       <div className="relative">
-        <div className="absolute -left-1 top-1/2 -translate-y-1/2 w-2 h-2 rotate-45 bg-slate-900" />
+        <div
+          className="
+            absolute top-1/2
+            w-2 h-2
+            bg-slate-900
+            -left-1 -translate-y-1/2 rotate-45
+          "
+        />
 
-        <div className="bg-slate-900 text-white text-sm px-3 py-2 rounded-lg shadow-lg whitespace-nowrap">
+        <div
+          className="
+            px-3 py-2
+            bg-slate-900 shadow-lg rounded-lg
+            whitespace-nowrap text-white text-sm
+          "
+        >
           {label}
         </div>
       </div>

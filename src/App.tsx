@@ -7,7 +7,7 @@ import { Home } from '@/pages/public/home';
 import { About } from '@/pages/public/about';
 
 import { Dashboard } from '@/pages/dashboard/home';
-import { Chats } from '@/pages/dashboard/chats';
+import { Matches } from '@/pages/dashboard/matches';
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
 
       <Route element={<DashboardLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/matches" element={<Chats />} />
+        <Route path="/matches" element={<Matches />} />
       </Route>
     </Routes>
   );
