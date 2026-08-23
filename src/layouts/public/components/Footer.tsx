@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom';
 
 export function Footer() {
   return (
-    <footer className="w-full bg-gray-900 text-white py-15">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="col-span-1 md:col-span-2">
+    <footer className="w-full py-15 bg-gray-900 text-white">
+      <div className="px-4 mx-auto sm:px-6 lg:px-8 container">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+          <div className="md:col-span-2 col-span-1">
             <div className="flex items-center space-x-2 mb-4">
               <Heart className="w-8 h-8 text-[rgb(var(--color-primary-600))]" />
 
-              <div className="text-2xl font-medium">Vivah Bandh</div>
+              <div className="font-medium text-2xl">Vivah Bandh</div>
             </div>
 
-            <p className="text-gray-300 mb-4 max-w-md">
+            <p className="max-w-md mb-4 text-gray-300">
               Your trusted platform for finding your perfect life partner. Join
               thousands of happy couples who found their soulmate through Vivah
               Bandh.
@@ -23,10 +23,10 @@ export function Footer() {
               <button
                 type="button"
                 aria-label="Facebook"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 transition-colors hover:text-white"
               >
                 <svg
-                  className="h-6 w-6"
+                  className="w-6 h-6"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -41,10 +41,10 @@ export function Footer() {
               <button
                 type="button"
                 aria-label="Instagram"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 transition-colors hover:text-white"
               >
                 <svg
-                  className="h-6 w-6"
+                  className="w-6 h-6"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -59,10 +59,10 @@ export function Footer() {
               <button
                 type="button"
                 aria-label="Twitter"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 transition-colors hover:text-white"
               >
                 <svg
-                  className="h-6 w-6"
+                  className="w-6 h-6"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
@@ -73,13 +73,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="mb-4 font-semibold text-lg">Quick Links</h3>
 
             <ul className="space-y-2">
               <li>
                 <Link
                   to="/search"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 transition-colors hover:text-white"
                 >
                   Find Matches
                 </Link>
@@ -88,7 +88,7 @@ export function Footer() {
               <li>
                 <Link
                   to="/register"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 transition-colors hover:text-white"
                 >
                   Create Profile
                 </Link>
@@ -97,7 +97,7 @@ export function Footer() {
               <li>
                 <Link
                   to="/chat"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 transition-colors hover:text-white"
                 >
                   Start Chatting
                 </Link>
@@ -106,7 +106,7 @@ export function Footer() {
               <li>
                 <Link
                   to="/profile"
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 transition-colors hover:text-white"
                 >
                   My Profile
                 </Link>
@@ -115,7 +115,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="mb-4 font-semibold text-lg">Contact Us</h3>
 
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
@@ -138,30 +138,30 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-400">
+        <div className="pt-8 mt-8 border-t border-gray-800">
+          <div className="flex flex-col items-center justify-between md:flex-row">
+            <p className="text-gray-400 text-sm">
               © 2024 Vivah Bandh. All rights reserved.
             </p>
 
             <div className="flex space-x-6 mt-4 md:mt-0">
               <button
                 type="button"
-                className="text-sm text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 text-sm transition-colors hover:text-white"
               >
                 Privacy Policy
               </button>
 
               <button
                 type="button"
-                className="text-sm text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 text-sm transition-colors hover:text-white"
               >
                 Terms of Service
               </button>
 
               <button
                 type="button"
-                className="text-sm text-gray-400 hover:text-white transition-colors"
+                className="text-gray-400 text-sm transition-colors hover:text-white"
               >
                 Cookie Policy
               </button>

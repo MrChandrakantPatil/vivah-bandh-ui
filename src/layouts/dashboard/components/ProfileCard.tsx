@@ -89,7 +89,13 @@ function MenuItem({
 
   return (
     <button
-      className="w-full flex items-center justify-between p-3.5 rounded-xl hover:bg-pink-100 transition-colors"
+      className="
+        flex items-center justify-between
+        w-full p-3.5
+        rounded-xl
+        transition-colors
+        hover:bg-pink-100
+      "
       {...props}
     >
       <div className="flex items-center gap-3">
@@ -99,11 +105,18 @@ function MenuItem({
           </div>
         )}
 
-        <span className={`font-medium text-base ${textClass}`}>{label}</span>
+        <span
+          className={`
+            font-medium text-base
+            ${textClass}
+          `}
+        >
+          {label}
+        </span>
       </div>
 
       {RightIcon && (
-        <RightIcon size={22} className="fill-amber-400 text-amber-500" />
+        <RightIcon size={22} className="text-amber-500 fill-amber-400" />
       )}
     </button>
   );
@@ -124,26 +137,53 @@ export function ProfileCard() {
   };
 
   return (
-    <div className="absolute top-full -right-4 left-auto lg:-right-6 mt-3 z-50">
-      <div className="absolute -top-2 right-5 sm:right-6 lg:right-8.5 w-4 h-4 bg-pink-300 border-l border-t border-gray-200 rotate-45 z-10" />
+    <div
+      className="
+        absolute top-full left-auto z-50
+        mt-3
+        lg:-right-6
+        -right-4
+      "
+    >
+      <div
+        className="
+          absolute right-5 z-10
+          w-4 h-4
+          bg-pink-300 border-l border-t border-gray-200
+          sm:right-6 lg:right-8.5
+          -top-2 rotate-45
+        "
+      />
 
-      <div className="w-75 h-auto md:w-80 bg-white rounded-lg sm:rounded-xl border border-gray-200 shadow-2xl overflow-hidden">
-        <div className="bg-pink-300 px-4 sm:px-6 py-6">
+      <div
+        className="
+          w-75 h-auto
+          bg-white shadow-2xl rounded-lg border border-gray-200
+          overflow-hidden
+          md:w-80 sm:rounded-xl
+        "
+      >
+        <div className="px-4 py-6 bg-pink-300 sm:px-6">
           <div className="flex items-center gap-4">
             <Avatar
               name="Chandrakant Patil"
-              className="w-14 h-14 sm:w-16 sm:h-16 border-2 border-white shadow-md text-3xl bg-slate-500"
+              className="
+                w-14 h-14
+                bg-slate-500 shadow-md border-2 border-white
+                text-3xl
+                sm:w-16 sm:h-16
+              "
             />
 
             <div className="flex-1 min-w-0">
-              <h3 className="text-xl sm:text-xl font-semibold truncate text-slate-700">
+              <h3 className="font-semibold text-slate-700 text-xl truncate sm:text-xl">
                 Chandrakant Patil
               </h3>
 
-              <div className="mt-1 flex items-center gap-2 text-amber-700">
+              <div className="flex items-center gap-2 mt-1 text-amber-700">
                 <Crown size={18} className="fill-amber-400" />
 
-                <span className="text-sm sm:text-sm font-medium">
+                <span className="font-medium text-sm sm:text-sm">
                   Premium Member
                 </span>
               </div>
@@ -151,7 +191,7 @@ export function ProfileCard() {
           </div>
         </div>
 
-        <div className="rounded-t-[28px] bg-white px-3 sm:px-4 py-3">
+        <div className="px-3 py-3 bg-white rounded-t-[28px] sm:px-4">
           {profileMenus.map((item) => {
             if (item.divider) {
               return (

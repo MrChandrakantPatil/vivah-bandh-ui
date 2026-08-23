@@ -5,7 +5,7 @@ import {
   MessageSquareText,
   MessageCircle,
 } from 'lucide-react';
-import priya from '@/assets/priya.png';
+import { priya } from '@/assets/images';
 import type { ActivityTypeValue, Activity } from './types';
 import type { LucideIcon } from 'lucide-react';
 

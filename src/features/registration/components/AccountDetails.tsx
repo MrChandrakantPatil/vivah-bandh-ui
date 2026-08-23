@@ -23,28 +23,34 @@ export function AccountDetails() {
           onBlur={(e) => handleBlur('email', e.target.value)}
           onFocus={() => handleFocus('email')}
           className={`
-            peer w-full rounded-md pl-4 pr-10 py-3 outline-none
-            ${state.errors.email ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+            w-full py-3 pr-10 pl-4
+            rounded-md
+            outline-none peer
+            ${
+              state.errors.email
+                ? 'border border-red-500'
+                : 'border border-gray-300 focus:border-pink-500'
+            }
           `}
         />
 
         <label
           htmlFor="email"
           className="
-            absolute left-4 top-3 text-gray-500 transition-all duration-200
-            peer-focus:-top-2 peer-focus:left-3 peer-focus:text-xs peer-focus:bg-white peer-focus:px-1 peer-focus:text-pink-500
-            peer-not-placeholder-shown:-top-2
-            peer-not-placeholder-shown:left-3
-            peer-not-placeholder-shown:text-xs
-            peer-not-placeholder-shown:bg-white
+            absolute top-3 left-4 peer-not-placeholder-shown:left-3
             peer-not-placeholder-shown:px-1
+            peer-not-placeholder-shown:bg-white
+            text-gray-500 peer-not-placeholder-shown:text-xs
+            transition-all duration-200
+            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
+            peer-not-placeholder-shown:-top-2
           "
         >
           Email
         </label>
 
         {state.errors.email && (
-          <p className="text-red-500 text-sm mt-1 ml-1">{state.errors.email}</p>
+          <p className="mt-1 ml-1 text-red-500 text-sm">{state.errors.email}</p>
         )}
       </div>
 
@@ -60,28 +66,34 @@ export function AccountDetails() {
           onBlur={(e) => handleBlur('mobile', e.target.value)}
           onFocus={() => handleFocus('mobile')}
           className={`
-            peer w-full rounded-md pl-4 pr-10 py-3 outline-none
-            ${state.errors.mobile ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+            w-full py-3 pr-10 pl-4
+            rounded-md
+            outline-none peer
+            ${
+              state.errors.mobile
+                ? 'border border-red-500'
+                : 'border border-gray-300 focus:border-pink-500'
+            }
           `}
         />
 
         <label
           htmlFor="mobileNumber"
           className="
-            absolute left-4 top-3 text-gray-500 transition-all duration-200
-            peer-focus:-top-2 peer-focus:left-3 peer-focus:text-xs peer-focus:bg-white peer-focus:px-1 peer-focus:text-pink-500
-            peer-not-placeholder-shown:-top-2
-            peer-not-placeholder-shown:left-3
-            peer-not-placeholder-shown:text-xs
-            peer-not-placeholder-shown:bg-white
+            absolute top-3 left-4 peer-not-placeholder-shown:left-3
             peer-not-placeholder-shown:px-1
+            peer-not-placeholder-shown:bg-white
+            text-gray-500 peer-not-placeholder-shown:text-xs
+            transition-all duration-200
+            peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
+            peer-not-placeholder-shown:-top-2
           "
         >
           Mobile Number
         </label>
 
         {state.errors.mobile && (
-          <p className="text-red-500 text-sm mt-1 ml-1">
+          <p className="mt-1 ml-1 text-red-500 text-sm">
             {state.errors.mobile}
           </p>
         )}
@@ -98,13 +110,19 @@ export function AccountDetails() {
             onBlur={(e) => handleBlur('password', e.target.value)}
             onFocus={() => handleFocus('password')}
             className={`
-              peer w-full rounded-md pl-4 pr-10 py-3 outline-none
-              ${state.errors.password ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+              w-full py-3 pr-10 pl-4
+              rounded-md
+              outline-none peer
+              ${
+                state.errors.password
+                  ? 'border border-red-500'
+                  : 'border border-gray-300 focus:border-pink-500'
+              }
             `}
           />
 
           <button
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+            className="absolute top-1/2 right-3 text-gray-500 cursor-pointer -translate-y-1/2"
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {!showPassword ? (
@@ -117,13 +135,13 @@ export function AccountDetails() {
           <label
             htmlFor="password"
             className="
-              absolute left-4 top-3 text-gray-500 transition-all duration-200
-              peer-focus:-top-2 peer-focus:left-3 peer-focus:text-xs peer-focus:bg-white peer-focus:px-1 peer-focus:text-pink-500
-              peer-not-placeholder-shown:-top-2
-              peer-not-placeholder-shown:left-3
-              peer-not-placeholder-shown:text-xs
-              peer-not-placeholder-shown:bg-white
+              absolute top-3 left-4 peer-not-placeholder-shown:left-3
               peer-not-placeholder-shown:px-1
+              peer-not-placeholder-shown:bg-white
+              text-gray-500 peer-not-placeholder-shown:text-xs
+              transition-all duration-200
+              peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
+              peer-not-placeholder-shown:-top-2
             "
           >
             Password
@@ -131,7 +149,7 @@ export function AccountDetails() {
         </div>
 
         {state.errors.password && (
-          <p className="text-red-500 text-sm mt-1 ml-1">
+          <p className="mt-1 ml-1 text-red-500 text-sm">
             {state.errors.password}
           </p>
         )}
@@ -154,13 +172,19 @@ export function AccountDetails() {
             }
             onFocus={() => handleFocus('confirmPassword')}
             className={`
-              peer w-full rounded-md px-4 py-3 pr-12 outline-none
-              ${state.errors.confirmPassword ? 'border border-red-500' : 'border border-gray-300 focus:border-pink-500'}
+              w-full px-4 py-3 pr-12
+              rounded-md
+              outline-none peer
+              ${
+                state.errors.confirmPassword
+                  ? 'border border-red-500'
+                  : 'border border-gray-300 focus:border-pink-500'
+              }
             `}
           />
 
           <button
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"
+            className="absolute top-1/2 right-3 text-gray-500 cursor-pointer -translate-y-1/2"
             onClick={() => setShowConfirmPassword((prev) => !prev)}
           >
             {!showConfirmPassword ? (
@@ -173,13 +197,13 @@ export function AccountDetails() {
           <label
             htmlFor="confirmPassword"
             className="
-              absolute left-4 top-3 text-gray-500 transition-all duration-200
-              peer-focus:-top-2 peer-focus:left-3 peer-focus:text-xs peer-focus:bg-white peer-focus:px-1 peer-focus:text-pink-500
-              peer-not-placeholder-shown:-top-2
-              peer-not-placeholder-shown:left-3
-              peer-not-placeholder-shown:text-xs
-              peer-not-placeholder-shown:bg-white
+              absolute top-3 left-4 peer-not-placeholder-shown:left-3
               peer-not-placeholder-shown:px-1
+              peer-not-placeholder-shown:bg-white
+              text-gray-500 peer-not-placeholder-shown:text-xs
+              transition-all duration-200
+              peer-focus:left-3 peer-focus:px-1 peer-focus:bg-white peer-focus:text-pink-500 peer-focus:text-xs peer-focus:-top-2
+              peer-not-placeholder-shown:-top-2
             "
           >
             Confirm Password
@@ -187,7 +211,7 @@ export function AccountDetails() {
         </div>
 
         {state.errors.confirmPassword && (
-          <p className="text-red-500 text-sm mt-1 ml-1">
+          <p className="mt-1 ml-1 text-red-500 text-sm">
             {state.errors.confirmPassword}
           </p>
         )}

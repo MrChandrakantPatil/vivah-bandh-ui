@@ -5,7 +5,7 @@ import { Footer } from './components/Footer';
 
 export function PublicLayout() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex flex-col min-h-screen">
       <Header />
 
       <main className="flex-1">

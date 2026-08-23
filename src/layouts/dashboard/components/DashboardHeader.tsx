@@ -19,7 +19,14 @@ import { logo, logoIcon } from '@/assets/images';
 function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
   return (
     <button
-      className="relative flex items-center justify-center w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-slate-600 hover:text-slate-800"
+      className="
+        relative
+        flex items-center justify-center
+        w-5 h-5
+        text-slate-600
+        hover:text-slate-800
+        sm:w-6 lg:w-7 sm:h-6 lg:h-7
+      "
       {...props}
     >
       {children}
@@ -27,7 +34,7 @@ function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
       {!!count && (
         <NotificationBadge
           count={count}
-          className="absolute -top-1.5 -right-1.5 md:-top-2 md:-right-2"
+          className="absolute md:-top-2 md:-right-2 -top-1.5 -right-1.5"
         />
       )}
     </button>
@@ -49,25 +56,50 @@ export function DashboardHeader({
   });
 
   return (
-    <header className="sticky top-0 z-30 h-16 md:h-21.25 bg-white/95 backdrop-blur-md border-b border-gray-200">
-      <div className="flex items-center justify-between h-full px-4 sm:px-8 md:px-8 lg:px-10">
+    <header
+      className="
+        sticky top-0 z-30
+        h-16
+        bg-white/95 border-b border-gray-200
+        md:h-21.25
+        backdrop-blur-md
+      "
+    >
+      <div
+        className="
+          flex items-center justify-between
+          h-full px-4
+          sm:px-8 md:px-8 lg:px-10
+        "
+      >
         {showSearch ? (
-          <div className="flex items-center w-full gap-2">
+          <div className="flex items-center gap-2 w-full">
             <button
               onClick={() => setShowSearch(false)}
-              className="flex items-center justify-center w-9 h-9 rounded-full hover:bg-gray-100"
+              className="
+                flex items-center justify-center
+                w-9 h-9
+                rounded-full
+                hover:bg-gray-100
+              "
             >
               <X size={20} />
             </button>
 
-            <div className="flex items-center flex-1 px-3 py-2 border border-gray-300 rounded-lg bg-gray-50">
+            <div
+              className="
+                flex flex-1 items-center
+                px-3 py-2
+                bg-gray-50 rounded-lg border border-gray-300
+              "
+            >
               <Search size={18} className="text-gray-500" />
 
               <input
                 autoFocus
                 type="text"
                 placeholder="Search profiles..."
-                className="flex-1 ml-2 text-sm bg-transparent outline-none text-gray-700"
+                className="flex-1 ml-2 bg-transparent text-gray-700 text-sm outline-none"
               />
             </div>
           </div>
@@ -84,13 +116,19 @@ export function DashboardHeader({
                     setIsSidebarOpen(true);
                   }
                 }}
-                className="flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-600 transition-all duration-200"
+                className="
+                  flex items-center justify-center
+                  rounded-full
+                  text-gray-600
+                  transition-all duration-200
+                  hover:bg-gray-100
+                "
               >
                 {/* Mobile */}
                 <Menu className="md:hidden" size={22} />
 
                 {/* Desktop */}
-                <div className="hidden md:flex">
+                <div className="md:flex hidden">
                   {isCollapsed ? (
                     <PanelLeftOpen size={24} />
                   ) : (
@@ -104,13 +142,13 @@ export function DashboardHeader({
                 <img
                   src={logo}
                   alt="Vivah Bandh"
-                  className="hidden sm:block w-full h-auto"
+                  className="w-full h-auto sm:block hidden"
                 />
 
                 <img
                   src={logoIcon}
                   alt="Vivah Bandh"
-                  className="sm:hidden w-10 h-10 object-contain"
+                  className="w-10 h-10 sm:hidden object-contain"
                 />
               </div>
             </div>
@@ -120,17 +158,18 @@ export function DashboardHeader({
               <button
                 type="button"
                 className="
-                  flex items-center justify-center w-7 h-7 
-                  p-0 bg-[#e21c56] border border-[#e21c56] rounded-full
-                  md:w-auto md:h-auto md:px-4 md:py-2 md:border-[#fcb4ca] md:rounded-md md:bg-[#fdf6f7]
+                  flex items-center justify-center
+                  w-7 h-7 p-0
+                  bg-[#e21c56] rounded-full border border-[#e21c56]
+                  md:w-auto md:h-auto md:px-4 md:py-2 md:bg-[#fdf6f7] md:rounded-md md:border-[#fcb4ca]
                 "
               >
                 <Crown
                   size={16}
-                  className="fill-white text-white md:fill-[#feac09] md:text-[#feac09]"
+                  className="text-white md:text-[#feac09] md:fill-[#feac09] fill-white"
                 />
 
-                <span className="hidden md:inline ml-2 text-[#e21c56] font-bold text-xs">
+                <span className="ml-2 font-bold text-[#e21c56] text-xs md:inline hidden">
                   Upgrade to Premium
                 </span>
               </button>

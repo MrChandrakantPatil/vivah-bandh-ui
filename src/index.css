@@ -1,5 +1,35 @@
 @import 'tailwindcss';
 
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-scrollbar {
+  scrollbar-gutter: stable;
+}
+
+.filter-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filter-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filter-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 9999px;
+}
+
+.filter-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
 /* ================= LIGHT THEME ================= */
 @theme {
   /* ===== PRIMARY (Brand - Purple/Pink Scale) ===== */

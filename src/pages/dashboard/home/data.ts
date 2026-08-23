@@ -5,7 +5,7 @@ import {
   MessageSquareText,
   MessageCircle,
 } from 'lucide-react';
-import priya from '@/assets/priya.png';
+import { user1, user2, user3, user4 } from '@/assets/images';
 import type { ActivityTypeValue, Activity } from './types';
 import type { LucideIcon } from 'lucide-react';
 
@@ -59,7 +59,7 @@ export const matches = [
   {
     id: 1,
     name: 'Priya',
-    image: priya,
+    image: user1,
     age: 26,
     profession: 'Software Engineer',
     address: 'Bengluru, Karnataka',
@@ -68,7 +68,7 @@ export const matches = [
   {
     id: 2,
     name: 'Sneha',
-    image: priya,
+    image: user2,
     age: 24,
     profession: 'Product Manager',
     address: 'Pune, Maharashtra',
@@ -77,7 +77,7 @@ export const matches = [
   {
     id: 3,
     name: 'Kamal',
-    image: priya,
+    image: user3,
     age: 30,
     profession: 'Software Engineer',
     address: 'Mumbai, Maharashtra',
@@ -86,7 +86,7 @@ export const matches = [
   {
     id: 4,
     name: 'Pooja',
-    image: priya,
+    image: user4,
     age: 32,
     profession: 'Marketing Manager',
     address: 'Bengluru, Karnataka',

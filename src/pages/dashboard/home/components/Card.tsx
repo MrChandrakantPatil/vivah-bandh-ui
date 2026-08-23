@@ -11,21 +11,36 @@ export function Card({
   growthColor,
 }: CardProp) {
   return (
-    <div className="p-4 bg-white border border-gray-200 shadow-sm rounded-xl">
+    <div className="p-4 bg-white shadow-sm rounded-xl border border-gray-200">
       <div className="flex items-start gap-2">
         <div
-          className={`flex justify-center items-center p-2 rounded-full ${iconBg}`}
+          className={`
+            flex items-center justify-center
+            p-2
+            rounded-full
+            ${iconBg}
+          `}
         >
-          <Icon size={24} className={`${iconColor}`} />
+          <Icon
+            size={24}
+            className={`
+              ${iconColor}
+            `}
+          />
         </div>
 
         <div className="flex flex-col gap-2">
-          <p className="text-gray-700 font-semibold text-xs">{title}</p>
+          <p className="font-semibold text-gray-700 text-xs">{title}</p>
 
-          <h4 className="font-bold text-3xl text-gray-800">{count}</h4>
+          <h4 className="font-bold text-gray-800 text-3xl">{count}</h4>
 
           <p
-            className={`flex items-center gap-1 ${growthColor} text-xs font-medium mt-1 truncate`}
+            className={`
+              flex items-center gap-1
+              mt-1
+              font-medium text-xs truncate
+              ${growthColor}
+            `}
           >
             <CircleArrowUp size={14} /> {growth} this week
           </p>

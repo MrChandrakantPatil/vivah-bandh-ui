@@ -17,11 +17,11 @@ const getTimeAgo = (date: string | Date) => {
 
 export function RecentActivities() {
   return (
-    <div className="border border-gray-200 rounded-lg shadow p-4 text-gray-600">
+    <div className="p-4 shadow rounded-lg border border-gray-200 text-gray-600">
       <div className="flex justify-between">
         <h4 className="font-bold text-md">Recent Activities</h4>
 
-        <button className="text-[#e63b66] font-semibold text-xs">
+        <button className="font-semibold text-[#e63b66] text-xs">
           View All
         </button>
       </div>
@@ -33,19 +33,30 @@ export function RecentActivities() {
           return (
             <div
               key={activity.id}
-              className="flex justify-between items-center gap-2 mb-3"
+              className="flex items-center justify-between gap-2 mb-3"
             >
-              <div className="flex items-center gap-3 flex-1 min-w-0">
-                <div className={`p-2 rounded-full ${config.iconBg}`}>
-                  <config.icon size={18} className={`${config.iconColor}`} />
+              <div className="flex flex-1 items-center gap-3 min-w-0">
+                <div
+                  className={`
+                    p-2
+                    rounded-full
+                    ${config.iconBg}
+                  `}
+                >
+                  <config.icon
+                    size={18}
+                    className={`
+                      ${config.iconColor}
+                    `}
+                  />
                 </div>
 
-                <div className="text-gray-700 font-bold text-xs truncate">
+                <div className="font-bold text-gray-700 text-xs truncate">
                   {config.message(activity.actor.name)}
                 </div>
               </div>
 
-              <div className="text-gray-400 font-semibold text-xs">
+              <div className="font-semibold text-gray-400 text-xs">
                 {getTimeAgo(activity.createdAt)}
               </div>
             </div>
