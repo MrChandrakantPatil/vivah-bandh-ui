@@ -1,5 +1,7 @@
 import { initialState } from './initialState';
-import { type RegistrationState, type RegistrationAction } from './types';
+import type { RegistrationState, RegistrationAction } from './types';
+
+const TOTAL_STEPS = 5;
 
 export function registrationReducer(
   state: RegistrationState,
@@ -9,14 +11,20 @@ export function registrationReducer(
     case 'NEXT_STEP':
       return {
         ...state,
-        currentStep: state.currentStep + 1,
+        currentStep: Math.min(
+          state.currentStep + 1,
+          TOTAL_STEPS,
+        ) as RegistrationState['currentStep'],
         direction: 1,
       };
 
     case 'PREV_STEP':
       return {
         ...state,
-        currentStep: state.currentStep - 1,
+        currentStep: Math.max(
+          state.currentStep - 1,
+          1,
+        ) as RegistrationState['currentStep'],
         direction: -1,
       };
 
@@ -47,6 +55,15 @@ export function registrationReducer(
         errors: {
           ...state.errors,
           ...action.payload,
+        },
+      };
+
+    case 'CLEAR_ERROR':
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.payload]: '',
         },
       };
 

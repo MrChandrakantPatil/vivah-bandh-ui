@@ -1,4 +1,26 @@
-import type { RegistrationStep, RegistrationField } from './types';
+type RegistrationStep = 1 | 2 | 3 | 4 | 5;
+
+type RegistrationField = {
+  profileFor: string;
+  gender: string;
+
+  firstName: string;
+  lastName: string;
+
+  dob: {
+    day: string;
+    month: string;
+    year: string;
+  };
+
+  religion: string;
+  community: string;
+
+  email: string;
+  mobile: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export const validators = {
   firstName: (value: string) => {
@@ -148,7 +170,7 @@ export const stepValidators: Record<
   (FormData: RegistrationField) => boolean
 > = {
   1: (formData) => {
-    const requiresGender = ['myself', 'relative', 'friend'].includes(
+    const requiresGender = ['self', 'relative', 'friend'].includes(
       formData.profileFor,
     );
 

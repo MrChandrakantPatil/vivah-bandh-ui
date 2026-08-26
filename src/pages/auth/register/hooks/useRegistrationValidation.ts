@@ -1,18 +1,49 @@
 import { useRegistration } from '@/context/registration';
 import { validators } from '../utils';
-import type {
-  RegistrationFieldKey,
-  ValidatableFieldKey,
-} from '@/context/registration';
+
+export type RegistrationFieldKey =
+  | 'profileFor'
+  | 'gender'
+  | 'firstName'
+  | 'lastName'
+  | 'religion'
+  | 'community'
+  | 'email'
+  | 'mobile'
+  | 'password'
+  | 'confirmPassword'
+  | 'day'
+  | 'month'
+  | 'year';
+
+export type ValidatableFieldKey =
+  | 'firstName'
+  | 'lastName'
+  | 'day'
+  | 'month'
+  | 'year'
+  | 'religion'
+  | 'community'
+  | 'email'
+  | 'mobile'
+  | 'password'
+  | 'confirmPassword';
 
 export function useRegistrationValidation() {
   const { dispatch } = useRegistration();
 
   const handleChange = (field: RegistrationFieldKey, value: string) => {
-    dispatch({
-      type: 'UPDATE_FIELD',
-      payload: { [field]: value },
-    });
+    if (field === 'day' || field === 'month' || field === 'year') {
+      dispatch({
+        type: 'UPDATE_DOB',
+        payload: { [field]: value },
+      });
+    } else {
+      dispatch({
+        type: 'UPDATE_FIELD',
+        payload: { [field]: value },
+      });
+    }
 
     if (value.trim()) {
       dispatch({
