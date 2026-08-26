@@ -20,5 +20,17 @@ export const initialState: RegistrationState = {
     password: '',
     confirmPassword: '',
   },
-  errors: {},
+  errors: {
+    firstName: '',
+    lastName: '',
+    day: '',
+    month: '',
+    year: '',
+    religion: '',
+    community: '',
+    email: '',
+    mobile: '',
+    password: '',
+    confirmPassword: '',
+  },
 };

@@ -1,23 +1,34 @@
-import { User, Calendar, Mail, Phone, Heart, Users } from 'lucide-react';
+import {
+  User,
+  Calendar,
+  Mail,
+  Phone,
+  Heart,
+  Users,
+  type LucideIcon,
+} from 'lucide-react';
 import { useRegistration } from '@/context/registration/useRegistration';
-import { type DetailCardProps } from '../types';
+
+export interface DetailCardProps {
+  title: string;
+  value: string;
+  icon: LucideIcon;
+}
 
 const DetailCard = ({ title, value, icon: Icon }: DetailCardProps) => (
   <div
     className="
       flex items-top gap-3
       px-3 py-4
-      bg-white rounded-lg border border-gray-200
+      bg-white/10 rounded-lg border border-white/30
     "
   >
-    <Icon size={20} className="shrink-0 text-[rgb(var(--color-primary-500))]" />
+    <Icon size={20} className="shrink-0 text-white" />
 
     <div className="min-w-0">
-      <h4 className="leading-none font-medium text-gray-800 text-sm">
-        {title}
-      </h4>
+      <h4 className="leading-none font-medium text-white text-sm">{title}</h4>
 
-      <p className="mt-0.5 text-gray-500 text-sm truncate">{value || '-'}</p>
+      <p className="mt-0.5 text-sm truncate text-white/80">{value || '-'}</p>
     </div>
   </div>
 );
@@ -27,9 +38,9 @@ export function ConfirmDetails() {
 
   return (
     <>
-      <h2 className="font-semibold text-gray-800 text-2xl">Confirm Details</h2>
+      <h2 className="font-semibold text-white text-2xl">Confirm Details</h2>
 
-      <p className="mt-1 text-gray-500 text-sm">
+      <p className="mt-0.5 text-sm text-white/80">
         Review your details before submitting.
       </p>
 

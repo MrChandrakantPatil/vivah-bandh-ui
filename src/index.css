@@ -80,9 +80,28 @@ body {
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:-internal-autofill-selected,
+input:-internal-autofill-previewed {
+  -webkit-box-shadow: 0 0 0 1000px #c60d50 inset !important;
+  box-shadow: 0 0 0 1000px #c60d50 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  outline: none !important;
+  caret-color: #ffffff !important;
+  transition:
+    background-color 5000s ease-in-out 0s,
+    border-color 0s !important;
+}
+
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px #ffffff inset !important;
-  -webkit-text-fill-color: #333435 !important;
+  -webkit-box-shadow: 0 0 0 1000px #c60d50 inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.7) !important;
+  caret-color: #ffffff !important;
 }
 
 /* =========================================================
