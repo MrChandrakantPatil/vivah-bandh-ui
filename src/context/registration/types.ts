@@ -1,32 +1,67 @@
 import { type Dispatch } from 'react';
-import { validators } from '@/features/registration/utils';
+
+type RegistrationField = {
+  profileFor: string;
+  gender: string;
+
+  firstName: string;
+  lastName: string;
+
+  dob: {
+    day: string;
+    month: string;
+    year: string;
+  };
+
+  religion: string;
+  community: string;
+
+  email: string;
+  mobile: string;
+  password: string;
+  confirmPassword: string;
+};
+
+type RegistrationErrors = {
+  firstName: string;
+  lastName: string;
+  day: string;
+  month: string;
+  year: string;
+  religion: string;
+  community: string;
+  email: string;
+  mobile: string;
+  password: string;
+  confirmPassword: string;
+};
 
 export interface RegistrationState {
   currentStep: number;
   direction: number;
-
-  formData: {
-    profileFor: string;
-    gender: string;
-    firstName: string;
-    lastName: string;
-
-    dob: {
-      day: string;
-      month: string;
-      year: string;
-    };
-
-    religion: string;
-    community: string;
-    email: string;
-    mobile: string;
-    password: string;
-    confirmPassword: string;
-  };
-
-  errors: Record<string, string>;
+  formData: RegistrationField;
+  errors: RegistrationErrors;
 }
+
+export type RegistrationFieldKey =
+  | 'profileFor'
+  | 'gender'
+  | 'firstName'
+  | 'lastName'
+  | 'religion'
+  | 'community'
+  | 'email'
+  | 'mobile'
+  | 'password'
+  | 'confirmPassword'
+  | 'day'
+  | 'month'
+  | 'year';
+
+export type RegistrationErrorKey = Extract<
+  RegistrationFieldKey,
+  keyof RegistrationState['errors']
+>;
 
 export type RegistrationAction =
   | {
@@ -45,7 +80,11 @@ export type RegistrationAction =
     }
   | {
       type: 'SET_ERRORS';
-      payload: Record<string, string>;
+      payload: Partial<RegistrationState['errors']>;
+    }
+  | {
+      type: 'CLEAR_ERROR';
+      payload: RegistrationErrorKey;
     }
   | {
       type: 'RESET_FORM';
@@ -55,9 +94,3 @@ export interface RegistrationContextValue {
   state: RegistrationState;
   dispatch: Dispatch<RegistrationAction>;
 }
-
-export type RegistrationFieldKey =
-  | keyof RegistrationState['formData']
-  | keyof RegistrationState['formData']['dob'];
-
-export type ValidatableFieldKey = keyof typeof validators;
