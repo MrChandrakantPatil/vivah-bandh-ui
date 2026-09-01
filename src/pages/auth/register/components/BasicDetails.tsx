@@ -1,5 +1,5 @@
 import { UserRound, CalendarDays } from 'lucide-react';
-import { FormInput } from './FormFields/FormInput';
+import { FormInput } from '../../component/FormFields/FormInput';
 import { useRegistration } from '@/context/registration/useRegistration';
 import { useRegistrationValidation } from '../hooks/useRegistrationValidation';
 
@@ -29,6 +29,7 @@ export function BasicDetails() {
             value={state.formData.firstName}
             error={state.errors.firstName}
             icon={UserRound}
+            floatingLabel
             onChange={(value: string) =>
               handleChange('firstName', value.replace(/[^a-zA-Z\s]/g, ''))
             }
@@ -41,6 +42,7 @@ export function BasicDetails() {
             value={state.formData.lastName}
             error={state.errors.lastName}
             icon={UserRound}
+            floatingLabel
             onChange={(value: string) =>
               handleChange('lastName', value.replace(/[^a-zA-Z\s]/g, ''))
             }
@@ -62,6 +64,7 @@ export function BasicDetails() {
             placeholder="DD"
             error={state.errors.day}
             icon={CalendarDays}
+            floatingLabel
             alwaysFloatingLabel
             showError={false}
             onChange={(value: string) =>
@@ -77,6 +80,7 @@ export function BasicDetails() {
             placeholder="MM"
             error={state.errors.month}
             icon={CalendarDays}
+            floatingLabel
             alwaysFloatingLabel
             showError={false}
             onChange={(value: string) =>
@@ -92,6 +96,7 @@ export function BasicDetails() {
             placeholder="YYYY"
             error={state.errors.year}
             icon={CalendarDays}
+            floatingLabel
             alwaysFloatingLabel
             showError={false}
             onChange={(value: string) =>

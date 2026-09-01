@@ -1,5 +1,5 @@
 import { Landmark, UsersRound } from 'lucide-react';
-import { FormDropdown } from './FormFields/FormDropdown';
+import { FormDropdown } from '../../component/FormFields/FormDropdown';
 import { religionOptions } from '../data';
 
 import { useRegistration } from '@/context/registration/useRegistration';
