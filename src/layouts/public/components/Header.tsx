@@ -43,7 +43,7 @@ export function Header() {
 
         <div className="flex items-center justify-between space-x-4">
           <Link
-            to=""
+            to="/login"
             className="font-medium text-gray-900 transition-colors duration-200 hover:text-[rgb(var(--color-primary-600))]"
           >
             Sign In
