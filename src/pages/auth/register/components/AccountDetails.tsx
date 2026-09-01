@@ -1,5 +1,5 @@
 import { Mail, Phone, Lock } from 'lucide-react';
-import { FormInput } from './FormFields/FormInput';
+import { FormInput } from '../../component/FormFields/FormInput';
 import { useRegistration } from '@/context/registration/useRegistration';
 import { useRegistrationValidation } from '../hooks/useRegistrationValidation';
 
@@ -48,6 +48,7 @@ export function AccountDetails({
         value={state.formData.email}
         error={state.errors.email}
         icon={Mail}
+        floatingLabel
         onChange={(value: string) => handleEmailChange(value)}
         onBlur={(value: string) => handleBlur('email', value)}
         className="mt-6"
@@ -60,6 +61,7 @@ export function AccountDetails({
         value={state.formData.mobile}
         error={state.errors.mobile}
         icon={Phone}
+        floatingLabel
         onChange={(value: string) => handleMobileChange(value)}
         onBlur={(value: string) => handleBlur('mobile', value)}
         className="mt-6"
@@ -71,6 +73,7 @@ export function AccountDetails({
         value={state.formData.password}
         error={state.errors.password}
         icon={Lock}
+        floatingLabel
         isPassword
         onChange={(value: string) => handleChange('password', value)}
         onBlur={(value: string) => handleBlur('password', value)}
@@ -83,6 +86,7 @@ export function AccountDetails({
         value={state.formData.confirmPassword}
         error={state.errors.confirmPassword}
         icon={Lock}
+        floatingLabel
         isPassword
         onChange={(value: string) => handleChange('confirmPassword', value)}
         onBlur={(value: string) =>

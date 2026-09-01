@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, type Variants } from 'framer-motion';
 import logo from '@/assets/images/logo.png';
-import { authBenefits } from '../data';
+import { authBenefits } from '../register/data';
 
 const containerVariants = {
   hidden: {},
@@ -27,8 +27,17 @@ const itemVariants: Variants = {
   },
 };
 
-export function RegisterInfo() {
+export function AuthInfo() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isLoginPage = location.pathname === '/login';
+
+  const authLink = isLoginPage ? '/register' : '/login';
+  const authText = isLoginPage
+    ? "Don't have an account?"
+    : 'Already have an account?';
+  const authAction = isLoginPage ? 'Register' : 'Login';
 
   return (
     <section className="min-[1200px]:flex flex-col justify-center min-w-0 py-16 hidden">
@@ -93,13 +102,13 @@ export function RegisterInfo() {
 
         <motion.div variants={itemVariants} className="mt-12">
           <p className="text-[#647086] text-sm">
-            Already have an account?
+            {authText}
             <button
               type="button"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate(authLink)}
               className="ml-1 font-semibold text-[#ed1657] hover:underline"
             >
-              Login
+              {authAction}
             </button>
           </p>
         </motion.div>

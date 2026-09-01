@@ -31,20 +31,31 @@ export function FormDropdown({
   onBlur,
   className,
 }: FormDropdownProps) {
-  console.log(error);
-
   return (
-    <div className={className}>
-      <div className="relative">
+    <div
+      className={`
+        relative
+        ${className}
+      `}
+    >
+      <div
+        className={`
+          relative
+          flex items-center
+          w-full px-3
+          bg-transparent rounded-lg border
+          transition-all duration-200
+          ${
+            error
+              ? 'border-[#FF8A00] focus-within:border-[#FF8A00]'
+              : 'border-white/30 focus-within:border-white/80'
+          }
+        `}
+      >
         <Icon
           size={18}
           strokeWidth={2}
-          className="
-            absolute top-1/2 left-3 z-10
-            text-white/80
-            pointer-events-none
-            -translate-y-1/2
-          "
+          className="text-white/70 pointer-events-none"
         />
 
         <select
@@ -54,21 +65,17 @@ export function FormDropdown({
           onChange={(e) => onChange(e.target.value)}
           onBlur={(e) => onBlur?.(e.target.value)}
           className={`
-            w-full px-4 py-3 pr-10 pl-10
-            bg-transparent rounded-lg border
+            flex-1
+            min-w-0 px-3 py-3
+            bg-transparent rounded-lg
             text-white
             transition-all duration-200
             cursor-pointer appearance-none
             outline-none peer
-            ${
-              error
-                ? 'border-[#FF8A00]'
-                : 'border-white/30 focus:border-white/70'
-            }
             ${!value ? 'text-white/50' : 'text-white'}
           `}
         >
-          <option value="" disabled className="bg-[#C60D50] text-white/70">
+          <option value="" disabled className="text-white/70">
             Select {label}
           </option>
 
@@ -76,7 +83,7 @@ export function FormDropdown({
             <option
               key={option.value}
               value={option.value}
-              className="bg-[#C60D50] text-white/80"
+              className="text-white/70"
             >
               {option.label}
             </option>
@@ -85,8 +92,8 @@ export function FormDropdown({
 
         <ChevronDown
           size={20}
-          strokeWidth={1.8}
-          className="absolute top-1/2 right-3 text-white/70 pointer-events-none -translate-y-1/2"
+          strokeWidth={2}
+          className="text-white/70 pointer-events-none"
         />
 
         <label
@@ -109,9 +116,7 @@ export function FormDropdown({
       </div>
 
       {error && (
-        <p className="z-20 mt-1 whitespace-nowrap text-[#FF8A00] text-sm">
-          {error}
-        </p>
+        <p className="mt-1 whitespace-nowrap text-[#FF8A00] text-sm">{error}</p>
       )}
     </div>
   );

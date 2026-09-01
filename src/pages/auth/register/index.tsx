@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +14,8 @@ import {
   AccountDetails,
   ConfirmDetails,
   RegistrationSuccess,
-  RegisterInfo,
 } from './components';
+import { AuthInfo } from '../component/AuthInfo';
 
 import { registerProfile } from './api/registrationApi';
 
@@ -26,7 +26,7 @@ export function Register() {
   const { state, dispatch } = useRegistration();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isRegistrationSuccess, setIsRegistrationSuccess] = useState(false);
-  
+
   const navigate = useNavigate();
 
   const emailInputRef = useRef<HTMLInputElement | null>(null);
@@ -34,6 +34,14 @@ export function Register() {
 
   const currentStep = state.currentStep as RegistrationStep;
   const isValidStep = stepValidators[currentStep](state.formData);
+
+  useEffect(() => {
+    return () => {
+        dispatch({
+            type: 'RESET_FORM',
+        });
+    };
+  }, [dispatch])
 
   function resetRegistration() {
     dispatch({
@@ -202,7 +210,7 @@ export function Register() {
             lg:w-[85%] lg:max-w-325 lg:h-auto
           "
         >
-          <RegisterInfo />
+          <AuthInfo />
 
           <section
             className="
@@ -250,7 +258,8 @@ export function Register() {
                 "
               >
                 <div className="relative w-full overflow-hidden">
-                  <motion.div className="flex gap-8 w-full"
+                  <motion.div
+                    className="flex gap-8 w-full"
                     animate={{
                       x: `calc(-${(currentStep - 1) * 100}% - ${(currentStep - 1) * 2}rem)`,
                     }}
@@ -301,9 +310,8 @@ export function Register() {
                       transition
                       hover:bg-white/10 hover:text-white
                       sm:px-8
-                      ${currentStep === 1
-                        ? 'pointer-events-none opacity-0'
-                        : ''
+                      ${
+                        currentStep === 1 ? 'pointer-events-none opacity-0' : ''
                       }
                     `}
                   >
