@@ -1,9 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import '@/index.css';
-import App from '@/App.jsx';
+import '@/app/style.css';
+import App from '@/app/App.js';
 import { RegistrationProvider } from '@/context/registration';
+import { AuthProvider } from './features/auth';
 
 const rootElement = document.getElementById('root');
 
@@ -13,10 +14,12 @@ if (!rootElement) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <RegistrationProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </RegistrationProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <RegistrationProvider>
+          <App />
+        </RegistrationProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </StrictMode>,
 );
