@@ -37,11 +37,11 @@ export function Register() {
 
   useEffect(() => {
     return () => {
-        dispatch({
-            type: 'RESET_FORM',
-        });
+      dispatch({
+        type: 'RESET_FORM',
+      });
     };
-  }, [dispatch])
+  }, [dispatch]);
 
   function resetRegistration() {
     dispatch({

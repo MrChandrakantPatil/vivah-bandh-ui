@@ -122,12 +122,18 @@ function MenuItem({
   );
 }
 
-export function ProfileCard() {
+interface ProfileCardProps {
+  onLogout: () => void;
+}
+
+export function ProfileCard({ 
+  onLogout 
+}: ProfileCardProps) {
   const navigate = useNavigate();
 
   const handleClick = ({ action, path }: ProfileMenu) => {
     if (action === 'logout') {
-      // logout logic
+      onLogout();
       return;
     }
 

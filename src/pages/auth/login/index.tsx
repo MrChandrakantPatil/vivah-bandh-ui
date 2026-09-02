@@ -2,7 +2,8 @@ import { useState, type SubmitEvent } from 'react';
 import { Mail, Lock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-
+import { toast } from 'sonner';
+import { useAuth } from '@/features/auth';
 import { AuthInfo } from '../component/AuthInfo';
 import { FormInput } from '../component/FormFields/FormInput';
 import { loginValidators, validateLogin } from './utils';
@@ -16,16 +17,20 @@ type LoginErrors = {
 
 export function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+
   const [errors, setErrors] = useState<LoginErrors>({
     username: '',
     password: '',
   });
 
   const navigate = useNavigate();
+
+  const { login } = useAuth();
 
   const isValid = validateLogin(formData.username, formData.password).isValid;
 
@@ -69,18 +74,20 @@ export function Login() {
     try {
       setIsSubmitting(true);
 
-      // Login API will be implemented here
-      console.log(formData);
+      await login(formData.username, formData.password);
 
-      // Example:
-      // await loginProfile(formData);
+      toast.success('Logged in successfully');
+
+      navigate('/dashboard', {
+        replace: true,
+      });
     } catch (error: unknown) {
       const message =
         error instanceof Error
           ? error.message
           : 'Something went wrong. Please try again.';
 
-      console.error(message);
+      toast.error(message);
     } finally {
       setIsSubmitting(false);
     }
