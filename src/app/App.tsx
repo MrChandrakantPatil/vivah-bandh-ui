@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 
-import { PublicLayout } from './layouts/public';
+import { PublicLayout } from '../layouts/public';
 import { DashboardLayout } from '@/layouts/dashboard';
 import { AuthLayout } from '@/layouts/auth';
 
@@ -13,6 +13,8 @@ import { Register } from '@/pages/auth/register';
 import { Dashboard } from '@/pages/dashboard/home';
 import { Matches } from '@/pages/dashboard/matches';
 
+import { PublicRoute, ProtectedRoute } from '@/features/auth';
+
 import { Toaster } from 'sonner';
 
 function App() {
@@ -24,14 +26,18 @@ function App() {
           <Route path="/about" element={<About />} />
         </Route>
 
-        <Route element={<AuthLayout />}>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+        <Route element={<PublicRoute />}>
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
         </Route>
 
-        <Route element={<DashboardLayout />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/matches" element={<Matches />} />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<DashboardLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/matches" element={<Matches />} />
+          </Route>
         </Route>
       </Routes>
 

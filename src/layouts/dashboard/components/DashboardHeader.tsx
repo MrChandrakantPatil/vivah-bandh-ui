@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Search,
   MessageCircleMore,
@@ -13,6 +14,7 @@ import { NotificationBadge } from './NotificationBadge';
 import { Avatar } from './Avatar';
 import { ProfileCard } from './ProfileCard';
 import { useHandleOutsideClick } from '@/hooks/useHandleOutsideClick';
+import { useAuth } from '@/features/auth';
 import type { HeaderIconPropTypes, DashboardHeaderPropTypes } from '../types';
 import { logo, logoIcon } from '@/assets/images';
 
@@ -51,9 +53,29 @@ export function DashboardHeader({
 
   const profileRef = useRef<HTMLDivElement | null>(null);
 
+  const { logout, user, profile } = useAuth();
+
+  const navigate = useNavigate();
+
   useHandleOutsideClick(profileRef, () => {
     setShowProfileMenu(false);
   });
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+
+      navigate('/login', {
+        replace: true,
+      });
+    } catch (error) {
+      console.error('Logout API failed:', error);
+    } finally {
+      navigate('/login', {
+        replace: true,
+      });
+    }
+  };
 
   return (
     <header
@@ -194,12 +216,16 @@ export function DashboardHeader({
               <div ref={profileRef} className="relative">
                 <button onClick={() => setShowProfileMenu((prev) => !prev)}>
                   <Avatar
-                    name="Chandrakant Patil"
+                    name={profile?.name || user?.email || 'User'}
                     className="w-6 h-6 text-lg md:w-9 md:h-9 md:text-xl"
                   />
                 </button>
 
-                {showProfileMenu && <ProfileCard />}
+                {showProfileMenu && 
+                  <ProfileCard
+                    onLogout={handleLogout}
+                  />
+                }
               </div>
             </div>
           </>
