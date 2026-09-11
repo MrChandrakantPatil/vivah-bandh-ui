@@ -2,22 +2,20 @@ import { useEffect, useRef, useState } from 'react';
 import { tabs } from './data';
 import type { TabId } from './types';
 import { NotificationBadge } from '@/layouts/dashboard/components/NotificationBadge';
-import { InterestedProfiles } from './components/InterestedProfiles';
-import { NewMatches } from './components/NewMatches';
-import { RecommendedMatches } from './components/RecommendedMatches';
-import { ShortlistedProfiles } from './components/ShortlistedProfiles';
-import { ViewedProfiles } from './components/ViewedProfiles';
+import {
+  RecommendedMatches,
+  NewMatches,
+  ShortlistedMatches,
+} from './components/Tabs';
 
 const tabContent = {
-  recommended: <RecommendedMatches />,
+  recommendedMatches: <RecommendedMatches />,
   newMatches: <NewMatches />,
-  shortlisted: <ShortlistedProfiles />,
-  interested: <InterestedProfiles />,
-  viewed: <ViewedProfiles />,
+  shortlistedMatches: <ShortlistedMatches />,
 };
 
 export function Matches() {
-  const [activeTab, setActiveTab] = useState<TabId>('recommended');
+  const [activeTab, setActiveTab] = useState<TabId>('recommendedMatches');
 
   const tabRefs = useRef<Record<TabId, HTMLButtonElement | null>>(
     {} as Record<TabId, HTMLButtonElement | null>,
@@ -39,7 +37,7 @@ export function Matches() {
         Find people who could be a great match for you.
       </p>
 
-      <div className="w-full mt-8">
+      <div className="w-full mt-4 sm:mt-6 lg:mt-8">
         <div className="overflow-x-auto hide-scrollbar" role="presentation">
           <div
             role="tablist"
@@ -86,7 +84,6 @@ export function Matches() {
           id={`${activeTab}-panel`}
           role="tabpanel"
           aria-labelledby={`${activeTab}-tab`}
-          className="py-5"
         >
           {tabContent[activeTab]}
         </div>

@@ -1,26 +1,15 @@
 import { useState } from 'react';
-
 import { ArrowDownUp, Check } from 'lucide-react';
-
-type SortOption = {
-  label: string;
-  value: string;
-};
+import type { SelectOption } from '@/data/types';
 
 type SortByProps = {
   value: string;
-  options: SortOption[];
+  options: SelectOption[];
   onChange: (value: string) => void;
 };
 
 export function SortBy({ value, options, onChange }: SortByProps) {
   const [isOpen, setIsOpen] = useState(false);
-
-  //   const selectedOption =
-  //     options.find(
-  //       (option) =>
-  //         option.value === value,
-  //     );
 
   return (
     <div className="relative shrink-0">

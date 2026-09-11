@@ -221,11 +221,7 @@ export function DashboardHeader({
                   />
                 </button>
 
-                {showProfileMenu && 
-                  <ProfileCard
-                    onLogout={handleLogout}
-                  />
-                }
+                {showProfileMenu && <ProfileCard onLogout={handleLogout} />}
               </div>
             </div>
           </>
