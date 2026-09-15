@@ -24,3 +24,21 @@ export type MoreFiltersProps = {
   selectedFilters: SelectedMoreFilters;
   setSelectedFilters: Dispatch<SetStateAction<SelectedMoreFilters>>;
 };
+
+export interface MatchFiltersState {
+  age: string[];
+  location: string[];
+  religion: string[];
+  community: string[];
+  education: string[];
+  moreFilters: SelectedMoreFilters;
+}
+
+export const initialMatchFilters: MatchFiltersState = {
+  age: [],
+  location: [],
+  religion: [],
+  community: [],
+  education: [],
+  moreFilters: {},
+};

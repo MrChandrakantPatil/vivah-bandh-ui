@@ -1,0 +1,85 @@
+export const occupationOptions = [
+  'Software Engineer',
+  'Frontend Developer',
+  'Backend Developer',
+  'Full Stack Developer',
+  'Mobile App Developer',
+  'DevOps Engineer',
+  'Data Engineer',
+  'Data Scientist',
+  'Cybersecurity Specialist',
+  'UI/UX Designer',
+
+  'Doctor',
+  'Dentist',
+  'Pharmacist',
+  'Nurse',
+  'Physiotherapist',
+  'Medical Researcher',
+
+  'Teacher',
+  'Professor',
+  'Lecturer',
+  'Education Professional',
+
+  'Chartered Accountant',
+  'Accountant',
+  'Financial Analyst',
+  'Investment Banker',
+  'Banker',
+  'Insurance Professional',
+
+  'Lawyer',
+  'Legal Consultant',
+  'Judge',
+
+  'Business Owner',
+  'Entrepreneur',
+  'Self Employed',
+
+  'Government Employee',
+  'Civil Servant',
+  'Police Officer',
+  'Defence Personnel',
+
+  'Mechanical Engineer',
+  'Civil Engineer',
+  'Electrical Engineer',
+  'Electronics Engineer',
+  'Chemical Engineer',
+  'Architect',
+
+  'Marketing Manager',
+  'Sales Professional',
+  'HR Professional',
+  'Product Manager',
+  'Project Manager',
+  'Operations Manager',
+  'Business Analyst',
+
+  'Journalist',
+  'Content Writer',
+  'Graphic Designer',
+  'Photographer',
+  'Interior Designer',
+  'Fashion Designer',
+
+  'Scientist',
+  'Researcher',
+
+  'Hotel Professional',
+  'Chef',
+  'Aviation Professional',
+  'Pilot',
+
+  'Agriculturist',
+  'Farmer',
+
+  'Artist',
+  'Musician',
+  'Actor',
+
+  'Student',
+  'Retired',
+  'Other',
+];

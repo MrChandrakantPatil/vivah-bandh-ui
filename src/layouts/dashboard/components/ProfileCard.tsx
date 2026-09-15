@@ -9,6 +9,7 @@ import {
   Crown,
 } from 'lucide-react';
 import { Avatar } from './Avatar';
+import { useAuth } from '@/features/auth';
 import type { ProfileMenuVariant, ProfileMenu, MenuItemProp } from '../types';
 
 const profileMenus: ProfileMenu[] = [
@@ -126,10 +127,10 @@ interface ProfileCardProps {
   onLogout: () => void;
 }
 
-export function ProfileCard({ 
-  onLogout 
-}: ProfileCardProps) {
+export function ProfileCard({ onLogout }: ProfileCardProps) {
   const navigate = useNavigate();
+
+  const { user, profile } = useAuth();
 
   const handleClick = ({ action, path }: ProfileMenu) => {
     if (action === 'logout') {
@@ -171,7 +172,7 @@ export function ProfileCard({
         <div className="px-4 py-6 bg-pink-300 sm:px-6">
           <div className="flex items-center gap-4">
             <Avatar
-              name="Chandrakant Patil"
+              name={profile?.name || user?.email || 'User'}
               className="
                 w-14 h-14
                 bg-slate-500 shadow-md border-2 border-white
@@ -182,7 +183,7 @@ export function ProfileCard({
 
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-slate-700 text-xl truncate sm:text-xl">
-                Chandrakant Patil
+                {profile?.name}
               </h3>
 
               <div className="flex items-center gap-2 mt-1 text-amber-700">

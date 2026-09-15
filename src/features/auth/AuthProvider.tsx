@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer, type ReactNode } from 'react';
 import { AuthContext } from './AuthContext';
-import { AuthReducer } from './AuthReducer';
+import { AuthReducer } from './authReducer';
 import { initialAuthState } from './initialState';
 
 import {
