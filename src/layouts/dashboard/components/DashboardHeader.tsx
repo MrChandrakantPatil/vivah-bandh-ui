@@ -18,6 +18,19 @@ import { useAuth } from '@/features/auth';
 import type { HeaderIconPropTypes, DashboardHeaderPropTypes } from '../types';
 import { logo, logoIcon } from '@/assets/images';
 
+import {
+  male1,
+  male2,
+  male3,
+  male4,
+  male5,
+  female1,
+  female2,
+  female3,
+  female4,
+  female5,
+} from '@/assets/images';
+
 function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
   return (
     <button
@@ -55,6 +68,24 @@ export function DashboardHeader({
 
   const { logout, user, profile } = useAuth();
 
+  const profileImages = {
+    male1,
+    male2,
+    male3,
+    male4,
+    male5,
+    female1,
+    female2,
+    female3,
+    female4,
+    female5,
+  };
+
+  const image =
+    profileImages[profile?.profilePhotos?.[1] as keyof typeof profileImages];
+
+  console.log(profile);
+
   const navigate = useNavigate();
 
   useHandleOutsideClick(profileRef, () => {
@@ -81,9 +112,9 @@ export function DashboardHeader({
     <header
       className="
         sticky top-0 z-30
-        h-16
+        h-21.25 min-h-21.25
         bg-white/95 border-b border-gray-200
-        md:h-21.25
+        md:h-21.25 md:min-h-21.25
         backdrop-blur-md
       "
     >
@@ -205,11 +236,11 @@ export function DashboardHeader({
                 <Search className="w-full h-full" />
               </HeaderIcon>
 
-              <HeaderIcon aria-label="Messages" count={5}>
+              <HeaderIcon aria-label="Messages" count={0}>
                 <MessageCircleMore className="w-full h-full" />
               </HeaderIcon>
 
-              <HeaderIcon aria-label="Notifications" count={35}>
+              <HeaderIcon aria-label="Notifications" count={0}>
                 <Bell className="w-full h-full" />
               </HeaderIcon>
 
@@ -217,6 +248,7 @@ export function DashboardHeader({
                 <button onClick={() => setShowProfileMenu((prev) => !prev)}>
                   <Avatar
                     name={profile?.name || user?.email || 'User'}
+                    image={image}
                     className="w-6 h-6 text-lg md:w-9 md:h-9 md:text-xl"
                   />
                 </button>

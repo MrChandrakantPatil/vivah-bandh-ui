@@ -1,3 +1,7 @@
+export { profileForOptions } from './options/profileForOptions';
+export { genderOptions } from './options/genderOptions';
+export { complexionOptions } from './options/complexionOptions';
+
 export { ageOptions } from './options/ageOptions';
 export { educationOptions } from './options/educationOptions';
 export { familyTypeOptions } from './options/familyTypeOptions';

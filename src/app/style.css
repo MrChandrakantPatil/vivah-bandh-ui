@@ -139,3 +139,11 @@ input:-webkit-autofill:focus {
 .filter-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgb(107 109 120);
 }
+
+.scrollbar-none {
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}

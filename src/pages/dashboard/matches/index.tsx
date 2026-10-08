@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Heart } from 'lucide-react';
 import { tabs } from './data';
 import type { TabId } from './types';
 import { NotificationBadge } from '@/layouts/dashboard/components/NotificationBadge';
@@ -31,11 +32,30 @@ export function Matches() {
 
   return (
     <div>
-      <h1 className="font-semibold text-xl sm:text-2xl lg:text-3xl">Matches</h1>
+      <div className="flex items-center gap-4">
+        <div
+          className="
+            flex items-center justify-center
+            w-16 h-16
+            bg-pink-50 rounded-full
+            text-pink-500
+          "
+        >
+          <Heart size={24} />
+        </div>
 
-      <p className="mt-1 text-gray-500 text-sm sm:text-base">
-        Find people who could be a great match for you.
-      </p>
+        <div>
+          <h1 className="font-semibold text-xl sm:text-2xl lg:text-3xl">
+            Matches
+          </h1>
+
+          <p className="mt-1 text-gray-500 text-sm sm:text-base">
+            Find people who could be a great match for you.
+          </p>
+        </div>
+      </div>
+
+      <div className="w-full h-px mt-8 bg-gray-200"></div>
 
       <div className="w-full mt-4 sm:mt-6 lg:mt-8">
         <div className="overflow-x-auto hide-scrollbar" role="presentation">

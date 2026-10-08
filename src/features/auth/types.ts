@@ -34,6 +34,7 @@ export interface Profile {
   name: string;
 
   dob: string;
+  age: string;
 
   religion: string | null;
   community: string | null;
@@ -51,12 +52,16 @@ export interface Profile {
 
   familyType: string | null;
   familyStatus: string | null;
+  fatherOccupation: string;
+  motherOccupation: string;
+  brothers: string;
+  sisters: string;
 
   location: Location;
 
   partnerPreference: PartnerPreference;
 
-  profilePhoto: string | null;
+  profilePhotos: string[] | null;
 
   aboutMe: string | null;
 

@@ -12,7 +12,7 @@ export function Footer() {
               src={logo}
               alt="Vivah Bandh"
               className="
-                w-16 h-auto mb-4
+                w-50 h-auto mb-4
                 transition-transform duration-200
                 group-hover:scale-105
                 sm:w-55 md:w-60 lg:w-65
