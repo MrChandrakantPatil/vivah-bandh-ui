@@ -1,32 +1,4 @@
-import {
-  male1,
-  male2,
-  male3,
-  male4,
-  male5,
-  female1,
-  female2,
-  female3,
-  female4,
-  female5,
-} from '@/assets/images';
-
-export const profileImages = {
-  male1,
-  male2,
-  male3,
-  male4,
-  male5,
-  female1,
-  female2,
-  female3,
-  female4,
-  female5,
-} as const;
-
 import type { Paginations } from '@/components/Pagination/types';
-
-export type ProfileImageName = keyof typeof profileImages;
 
 export type TabId = 'recommendedMatches' | 'newMatches' | 'shortlistedMatches';
 // | 'interestedMatches'
@@ -52,7 +24,7 @@ export interface MatchProfile {
   religion: string;
   community: string;
   maritalStatus: string;
-  profilePhotos: ProfileImageName[];
+  profilePhotos: string[] | null;
   occupation: string;
   education: string;
   location: Location;

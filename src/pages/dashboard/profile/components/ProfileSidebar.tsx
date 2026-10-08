@@ -1,19 +1,6 @@
 import { Camera } from 'lucide-react';
 import { useAuth } from '@/features/auth';
 
-import {
-  male1,
-  male2,
-  male3,
-  male4,
-  male5,
-  female1,
-  female2,
-  female3,
-  female4,
-  female5,
-} from '@/assets/images';
-
 import type { Profile } from '../../../../features/auth/types';
 
 const getProfileStrength = (profile: Profile) => {
@@ -60,24 +47,7 @@ export function ProfileSidebar() {
     return <div>Loading profile...</div>;
   }
 
-  const profileImages = {
-    male1,
-    male2,
-    male3,
-    male4,
-    male5,
-    female1,
-    female2,
-    female3,
-    female4,
-    female5,
-  };
-
   const profilePhoto = profile.profilePhotos?.[0];
-
-  const image = profilePhoto
-    ? profileImages[profilePhoto as keyof typeof profileImages]
-    : male1;
 
   const profileStrength = getProfileStrength(profile);
 
@@ -87,7 +57,7 @@ export function ProfileSidebar() {
         <div className="pr-5 pb-0 pl-0">
           <div className="relative">
             <img
-              src={image}
+              src={profilePhoto}
               alt={profile.name}
               className="w-full h-49.5 rounded-lg object-cover"
             />
