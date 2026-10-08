@@ -13,6 +13,9 @@ import { Register } from '@/pages/auth/register';
 import { Dashboard } from '@/pages/dashboard/home';
 import { Matches } from '@/pages/dashboard/matches';
 import { Profile } from '@/pages/dashboard/profile';
+import { Settings } from '@/pages/dashboard/settings';
+import { Help } from '@/pages/dashboard/help';
+import { Upgrade } from '@/pages/dashboard/upgrade';
 
 import { PublicRoute, ProtectedRoute } from '@/features/auth';
 
@@ -39,6 +42,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/matches" element={<Matches />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/help-and-support" element={<Help />} />
+            <Route path="/upgrade" element={<Upgrade />} />
           </Route>
         </Route>
       </Routes>

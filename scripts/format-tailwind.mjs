@@ -1051,6 +1051,8 @@ function processFile(filePath) {
 
   const matches = [...source.matchAll(regex)];
 
+  console.log(`${path.relative(ROOT, filePath)} -> ${matches.length} className matches`);
+
   if (matches.length === 0) {
     return;
   }
