@@ -65,7 +65,7 @@ export const getShortlistedProfiles = async (
   search: string,
   page: number,
   limit: number,
-) => {
+): Promise<MatchesResponse> => {
   const response = await apiClient.get('/v1/matches/shortlist', {
     params: {
       ...buildMatchQueryParams(filters),

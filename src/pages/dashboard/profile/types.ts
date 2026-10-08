@@ -16,5 +16,5 @@ export type ProfileSection =
   | 'education'
   | 'family'
   | 'location'
-  | 'partner'
-  | 'photos';
+  | 'photos'
+  | 'partner';

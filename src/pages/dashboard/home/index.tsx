@@ -9,7 +9,6 @@ import { useHorizontalScroll } from '@/hooks/useHorizontalScroll';
 import { useAuth } from '@/features/auth';
 import { female1, female2 } from '@/assets/images';
 
-
 export function Dashboard() {
   const { scrollRef, canScrollLeft, canScrollRight, scrollLeft, scrollRight } =
     useHorizontalScroll('.dashboard-card', dashboardStats.length);

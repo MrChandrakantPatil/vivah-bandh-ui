@@ -69,7 +69,7 @@ export function ShortlistedMatches() {
         limit,
       );
 
-      setMatches(response.data.shortlist);
+      setMatches(response.data.matches);
       setPagination(response.data.pagination);
     } catch (error) {
       console.error('Failed to fetch recommended matches:', error);
