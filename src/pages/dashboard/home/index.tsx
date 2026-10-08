@@ -7,7 +7,6 @@ import { ProfileViewsChart } from './components/ProfileViewsChart';
 import { dashboardStats } from './data';
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll';
 import { useAuth } from '@/features/auth';
-import { female1, female2 } from '@/assets/images';
 
 export function Dashboard() {
   const { scrollRef, canScrollLeft, canScrollRight, scrollLeft, scrollRight } =
@@ -141,7 +140,7 @@ export function Dashboard() {
                 className="w-10 h-10 bg-[#f9f1f3] rounded-full overflow-hidden"
               >
                 <img
-                  src={female1}
+                  src="https://vivahbandh-images.shomexa.com/users/female/i.png"
                   alt="Profile"
                   className="w-full h-full object-cover object-center"
                 />
@@ -176,7 +175,7 @@ export function Dashboard() {
           <div className="flex justify-between gap-5 mt-4">
             <div className="w-25 h-25 rounded-full overflow-hidden">
               <img
-                src={female2}
+                src="https://vivahbandh-images.shomexa.com/users/female/ii.png"
                 alt="Profile"
                 className="w-full h-full object-cover object-center"
               />

@@ -11,19 +11,6 @@ import {
   BriefcaseBusiness,
 } from 'lucide-react';
 
-import {
-  male1,
-  male2,
-  male3,
-  male4,
-  male5,
-  female1,
-  female2,
-  female3,
-  female4,
-  female5,
-} from '@/assets/images';
-
 interface MatchProfile {
   userId: string;
   name: string;
@@ -51,21 +38,7 @@ interface MatchCardProps {
 export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const profileImages = {
-    male1,
-    male2,
-    male3,
-    male4,
-    male5,
-    female1,
-    female2,
-    female3,
-    female4,
-    female5,
-  };
-
-  const image =
-    profileImages[match.profilePhotos[1] as keyof typeof profileImages];
+  const image = match.profilePhotos?.[0];
 
   const location = [match.location.city, match.location.state]
     .filter(Boolean)

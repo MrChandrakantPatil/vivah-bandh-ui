@@ -12,19 +12,6 @@ import { Avatar } from './Avatar';
 import { useAuth } from '@/features/auth';
 import type { ProfileMenuVariant, ProfileMenu, MenuItemProp } from '../types';
 
-import {
-  male1,
-  male2,
-  male3,
-  male4,
-  male5,
-  female1,
-  female2,
-  female3,
-  female4,
-  female5,
-} from '@/assets/images';
-
 const profileMenus: ProfileMenu[] = [
   {
     id: 'profile',
@@ -145,21 +132,7 @@ export function ProfileCard({ onLogout }: ProfileCardProps) {
 
   const { user, profile } = useAuth();
 
-  const profileImages = {
-    male1,
-    male2,
-    male3,
-    male4,
-    male5,
-    female1,
-    female2,
-    female3,
-    female4,
-    female5,
-  };
-
-  const image =
-    profileImages[profile?.profilePhotos?.[1] as keyof typeof profileImages];
+  const image = profile?.profilePhotos?.[1] || undefined;
 
   const handleClick = ({ action, path }: ProfileMenu) => {
     if (action === 'logout') {

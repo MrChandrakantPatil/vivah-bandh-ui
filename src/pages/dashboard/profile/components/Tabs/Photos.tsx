@@ -2,19 +2,6 @@ import { Camera, Check, ImagePlus, Star, Trash2 } from 'lucide-react';
 
 import { useAuth } from '@/features/auth';
 
-import {
-  male1,
-  male2,
-  male3,
-  male4,
-  male5,
-  female1,
-  female2,
-  female3,
-  female4,
-  female5,
-} from '@/assets/images';
-
 export function Photos() {
   const { profile } = useAuth();
 
@@ -22,26 +9,7 @@ export function Photos() {
     return <div>Loading profile...</div>;
   }
 
-  const profileImages = {
-    male1,
-    male2,
-    male3,
-    male4,
-    male5,
-    female1,
-    female2,
-    female3,
-    female4,
-    female5,
-  };
-
-  const photos = (profile.profilePhotos || [])
-    .map((photo) => {
-      const image = profileImages[photo as keyof typeof profileImages];
-
-      return image;
-    })
-    .filter(Boolean);
+  const photos = profile.profilePhotos || [];
 
   const handleAddPhoto = () => {
     console.log('Add photo');
