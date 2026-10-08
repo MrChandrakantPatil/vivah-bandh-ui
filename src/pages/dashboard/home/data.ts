@@ -5,7 +5,6 @@ import {
   MessageSquareText,
   MessageCircle,
 } from 'lucide-react';
-import { female1, female2, female3, female4 } from '@/assets/images';
 import type { ActivityTypeValue, Activity } from './types';
 import type { LucideIcon } from 'lucide-react';
 
@@ -59,7 +58,7 @@ export const matches = [
   {
     id: 1,
     name: 'Priya',
-    image: female1,
+    image: 'https://vivahbandh-images.shomexa.com/users/female/i.png',
     age: 26,
     profession: 'Software Engineer',
     address: 'Bengluru, Karnataka',
@@ -68,7 +67,7 @@ export const matches = [
   {
     id: 2,
     name: 'Sneha',
-    image: female2,
+    image: 'https://vivahbandh-images.shomexa.com/users/female/ii.png',
     age: 24,
     profession: 'Product Manager',
     address: 'Pune, Maharashtra',
@@ -77,7 +76,7 @@ export const matches = [
   {
     id: 3,
     name: 'Kamal',
-    image: female3,
+    image: 'https://vivahbandh-images.shomexa.com/users/female/iii.png',
     age: 30,
     profession: 'Software Engineer',
     address: 'Mumbai, Maharashtra',
@@ -86,7 +85,7 @@ export const matches = [
   {
     id: 4,
     name: 'Pooja',
-    image: female4,
+    image: 'https://vivahbandh-images.shomexa.com/users/female/iv.png',
     age: 32,
     profession: 'Marketing Manager',
     address: 'Bengluru, Karnataka',

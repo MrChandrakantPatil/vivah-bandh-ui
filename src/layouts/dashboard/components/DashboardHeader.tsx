@@ -18,19 +18,6 @@ import { useAuth } from '@/features/auth';
 import type { HeaderIconPropTypes, DashboardHeaderPropTypes } from '../types';
 import { logo, logoIcon } from '@/assets/images';
 
-import {
-  male1,
-  male2,
-  male3,
-  male4,
-  male5,
-  female1,
-  female2,
-  female3,
-  female4,
-  female5,
-} from '@/assets/images';
-
 function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
   return (
     <button
@@ -68,21 +55,7 @@ export function DashboardHeader({
 
   const { logout, user, profile } = useAuth();
 
-  const profileImages = {
-    male1,
-    male2,
-    male3,
-    male4,
-    male5,
-    female1,
-    female2,
-    female3,
-    female4,
-    female5,
-  };
-
-  const image =
-    profileImages[profile?.profilePhotos?.[1] as keyof typeof profileImages];
+  const image = profile?.profilePhotos?.[1];
 
   console.log(profile);
 
