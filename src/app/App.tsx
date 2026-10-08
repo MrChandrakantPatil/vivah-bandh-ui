@@ -12,6 +12,7 @@ import { Register } from '@/pages/auth/register';
 
 import { Dashboard } from '@/pages/dashboard/home';
 import { Matches } from '@/pages/dashboard/matches';
+import { Profile } from '@/pages/dashboard/profile';
 
 import { PublicRoute, ProtectedRoute } from '@/features/auth';
 
@@ -37,6 +38,7 @@ function App() {
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/matches" element={<Matches />} />
+            <Route path="/profile" element={<Profile />} />
           </Route>
         </Route>
       </Routes>

@@ -12,18 +12,31 @@ import { Avatar } from './Avatar';
 import { useAuth } from '@/features/auth';
 import type { ProfileMenuVariant, ProfileMenu, MenuItemProp } from '../types';
 
+import {
+  male1,
+  male2,
+  male3,
+  male4,
+  male5,
+  female1,
+  female2,
+  female3,
+  female4,
+  female5,
+} from '@/assets/images';
+
 const profileMenus: ProfileMenu[] = [
   {
     id: 'profile',
     label: 'My Profile',
     icon: User,
-    path: '/dashboard/profile',
+    path: '/profile',
   },
   {
     id: 'settings',
     label: 'Account Settings',
     icon: Settings,
-    path: '/dashboard/settings',
+    path: '/settings',
   },
   {
     id: 'membership',
@@ -31,19 +44,19 @@ const profileMenus: ProfileMenu[] = [
     icon: HeartHandshake,
     rightIcon: Crown,
     variant: 'premium',
-    path: '/membership/upgrade',
+    path: '/upgrade',
   },
   {
     id: 'details',
     label: 'Membership Details',
     icon: BadgeCheck,
-    path: '/membership/details',
+    path: '/upgrade',
   },
   {
     id: 'support',
     label: 'Help & Support',
     icon: HelpCircle,
-    path: '/support',
+    path: '/help-and-support',
   },
   {
     id: 'divider',
@@ -132,6 +145,22 @@ export function ProfileCard({ onLogout }: ProfileCardProps) {
 
   const { user, profile } = useAuth();
 
+  const profileImages = {
+    male1,
+    male2,
+    male3,
+    male4,
+    male5,
+    female1,
+    female2,
+    female3,
+    female4,
+    female5,
+  };
+
+  const image =
+    profileImages[profile?.profilePhotos?.[1] as keyof typeof profileImages];
+
   const handleClick = ({ action, path }: ProfileMenu) => {
     if (action === 'logout') {
       onLogout();
@@ -172,6 +201,7 @@ export function ProfileCard({ onLogout }: ProfileCardProps) {
         <div className="px-4 py-6 bg-pink-300 sm:px-6">
           <div className="flex items-center gap-4">
             <Avatar
+              image={image}
               name={profile?.name || user?.email || 'User'}
               className="
                 w-14 h-14

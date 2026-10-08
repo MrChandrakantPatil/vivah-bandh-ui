@@ -6,17 +6,21 @@ import { ProfileStrength } from './components/ProfileStrength';
 import { ProfileViewsChart } from './components/ProfileViewsChart';
 import { dashboardStats } from './data';
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll';
+import { useAuth } from '@/features/auth';
 import { female1, female2 } from '@/assets/images';
+
 
 export function Dashboard() {
   const { scrollRef, canScrollLeft, canScrollRight, scrollLeft, scrollRight } =
     useHorizontalScroll('.dashboard-card', dashboardStats.length);
 
+  const { profile } = useAuth();
+
   return (
     <div className="flex flex-col gap-6 xl:flex-row xl:items-start">
       <div className="flex-1 min-w-0">
         <h1 className="font-semibold text-xl sm:text-2xl lg:text-3xl">
-          Welcome back, Chandrakant!
+          Welcome back, {profile?.name}!
         </h1>
 
         <p className="mt-1 text-gray-500 text-sm sm:text-base">
