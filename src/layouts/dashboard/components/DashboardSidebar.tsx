@@ -101,8 +101,16 @@ export function DashboardSidebar({
             </NavLink>
           );
         })}
+      </nav>
 
-        <div className="w-full h-4 mt-4 mb-4 overflow-hidden">
+      <div
+        className="
+          shrink-0
+          w-full px-3 pt-2 pb-6 mt-auto
+          overflow-hidden
+        "
+      >
+        <div className="w-full h-4 mb-4">
           <img
             src={devider}
             alt="Vivah Bandh"
@@ -123,11 +131,12 @@ export function DashboardSidebar({
 
           <div
             className={`
-              transition-opacity
+              transition-all duration-300
+              overflow-hidden
               ${
                 isCollapsed
-                  ? 'opacity-0 pointer-events-none duration-0'
-                  : 'opacity-100 delay-300 duration-200'
+                  ? 'max-h-0 opacity-0 pointer-events-none'
+                  : 'max-h-40 opacity-100'
               }
             `}
           >
@@ -153,7 +162,7 @@ export function DashboardSidebar({
             </button>
           </div>
         </div>
-      </nav>
+      </div>
 
       <SidebarTooltip
         visible={!!tooltip}
