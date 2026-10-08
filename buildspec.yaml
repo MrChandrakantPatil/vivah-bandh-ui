@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  variables:
+    ECR_REPO_NAME: 'vivah-bandh-frontend'
+    AWS_REGION: 'us-east-1'
+    VITE_API_BASE_URL: 'https://vivahbandh.shomexa.com/api'
+
+phases:
+  pre_build:
+    commands:
+      - echo "Logging in to ECR..."
+      - ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      - ECR_URI=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPO_NAME
+      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-8)
+
+  build:
+    commands:
+      - echo "Building Docker image..."
+      - docker build --build-arg VITE_API_BASE_URL=$VITE_API_BASE_URL -t $ECR_URI:$IMAGE_TAG -t $ECR_URI:latest .
+
+  post_build:
+    commands:
+      - echo "Pushing image to ECR..."
+      - docker push $ECR_URI:$IMAGE_TAG
+      - docker push $ECR_URI:latest
+      - echo $IMAGE_TAG > image-tag.txt
+      - echo "Image pushed with tag:" $IMAGE_TAG
+
+artifacts:
+  files:
+    - image-tag.txt
+    - deployspec.yaml
