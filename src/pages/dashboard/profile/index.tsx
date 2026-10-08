@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { User } from 'lucide-react';
-
 import { ProfileSidebar } from './components/ProfileSidebar';
+import { ProfileNavigation } from './components/ProfileNavigation';
 import {
   AboutMe,
   BasicDetails,
@@ -46,7 +46,7 @@ export function Profile() {
   };
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full h-full">
       <div className="flex items-center gap-4">
         <div
           className="
@@ -72,15 +72,19 @@ export function Profile() {
 
       <div className="w-full h-px mt-8 bg-gray-200"></div>
 
-      <div className="flex-1 flex w-full">
+      <div className="flex-1 flex w-full pt-8">
         <div className="border-r border-gray-200">
-          <ProfileSidebar
+          <ProfileSidebar />
+        </div>
+
+        <main className="flex-1 min-w-0 pb-6 pl-10">
+          <ProfileNavigation
             activeSection={activeSection}
             onSectionChange={setActiveSection}
           />
-        </div>
 
-        <main className="flex-1 min-w-0 py-6 pl-10">{renderContent()}</main>
+          <div className="mt-6">{renderContent()}</div>
+        </main>
       </div>
     </div>
   );

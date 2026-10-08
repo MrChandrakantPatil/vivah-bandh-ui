@@ -1,17 +1,5 @@
-import {
-  Camera,
-  FileText,
-  GraduationCap,
-  Heart,
-  Home,
-  MapPin,
-  UserRound,
-  Image,
-} from 'lucide-react';
-
+import { Camera } from 'lucide-react';
 import { useAuth } from '@/features/auth';
-
-import type { ProfileSection } from '../types';
 
 import {
   male1,
@@ -26,57 +14,46 @@ import {
   female5,
 } from '@/assets/images';
 
-interface ProfileSidebarProps {
-  activeSection: ProfileSection;
-  onSectionChange: (section: ProfileSection) => void;
-}
+import type { Profile } from '../../../../features/auth/types';
 
-const profileNavigation: {
-  id: ProfileSection;
-  label: string;
-  icon: typeof UserRound;
-}[] = [
-  {
-    id: 'about',
-    label: 'About Me',
-    icon: UserRound,
-  },
-  {
-    id: 'personal',
-    label: 'Personal Details',
-    icon: FileText,
-  },
-  {
-    id: 'education',
-    label: 'Education & Career',
-    icon: GraduationCap,
-  },
-  {
-    id: 'family',
-    label: 'Family Details',
-    icon: Home,
-  },
-  {
-    id: 'location',
-    label: 'Location',
-    icon: MapPin,
-  },
-  {
-    id: 'photos',
-    label: 'Photos',
-    icon: Image,
-  },
-  {
-    id: 'partner',
-    label: 'Partner Preferences',
-    icon: Heart,
-  },
-];
+const getProfileStrength = (profile: Profile) => {
+  const sections = [
+    Boolean(profile.aboutMe?.trim()),
 
-export function ProfileSidebar({
-  activeSection,
-  onSectionChange,
-}: ProfileSidebarProps) {
+    Boolean(
+      profile.dob &&
+      profile.religion &&
+      profile.community &&
+      profile.height &&
+      profile.color &&
+      profile.maritalStatus &&
+      profile.motherTongue,
+    ),
+
+    Boolean(profile.education && profile.occupation && profile.annualIncome),
+
+    Boolean(
+      profile.familyType &&
+      profile.familyStatus &&
+      profile.fatherOccupation &&
+      profile.motherOccupation &&
+      profile.brothers &&
+      profile.sisters,
+    ),
+
+    Boolean(profile.location),
+
+    Boolean(profile.profilePhotos?.length),
+
+    Boolean(profile.partnerPreference),
+  ];
+
+  const completedSections = sections.filter(Boolean).length;
+
+  return Math.round((completedSections / sections.length) * 100);
+};
+
+export function ProfileSidebar() {
   const { profile } = useAuth();
 
   if (!profile) {
@@ -102,10 +79,12 @@ export function ProfileSidebar({
     ? profileImages[profilePhoto as keyof typeof profileImages]
     : male1;
 
+  const profileStrength = getProfileStrength(profile);
+
   return (
     <aside className="shrink-0 w-68">
       <div className="bg-white rounded-xl">
-        <div className="pt-5 pr-5 pb-0 pl-0">
+        <div className="pr-5 pb-0 pl-0">
           <div className="relative">
             <img
               src={image}
@@ -133,41 +112,56 @@ export function ProfileSidebar({
 
             <p className="mt-1 text-gray-500 text-sm">{profile.userId}</p>
           </div>
-        </div>
 
-        <nav className="pt-2 pr-5 pb-3">
-          {profileNavigation.map(({ id, label, icon: Icon }) => {
-            const isActive = activeSection === id;
+          <div className="flex flex-col items-center py-6 border-b border-gray-200">
+            <div className="relative flex items-center justify-center w-40 h-40">
+              <svg className="w-40 h-40 -rotate-90" viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  fill="none"
+                  stroke="#f3f4f6"
+                  strokeWidth="7"
+                />
 
-            return (
-              <button
-                key={id}
-                type="button"
-                onClick={() => onSectionChange(id)}
-                className={`
-                  flex items-center gap-4
-                  w-full px-4 py-3.5 pl-0
-                  rounded-lg
-                  font-medium text-sm text-left
-                  transition-colors
-                  ${
-                    isActive
-                      ? 'text-pink-500'
-                      : 'text-[#172554] hover:text-pink-500'
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="42"
+                  fill="none"
+                  stroke="#ec4899"
+                  strokeWidth="7"
+                  strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 42}
+                  strokeDashoffset={
+                    2 * Math.PI * 42 -
+                    (profileStrength / 100) * (2 * Math.PI * 42)
                   }
-                `}
-              >
-                <Icon size={20} strokeWidth={1.8} />
+                  className="transition-all duration-700"
+                />
+              </svg>
 
-                <span className="flex-1">{label}</span>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="font-bold text-[#172554] text-2xl">
+                  {profileStrength}%
+                </span>
+              </div>
+            </div>
 
-                {isActive && (
-                  <span className="w-2.5 h-2.5 bg-pink-500 rounded-full" />
-                )}
-              </button>
-            );
-          })}
-        </nav>
+            <div className="mt-5 text-center">
+              <h3 className="font-semibold text-[#172554] text-base">
+                Profile Strength
+              </h3>
+
+              <p className="max-w-52 mt-1.5 leading-5 text-gray-500 text-xs">
+                {profileStrength === 100
+                  ? 'Your profile is complete!'
+                  : 'Complete your profile to get better matches.'}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </aside>
   );

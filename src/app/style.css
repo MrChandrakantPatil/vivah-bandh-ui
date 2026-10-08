@@ -147,3 +147,12 @@ input:-webkit-autofill:focus {
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+
+.profile-navigation {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.profile-navigation::-webkit-scrollbar {
+  display: none;
+}
