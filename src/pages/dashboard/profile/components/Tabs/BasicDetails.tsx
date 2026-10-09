@@ -6,7 +6,7 @@ import { useAuth } from '@/features/auth';
 import {
   complexionOptions,
   genderOptions,
-  maritalStatusOptions,
+  maritalStatusOptionsNew,
   profileForOptions,
 } from '@/data';
 import type { SelectOption } from '@/data/types';
@@ -75,7 +75,7 @@ const personalDetails: PersonalDetail[] = [
     label: 'Marital Status',
     key: 'maritalStatus',
     type: 'select',
-    options: maritalStatusOptions,
+    options: maritalStatusOptionsNew,
   },
 ];
 

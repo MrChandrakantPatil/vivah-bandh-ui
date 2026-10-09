@@ -10,7 +10,7 @@ export { hobbiesOptions } from './options/hobbiesOptions';
 export { incomeOptions } from './options/incomeOptions';
 export { lifestyleOptions } from './options/lifestyleOptions';
 export { locationOptions } from './options/locationOptions';
-export { maritalStatusOptions } from './options/maritalStatusOptions';
+export { maritalStatusOptions, maritalStatusOptionsNew } from './options/maritalStatusOptions';
 export { occupationOptions } from './options/occupationOptions';
 export { religionOptions, communityOptions } from './options/religionOptions';
 

@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { shortlistProfile, unshortlistProfile } from '../api';
-
 import {
   BadgeCheck,
   Bookmark,
@@ -10,62 +8,18 @@ import {
   Scaling,
   BriefcaseBusiness,
 } from 'lucide-react';
-
-import {
-  male1,
-  male2,
-  male3,
-  male4,
-  male5,
-  female1,
-  female2,
-  female3,
-  female4,
-  female5,
-} from '@/assets/images';
-
-interface MatchProfile {
-  userId: string;
-  name: string;
-  matchPercentage: number;
-  age: number;
-  occupation: string;
-  location: {
-    city: string | null;
-    state: string | null;
-    country: string | null;
-  };
-  height: number;
-  religion: string;
-  maritalStatus: string;
-  profilePhotos: string[];
-  isShortlisted: boolean;
-}
+import { shortlistProfile, unshortlistProfile } from '../api';
+import type { MatchProfile } from '../types';
 
 interface MatchCardProps {
   match: MatchProfile;
-
   onShortlistChange: (candidateUserId: string, isShortlisted: boolean) => void;
 }
 
 export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const profileImages = {
-    male1,
-    male2,
-    male3,
-    male4,
-    male5,
-    female1,
-    female2,
-    female3,
-    female4,
-    female5,
-  };
-
-  const image =
-    profileImages[match.profilePhotos[1] as keyof typeof profileImages];
+  const image = match.profilePhotos[1];
 
   const location = [match.location.city, match.location.state]
     .filter(Boolean)
