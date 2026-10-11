@@ -1,11 +1,8 @@
 import { useState } from 'react';
-
-import { Heart, Pencil, Save, X } from 'lucide-react';
-
 import { MultiSelect } from '@/components/ui/MultiSelect';
 import { ChipCarousel } from '@/components/ui/ChipCarousel';
+import { ProfileEditActions } from '../ProfileEditActions';
 import { useAuth } from '@/features/auth';
-
 import type { SelectOption } from '@/data/types';
 
 const religionOptions: SelectOption[] = [
@@ -272,88 +269,8 @@ export function PartnerPreferences() {
   };
 
   return (
-    <>
-      {/* Header */}
-      <div className="flex items-center justify-between pb-6 border-b border-gray-200">
-        <div className="flex items-center gap-4">
-          <div
-            className="
-              flex items-center justify-center
-              w-12 h-12
-              bg-pink-50 rounded-full
-              text-pink-500
-            "
-          >
-            <Heart size={24} />
-          </div>
-
-          <div>
-            <h2 className="font-bold text-[#172554] text-xl lg:text-2xl">
-              Partner Preferences
-            </h2>
-
-            <p className="mt-1 text-gray-500 text-sm">
-              Tell us what you are looking for in a partner
-            </p>
-          </div>
-        </div>
-
-        {!isEditing ? (
-          <button
-            type="button"
-            onClick={handleEdit}
-            className="
-              flex items-center gap-2
-              px-4 py-2
-              rounded-lg border border-pink-300
-              font-medium text-pink-500 text-sm
-              transition
-              hover:bg-pink-50
-            "
-          >
-            <Pencil size={16} />
-            Edit
-          </button>
-        ) : (
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="
-                flex items-center gap-2
-                px-4 py-2
-                rounded-lg border border-gray-300
-                font-medium text-gray-600 text-sm
-                transition
-                hover:bg-gray-50
-              "
-            >
-              <X size={16} />
-              Cancel
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSave}
-              className="
-                flex items-center gap-2
-                px-4 py-2
-                bg-pink-500 rounded-lg
-                font-medium text-white text-sm
-                transition
-                hover:bg-pink-600
-              "
-            >
-              <Save size={16} />
-              Save
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Age Range */}
-      <div className="grid grid-cols-1 gap-5 mt-8 md:grid-cols-2">
-        {/* Minimum Age */}
+    <div className="relative h-full">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <div
           className="
             px-5 py-5
@@ -387,7 +304,6 @@ export function PartnerPreferences() {
           )}
         </div>
 
-        {/* Maximum Age */}
         <div
           className="
             px-5 py-5
@@ -422,7 +338,6 @@ export function PartnerPreferences() {
         </div>
       </div>
 
-      {/* Partner Preferences */}
       <div className="grid grid-cols-1 gap-5 mt-5 md:grid-cols-2">
         {partnerPreferenceDetails.map((detail) => {
           const values = isEditing
@@ -467,6 +382,13 @@ export function PartnerPreferences() {
           );
         })}
       </div>
-    </>
+
+      <ProfileEditActions
+        isEditing={isEditing}
+        onEdit={handleEdit}
+        onCancel={handleCancel}
+        onSave={handleSave}
+      />
+    </div>
   );
 }
