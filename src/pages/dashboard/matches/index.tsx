@@ -55,9 +55,7 @@ export function Matches() {
         </div>
       </div>
 
-      <div className="w-full h-px mt-8 bg-gray-200"></div>
-
-      <div className="w-full mt-4 sm:mt-6 lg:mt-8">
+      <div className="w-full mt-4 pt-6 sm:mt-6 lg:mt-8 border-t border-gray-200">
         <div className="overflow-x-auto hide-scrollbar" role="presentation">
           <div
             role="tablist"
@@ -81,7 +79,7 @@ export function Matches() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`
                     flex items-center
-                    px-5 pb-3
+                    px-5 pb-4
                     border-b-2
                     font-semibold
                     transition-colors

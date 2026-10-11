@@ -77,7 +77,7 @@ export function ProfileNavigation({
   };
 
   return (
-    <nav className="w-full border-b border-gray-200 overflow-x-auto profile-navigation">
+    <nav className="w-full py-6 border-b border-gray-200 overflow-x-auto profile-navigation">
       <div className="flex items-center gap-2 min-w-max">
         {profileNavigation.map(({ id, label, icon: Icon }) => {
           const isActive = activeSection === id;
@@ -93,29 +93,20 @@ export function ProfileNavigation({
               className={`
                 relative
                 flex items-center gap-2
-                px-4 pb-3
+                px-4 py-3
+                rounded-lg border
                 whitespace-nowrap font-medium text-sm
                 transition-colors
                 ${
                   isActive
-                    ? 'text-pink-500'
-                    : 'text-[#172554] hover:text-pink-500'
+                    ? 'text-pink-500 border-pink-300'
+                    : 'text-[#172554] hover:text-pink-500 border-gray-200'
                 }
               `}
             >
               <Icon size={18} strokeWidth={1.8} />
 
               <span>{label}</span>
-
-              {isActive && (
-                <span
-                  className="
-                    absolute right-0 bottom-0 left-0
-                    h-0.5
-                    bg-pink-500 rounded-full
-                  "
-                />
-              )}
             </button>
           );
         })}
