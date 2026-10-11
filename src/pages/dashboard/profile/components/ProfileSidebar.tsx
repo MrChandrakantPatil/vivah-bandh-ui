@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Camera } from 'lucide-react';
 import { useAuth } from '@/features/auth';
 
@@ -40,98 +41,108 @@ const getProfileStrength = (profile: Profile) => {
   return Math.round((completedSections / sections.length) * 100);
 };
 
+const getInitials = (name?: string | null): string => {
+  if (!name?.trim()) return 'NA';
+
+  return name
+    .trim()
+    .split(/\s+/)
+    .map((word) => word[0])
+    .join('')
+    .toUpperCase();
+};
+
 export function ProfileSidebar() {
   const { profile } = useAuth();
+  const [imageError, setImageError] = useState(false);
 
   if (!profile) {
     return <div>Loading profile...</div>;
   }
 
   const profilePhoto = profile.profilePhotos?.[0];
-
   const profileStrength = getProfileStrength(profile);
+  const initials = getInitials(profile.name);
+  const showImage = Boolean(profilePhoto) && !imageError;
 
   return (
-    <aside className="shrink-0 w-68">
-      <div className="bg-white rounded-xl">
-        <div className="pr-5 pb-0 pl-0">
-          <div className="relative">
-            <img
-              src={profilePhoto}
-              alt={profile.name}
-              className="w-full h-49.5 rounded-lg object-cover"
-            />
-
-            <button
-              type="button"
-              className="
-                absolute right-3 bottom-3
-                flex items-center justify-center
-                w-10 h-10
-                bg-white shadow-md rounded-full
-                text-pink-500
-                hover:bg-pink-50
-              "
-            >
-              <Camera size={19} />
-            </button>
+    <aside className="shrink-0 w-full lg:w-75">
+      <div className="relative">
+        {showImage ? (
+          <img
+            src={profilePhoto}
+            alt={profile.name}
+            onError={() => setImageError(true)}
+            className="w-full h-65 rounded-t-xl object-cover"
+          />
+        ) : (
+          <div
+            className="
+              flex items-center justify-center
+              w-full h-65
+              bg-pink-50 rounded-t-lg
+              font-semibold text-pink-600 text-7xl
+            "
+            aria-label={`${profile.name} initials`}
+          >
+            {initials}
           </div>
+        )}
 
-          <div className="pb-4 mt-4 border-b border-gray-200 text-left">
-            <h2 className="font-bold text-[#172554] text-lg">{profile.name}</h2>
+        <button
+          type="button"
+          aria-label="Change profile photo"
+          className="
+            absolute right-3 bottom-3
+            flex items-center justify-center
+            w-10 h-10
+            bg-white shadow-md rounded-full
+            text-pink-500
+            hover:bg-pink-50
+          "
+        >
+          <Camera size={19} />
+        </button>
+      </div>
 
-            <p className="mt-1 text-gray-500 text-sm">{profile.userId}</p>
-          </div>
+      <div className="pb-4 mt-4 border-b border-gray-200 text-left">
+        <h2 className="font-bold text-[#172554] text-lg">{profile.name}</h2>
 
-          <div className="flex flex-col items-center py-6 border-b border-gray-200">
-            <div className="relative flex items-center justify-center w-40 h-40">
-              <svg className="w-40 h-40 -rotate-90" viewBox="0 0 100 100">
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="42"
-                  fill="none"
-                  stroke="#f3f4f6"
-                  strokeWidth="7"
-                />
+        <p className="mt-1 text-gray-500 text-sm">{profile.userId}</p>
+      </div>
 
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="42"
-                  fill="none"
-                  stroke="#ec4899"
-                  strokeWidth="7"
-                  strokeLinecap="round"
-                  strokeDasharray={2 * Math.PI * 42}
-                  strokeDashoffset={
-                    2 * Math.PI * 42 -
-                    (profileStrength / 100) * (2 * Math.PI * 42)
-                  }
-                  className="transition-all duration-700"
-                />
-              </svg>
+      <div className="flex flex-col w-full py-6 border-b border-gray-200">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="font-semibold text-[#172554] text-base">
+            Profile Strength
+          </h3>
 
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-bold text-[#172554] text-2xl">
-                  {profileStrength}%
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-5 text-center">
-              <h3 className="font-semibold text-[#172554] text-base">
-                Profile Strength
-              </h3>
-
-              <p className="max-w-52 mt-1.5 leading-5 text-gray-500 text-xs">
-                {profileStrength === 100
-                  ? 'Your profile is complete!'
-                  : 'Complete your profile to get better matches.'}
-              </p>
-            </div>
-          </div>
+          <span className="font-bold text-pink-600 text-lg">
+            {profileStrength}%
+          </span>
         </div>
+
+        <div
+          className="w-full h-3 bg-gray-100 rounded-full overflow-hidden"
+          role="progressbar"
+          aria-label="Profile Strength"
+          aria-valuenow={profileStrength}
+          aria-valuemin={0}
+          aria-valuemax={100}
+        >
+          <div
+            className="h-full bg-pink-500 rounded-full transition-all duration-700 ease-out"
+            style={{
+              width: `${Math.min(100, Math.max(0, profileStrength))}%`,
+            }}
+          />
+        </div>
+
+        <p className="mt-3 leading-5 text-gray-500 text-xs">
+          {profileStrength === 100
+            ? 'Your profile is complete!'
+            : 'Complete your profile to get better matches.'}
+        </p>
       </div>
     </aside>
   );

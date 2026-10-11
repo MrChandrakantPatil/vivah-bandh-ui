@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import type { ChangeEvent } from 'react';
-import { GraduationCap, Pencil, Save, X } from 'lucide-react';
+import { ProfileEditActions } from '../ProfileEditActions';
 import { Select } from '@/components/ui/Select';
 import { useAuth } from '@/features/auth';
 import type { SelectOption } from '@/data/types';
@@ -207,15 +206,6 @@ export function EducationCareer() {
     setIsEditing(false);
   };
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const handleSelectChange = (name: EducationCareerKey, value: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -249,85 +239,8 @@ export function EducationCareer() {
   };
 
   return (
-    <>
-      <div className="flex items-center justify-between pb-6 border-b border-gray-200">
-        <div className="flex items-center gap-4">
-          <div
-            className="
-              flex items-center justify-center
-              w-12 h-12
-              bg-pink-50 rounded-full
-              text-pink-500
-            "
-          >
-            <GraduationCap size={24} />
-          </div>
-
-          <div>
-            <h2 className="font-bold text-[#172554] text-xl lg:text-2xl">
-              Education and Career
-            </h2>
-
-            <p className="mt-1 text-gray-500 text-sm">
-              Keep your education and career information up to date
-            </p>
-          </div>
-        </div>
-
-        {!isEditing ? (
-          <button
-            type="button"
-            onClick={handleEdit}
-            className="
-              flex items-center gap-2
-              px-4 py-2
-              rounded-lg border border-pink-300
-              font-medium text-pink-500 text-sm
-              transition
-              hover:bg-pink-50
-            "
-          >
-            <Pencil size={16} />
-            Edit
-          </button>
-        ) : (
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="
-                flex items-center gap-2
-                px-4 py-2
-                rounded-lg border border-gray-300
-                font-medium text-gray-600 text-sm
-                transition
-                hover:bg-gray-50
-              "
-            >
-              <X size={16} />
-              Cancel
-            </button>
-
-            <button
-              type="button"
-              onClick={handleSave}
-              className="
-                flex items-center gap-2
-                px-4 py-2
-                bg-pink-500 rounded-lg
-                font-medium text-white text-sm
-                transition
-                hover:bg-pink-600
-              "
-            >
-              <Save size={16} />
-              Save
-            </button>
-          </div>
-        )}
-      </div>
-
-      <div className="grid grid-cols-1 gap-5 mt-8 md:grid-cols-2 xl:grid-cols-3">
+    <div className="relative h-full">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
         {educationCareerDetails.map((detail) => {
           const value = isEditing ? formData[detail.key] : profile[detail.key];
 
@@ -346,31 +259,14 @@ export function EducationCareer() {
               </p>
 
               {isEditing ? (
-                detail.type === 'select' ? (
-                  <Select
-                    value={String(value || '')}
-                    onChange={(selectedValue) =>
-                      handleSelectChange(detail.key, selectedValue)
-                    }
-                    placeholder={`Select ${detail.label}`}
-                    options={detail.options}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    name={detail.key}
-                    value={value || ''}
-                    onChange={handleInputChange}
-                    className="
-                      w-full px-3 py-2.5 mt-3
-                      bg-white rounded-lg border border-gray-200
-                      font-medium text-[#172554] text-base
-                      transition
-                      focus:border-pink-400 focus:ring-2 focus:ring-pink-100
-                      outline-none
-                    "
-                  />
-                )
+                <Select
+                  value={String(value || '')}
+                  onChange={(selectedValue) =>
+                    handleSelectChange(detail.key, selectedValue)
+                  }
+                  placeholder={`Select ${detail.label}`}
+                  options={detail.options}
+                />
               ) : (
                 <p className="mt-3 font-semibold text-[#172554] text-base">
                   {formatValue(detail, value)}
@@ -380,6 +276,13 @@ export function EducationCareer() {
           );
         })}
       </div>
-    </>
+
+      <ProfileEditActions
+        isEditing={isEditing}
+        onEdit={handleEdit}
+        onCancel={handleCancel}
+        onSave={handleSave}
+      />
+    </div>
   );
 }
