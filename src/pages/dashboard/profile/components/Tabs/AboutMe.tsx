@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { ProfileEditActions } from '../ProfileEditActions';
-import { useAuth } from '@/features/auth';
+import { useProfile } from '@/features/profile';
+import { updateProfileApi } from '../../api';
 
 export function AboutMe() {
-  const { profile } = useAuth();
-
+  const { profile, updateProfileData } = useProfile();
   const [isEditing, setIsEditing] = useState(false);
   const [aboutMe, setAboutMe] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   if (!profile) {
     return null;
@@ -14,22 +16,43 @@ export function AboutMe() {
 
   const handleEdit = () => {
     setAboutMe(profile.aboutMe || '');
+    setSaveError(null);
     setIsEditing(true);
   };
 
   const handleCancel = () => {
     setAboutMe(profile.aboutMe || '');
+    setSaveError(null);
     setIsEditing(false);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const updatedAboutMe = aboutMe.trim();
 
-    console.log('Updated About Me:', updatedAboutMe);
+    try {
+      setIsSaving(true);
+      setSaveError(null);
 
-    // API call will go here.
+      const response = await updateProfileApi({
+        aboutMe: updatedAboutMe || null,
+      });
 
-    setIsEditing(false);
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to update About Me');
+      }
+
+      updateProfileData({
+        aboutMe: response.data?.aboutMe ?? (updatedAboutMe || null),
+      });
+
+      setIsEditing(false);
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Failed to update About Me',
+      );
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -42,13 +65,14 @@ export function AboutMe() {
           rows={8}
           maxLength={1000}
           autoFocus
+          disabled={isSaving}
           className="
             w-full px-4 py-3
             bg-white rounded-xl border border-gray-200
             leading-7 text-[#172554] text-base
             transition
             resize-none
-            focus:border-pink-400 focus:ring-2 focus:ring-pink-100
+            disabled:opacity-60 focus:border-pink-400 focus:ring-2 focus:ring-pink-100
             outline-none
           "
         />
@@ -58,12 +82,22 @@ export function AboutMe() {
         </p>
       )}
 
+      {saveError && (
+        <p className="mt-2 text-red-600 text-sm" role="alert">
+          {saveError}
+        </p>
+      )}
+
       <ProfileEditActions
         isEditing={isEditing}
         onEdit={handleEdit}
         onCancel={handleCancel}
         onSave={handleSave}
       />
+
+      {isSaving && (
+        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
+      )}
     </div>
   );
 }

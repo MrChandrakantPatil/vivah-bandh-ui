@@ -19,18 +19,10 @@ export const AuthReducer = (
         isLoading: false,
       };
 
-    case 'SET_PROFILE':
-      return {
-        ...state,
-        profile: action.payload,
-        isLoading: false,
-      };
-
     case 'AUTH_FAILURE':
       return {
         ...state,
         user: null,
-        profile: null,
         isAuthenticated: false,
         isLoading: false,
       };
@@ -39,7 +31,6 @@ export const AuthReducer = (
       return {
         ...state,
         user: null,
-        profile: null,
         isAuthenticated: false,
         isLoading: false,
       };

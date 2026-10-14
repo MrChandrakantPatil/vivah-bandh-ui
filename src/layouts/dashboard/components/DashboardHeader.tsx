@@ -10,12 +10,18 @@ import {
   PanelLeftOpen,
   Crown,
 } from 'lucide-react';
+
 import { NotificationBadge } from './NotificationBadge';
 import { Avatar } from './Avatar';
 import { ProfileCard } from './ProfileCard';
+
 import { useHandleOutsideClick } from '@/hooks/useHandleOutsideClick';
 import { useAuth } from '@/features/auth';
+import { useProfile } from '@/features/profile';
+import { getCdnUrl } from '@/utils/cdn';
+
 import type { HeaderIconPropTypes, DashboardHeaderPropTypes } from '../types';
+
 import { logo, logoIcon } from '@/assets/images';
 
 function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
@@ -53,13 +59,13 @@ export function DashboardHeader({
 
   const profileRef = useRef<HTMLDivElement | null>(null);
 
-  const { logout, user, profile } = useAuth();
-
-  const image = profile?.profilePhotos?.[1];
-
-  console.log(profile);
+  const { logout, user } = useAuth();
+  const { profile } = useProfile();
 
   const navigate = useNavigate();
+
+  const imageKey = profile?.primaryPhoto ?? profile?.profilePhotos?.[0] ?? null;
+  const image = imageKey ? getCdnUrl(imageKey) : '';
 
   useHandleOutsideClick(profileRef, () => {
     setShowProfileMenu(false);
@@ -68,10 +74,6 @@ export function DashboardHeader({
   const handleLogout = async () => {
     try {
       await logout();
-
-      navigate('/login', {
-        replace: true,
-      });
     } catch (error) {
       console.error('Logout API failed:', error);
     } finally {
@@ -101,7 +103,9 @@ export function DashboardHeader({
         {showSearch ? (
           <div className="flex items-center gap-2 w-full">
             <button
+              type="button"
               onClick={() => setShowSearch(false)}
+              aria-label="Close search"
               className="
                 flex items-center justify-center
                 w-9 h-9
@@ -131,10 +135,10 @@ export function DashboardHeader({
           </div>
         ) : (
           <>
-            {/* Left Section */}
             <div className="flex items-center gap-3">
-              {/* Common Sidebar Button */}
               <button
+                type="button"
+                aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
                 onClick={() => {
                   if (window.innerWidth >= 768) {
                     setIsCollapsed((prev) => !prev);
@@ -150,10 +154,8 @@ export function DashboardHeader({
                   hover:bg-gray-100
                 "
               >
-                {/* Mobile */}
                 <Menu className="md:hidden" size={22} />
 
-                {/* Desktop */}
                 <div className="md:flex hidden">
                   {isCollapsed ? (
                     <PanelLeftOpen size={24} />
@@ -163,7 +165,6 @@ export function DashboardHeader({
                 </div>
               </button>
 
-              {/* Mobile Logo */}
               <div className="flex w-full max-w-50 md:hidden">
                 <img
                   src={logo}
@@ -179,7 +180,6 @@ export function DashboardHeader({
               </div>
             </div>
 
-            {/* Right Section */}
             <div className="flex items-center gap-4 lg:gap-5">
               <button
                 type="button"
@@ -218,7 +218,12 @@ export function DashboardHeader({
               </HeaderIcon>
 
               <div ref={profileRef} className="relative">
-                <button onClick={() => setShowProfileMenu((prev) => !prev)}>
+                <button
+                  type="button"
+                  aria-label="Toggle profile menu"
+                  aria-expanded={showProfileMenu}
+                  onClick={() => setShowProfileMenu((prev) => !prev)}
+                >
                   <Avatar
                     name={profile?.name || user?.email || 'User'}
                     image={image}

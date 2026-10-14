@@ -2,8 +2,10 @@ import { useState } from 'react';
 import type { ChangeEvent } from 'react';
 import { ProfileEditActions } from '../ProfileEditActions';
 import { Select } from '@/components/ui/Select';
-import { useAuth } from '@/features/auth';
+import { useProfile } from '@/features/profile';
 import type { SelectOption } from '@/data/types';
+import type { UpdateProfilePayload } from '../../types';
+import { updateProfileApi } from '../../api';
 
 const familyTypeOptions = [
   { value: 'Nuclear Family', label: 'Nuclear Family' },
@@ -100,6 +102,7 @@ const occupationOptions = [
   { value: 'Actor', label: 'Actor' },
 
   { value: 'Student', label: 'Student' },
+  { value: 'Homemaker', label: 'Homemaker' },
   { value: 'Retired', label: 'Retired' },
   { value: 'Other', label: 'Other' },
 ];
@@ -165,19 +168,22 @@ const familyDetails: FamilyDetail[] = [
   },
 ];
 
+const initialFormData: FormData = {
+  familyType: '',
+  familyStatus: '',
+  fatherOccupation: '',
+  motherOccupation: '',
+  brothers: '',
+  sisters: '',
+};
+
 export function FamilyDetails() {
-  const { profile } = useAuth();
+  const { profile, updateProfileData } = useProfile();
 
   const [isEditing, setIsEditing] = useState(false);
-
-  const [formData, setFormData] = useState<FormData>({
-    familyType: '',
-    familyStatus: '',
-    fatherOccupation: '',
-    motherOccupation: '',
-    brothers: '',
-    sisters: '',
-  });
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   if (!profile) {
     return <div>Loading profile...</div>;
@@ -193,19 +199,13 @@ export function FamilyDetails() {
       sisters: profile.sisters ? String(profile.sisters) : '',
     });
 
+    setSaveError(null);
     setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setFormData({
-      familyType: '',
-      familyStatus: '',
-      fatherOccupation: '',
-      motherOccupation: '',
-      brothers: '',
-      sisters: '',
-    });
-
+    setFormData(initialFormData);
+    setSaveError(null);
     setIsEditing(false);
   };
 
@@ -243,8 +243,8 @@ export function FamilyDetails() {
     return value;
   };
 
-  const handleSave = () => {
-    const updatedFamilyDetails = {
+  const handleSave = async () => {
+    const updatedProfile: UpdateProfilePayload = {
       familyType: formData.familyType,
       familyStatus: formData.familyStatus,
       fatherOccupation: formData.fatherOccupation,
@@ -253,11 +253,32 @@ export function FamilyDetails() {
       sisters: Number(formData.sisters),
     };
 
-    console.log('Updated family details:', updatedFamilyDetails);
+    try {
+      setIsSaving(true);
+      setSaveError(null);
 
-    // API call will go here.
+      const response = await updateProfileApi(updatedProfile);
 
-    setIsEditing(false);
+      updateProfileData({
+        familyType: response.data?.familyType ?? updatedProfile.familyType,
+        familyStatus:
+          response.data?.familyStatus ?? updatedProfile.familyStatus,
+        fatherOccupation:
+          response.data?.fatherOccupation ?? updatedProfile.fatherOccupation,
+        motherOccupation:
+          response.data?.motherOccupation ?? updatedProfile.motherOccupation,
+        brothers: Number(response.data?.brothers ?? updatedProfile.brothers),
+        sisters: Number(response.data?.sisters ?? updatedProfile.sisters),
+      });
+
+      setIsEditing(false);
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Failed to update profile',
+      );
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -317,12 +338,22 @@ export function FamilyDetails() {
         })}
       </div>
 
+      {saveError && (
+        <p className="mt-3 text-red-600 text-sm" role="alert">
+          {saveError}
+        </p>
+      )}
+
       <ProfileEditActions
         isEditing={isEditing}
         onEdit={handleEdit}
         onCancel={handleCancel}
         onSave={handleSave}
       />
+
+      {isSaving && (
+        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
+      )}
     </div>
   );
 }

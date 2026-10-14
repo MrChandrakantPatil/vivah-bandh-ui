@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { shortlistProfile, unshortlistProfile } from '../api';
+import { getCdnUrl } from '@/utils/cdn';
 
 import {
   BadgeCheck,
@@ -31,14 +32,31 @@ interface MatchProfile {
 
 interface MatchCardProps {
   match: MatchProfile;
-
   onShortlistChange: (candidateUserId: string, isShortlisted: boolean) => void;
 }
 
 export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
   const [isUpdating, setIsUpdating] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
-  const image = match.profilePhotos?.[0];
+  const imageKey = match.profilePhotos?.[0];
+  const image = imageKey ? getCdnUrl(imageKey) : '';
+
+  console.log(image);
+
+  console.log('Profile photos:', match.profilePhotos);
+  console.log('First photo key:', match.profilePhotos?.[0]);
+  console.log('Generated CDN URL:', getCdnUrl(match.profilePhotos?.[0]));
+
+  // Get the first character of the first name and surname.
+  const initials =
+    match.name
+      ?.trim()
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((part) => part.charAt(0).toUpperCase())
+      .slice(0, 2)
+      .join('') || '?';
 
   const location = [match.location.city, match.location.state]
     .filter(Boolean)
@@ -47,22 +65,23 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
   const handleShortlist = async () => {
     if (isUpdating) return;
 
-    const isShortlisted = match.isShortlisted;
+    const wasShortlisted = match.isShortlisted;
 
-    onShortlistChange(match.userId, !isShortlisted);
-
+    // Optimistically update the UI.
+    onShortlistChange(match.userId, !wasShortlisted);
     setIsUpdating(true);
 
     try {
-      if (!isShortlisted) {
+      if (!wasShortlisted) {
         await shortlistProfile(match.userId);
       } else {
         await unshortlistProfile(match.userId);
       }
     } catch (error) {
-      console.error('Failed to update shortlist', error);
+      console.error('Failed to update shortlist:', error);
 
-      onShortlistChange(match.userId, isShortlisted);
+      // Restore the previous state if the API request fails.
+      onShortlistChange(match.userId, wasShortlisted);
     } finally {
       setIsUpdating(false);
     }
@@ -71,12 +90,30 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
   return (
     <div className="bg-white shadow-md rounded-xl transition overflow-hidden hover:shadow-xl">
       <div className="relative bg-gray-100 overflow-hidden aspect-video">
-        <img
-          src={image}
-          alt={match.name}
-          className="w-full h-full transition-transform duration-300 hover:scale-105 object-cover"
-        />
+        {image && !imageError ? (
+          <img
+            src={image}
+            alt={`${match.name}'s profile`}
+            loading="lazy"
+            onError={() => setImageError(true)}
+            className="w-full h-full transition-transform duration-300 hover:scale-105 object-cover"
+          />
+        ) : (
+          <div
+            className="
+              flex items-center justify-center
+              w-full h-full
+              bg-pink-50
+              font-semibold text-[#ea0a55] text-5xl
+            "
+            role="img"
+            aria-label={`${match.name}'s profile initials: ${initials}`}
+          >
+            {initials}
+          </div>
+        )}
 
+        {/* Match percentage */}
         <div
           className="
             absolute top-2.5 left-2.5
@@ -93,30 +130,38 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
           <span className="text-md">Match</span>
         </div>
 
+        {/* Shortlist button */}
         <button
           type="button"
           onClick={handleShortlist}
           disabled={isUpdating}
-          aria-label={`Bookmark ${match.name}`}
+          aria-label={
+            match.isShortlisted
+              ? `Remove ${match.name} from shortlist`
+              : `Add ${match.name} to shortlist`
+          }
+          aria-pressed={match.isShortlisted}
           className="
             absolute top-3 right-3
             flex items-center justify-center
             w-9 h-9
             bg-white/90 shadow-sm rounded-full
-            hover:bg-white
+            transition
+            hover:bg-white disabled:opacity-60 disabled:cursor-not-allowed
           "
         >
           <Bookmark
             size={18}
             className={
               match.isShortlisted
-                ? 'text-red-500 fill-red-500'
+                ? 'fill-red-500 text-red-500'
                 : 'text-gray-700'
             }
           />
         </button>
       </div>
 
+      {/* Profile details */}
       <div className="p-4">
         <div className="flex items-center gap-2">
           <h3 className="font-bold text-gray-800 text-lg truncate">
@@ -130,6 +175,7 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
           />
         </div>
 
+        {/* Occupation */}
         <div
           className="
             flex items-center gap-1.5
@@ -142,12 +188,16 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
           <span className="truncate">{match.occupation}</span>
         </div>
 
+        {/* Location */}
         <div className="flex items-center gap-1.5 mt-2 text-gray-600 text-sm">
           <MapPin size={16} className="shrink-0 text-gray-500" />
 
-          <span className="truncate">{location}</span>
+          <span className="truncate">
+            {location || match.location.country || 'Location not specified'}
+          </span>
         </div>
 
+        {/* Additional details */}
         <div
           className="
             flex flex-wrap gap-x-4 gap-y-2
@@ -162,17 +212,16 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
 
           <span className="flex items-center gap-1.5">
             <Mosque size={15} className="text-gray-500" />
-
             {match.religion}
           </span>
 
           <span className="flex items-center gap-1.5">
             <Heart size={15} className="text-gray-500" />
-
             {match.maritalStatus}
           </span>
         </div>
 
+        {/* Actions */}
         <div className="flex gap-3 mt-4">
           <button
             type="button"
