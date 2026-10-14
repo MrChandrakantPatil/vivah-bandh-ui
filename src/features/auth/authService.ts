@@ -1,6 +1,6 @@
 import { apiClient } from '../../api/client';
-
-import type { ApiResponse, Profile, User } from './types';
+import type { User } from './types';
+import type { ApiResponse } from '@/api/types';
 
 interface LoginPayload {
   username: string;
@@ -32,12 +32,6 @@ export const logoutApi = async (): Promise<ApiResponse<never>> => {
 
 export const getCurrentUserApi = async () => {
   const response = await apiClient.get<ApiResponse<User>>('/auth/me');
-
-  return response.data;
-};
-
-export const getProfileApi = async (): Promise<ApiResponse<Profile>> => {
-  const response = await apiClient.get<ApiResponse<Profile>>('/profile/me');
 
   return response.data;
 };

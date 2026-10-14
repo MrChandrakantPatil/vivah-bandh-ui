@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { MultiSelect } from '@/components/ui/MultiSelect';
 import { ChipCarousel } from '@/components/ui/ChipCarousel';
 import { ProfileEditActions } from '../ProfileEditActions';
-import { useAuth } from '@/features/auth';
+import { useProfile } from '@/features/profile';
 import type { SelectOption } from '@/data/types';
+import type { UpdateProfilePayload } from '../../types';
+import { updateProfileApi } from '../../api';
 
 const religionOptions: SelectOption[] = [
   { value: 'Hindu', label: 'Hindu' },
@@ -188,19 +190,22 @@ const partnerPreferenceDetails: PartnerPreferenceDetail[] = [
   },
 ];
 
+const initialFormData: FormData = {
+  minAge: '',
+  maxAge: '',
+  religion: [],
+  community: [],
+  education: [],
+  occupation: [],
+};
+
 export function PartnerPreferences() {
-  const { profile } = useAuth();
+  const { profile, updateProfileData } = useProfile();
 
   const [isEditing, setIsEditing] = useState(false);
-
-  const [formData, setFormData] = useState<FormData>({
-    minAge: '',
-    maxAge: '',
-    religion: [],
-    community: [],
-    education: [],
-    occupation: [],
-  });
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   if (!profile) {
     return <div>Loading profile...</div>;
@@ -217,20 +222,13 @@ export function PartnerPreferences() {
       education: preferences?.education || [],
       occupation: preferences?.occupation || [],
     });
-
+    setSaveError(null);
     setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setFormData({
-      minAge: '',
-      maxAge: '',
-      religion: [],
-      community: [],
-      education: [],
-      occupation: [],
-    });
-
+    setFormData(initialFormData);
+    setSaveError(null);
     setIsEditing(false);
   };
 
@@ -251,21 +249,63 @@ export function PartnerPreferences() {
     }));
   };
 
-  const handleSave = () => {
-    const updatedPreferences = {
-      minAge: Number(formData.minAge),
-      maxAge: Number(formData.maxAge),
-      religion: formData.religion,
-      community: formData.community,
-      education: formData.education,
-      occupation: formData.occupation,
+  const handleSave = async () => {
+    const updatedProfile: UpdateProfilePayload = {
+      partnerPreference: {
+        minAge: Number(formData.minAge || null),
+        maxAge: Number(formData.maxAge || null),
+        religion: formData.religion || [],
+        community: formData.community || [],
+        education: formData.education || [],
+        occupation: formData.occupation || [],
+      },
     };
 
-    console.log('Updated partner preferences:', updatedPreferences);
+    try {
+      setIsSaving(true);
+      setSaveError(null);
 
-    // API call will go here.
+      const response = await updateProfileApi(updatedProfile);
 
-    setIsEditing(false);
+      updateProfileData({
+        partnerPreference: {
+          minAge: Number(
+            response.data?.partnerPreference?.minAge ??
+              updatedProfile.partnerPreference?.minAge ??
+              null,
+          ),
+          maxAge: Number(
+            response.data?.partnerPreference?.maxAge ??
+              updatedProfile.partnerPreference?.minAge ??
+              null,
+          ),
+          religion:
+            response.data?.partnerPreference?.religion ??
+            updatedProfile.partnerPreference?.religion ??
+            [],
+          community:
+            response.data?.partnerPreference?.community ??
+            updatedProfile.partnerPreference?.community ??
+            [],
+          education:
+            response.data?.partnerPreference?.education ??
+            updatedProfile.partnerPreference?.education ??
+            [],
+          occupation:
+            response.data?.partnerPreference?.occupation ??
+            updatedProfile.partnerPreference?.occupation ??
+            [],
+        },
+      });
+
+      setIsEditing(false);
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Failed to update profile',
+      );
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -383,12 +423,22 @@ export function PartnerPreferences() {
         })}
       </div>
 
+      {saveError && (
+        <p className="mt-3 text-red-600 text-sm" role="alert">
+          {saveError}
+        </p>
+      )}
+
       <ProfileEditActions
         isEditing={isEditing}
         onEdit={handleEdit}
         onCancel={handleCancel}
         onSave={handleSave}
       />
+
+      {isSaving && (
+        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
+      )}
     </div>
   );
 }
