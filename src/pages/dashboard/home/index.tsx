@@ -6,13 +6,13 @@ import { ProfileStrength } from './components/ProfileStrength';
 import { ProfileViewsChart } from './components/ProfileViewsChart';
 import { dashboardStats } from './data';
 import { useHorizontalScroll } from '@/hooks/useHorizontalScroll';
-import { useAuth } from '@/features/auth';
+import { useProfile } from '@/features/profile';
 
 export function Dashboard() {
   const { scrollRef, canScrollLeft, canScrollRight, scrollLeft, scrollRight } =
     useHorizontalScroll('.dashboard-card', dashboardStats.length);
 
-  const { profile } = useAuth();
+  const { profile } = useProfile();
 
   return (
     <div className="flex flex-col gap-6 xl:flex-row xl:items-start">

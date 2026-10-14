@@ -74,7 +74,9 @@ export function Profile() {
         "
       >
         <div className="w-full min-w-0 pt-6 lg:shrink-0 lg:w-auto">
-          <ProfileSidebar />
+          <ProfileSidebar
+            navigateToPhotosSection={() => setActiveSection('photos')}
+          />
         </div>
 
         <main

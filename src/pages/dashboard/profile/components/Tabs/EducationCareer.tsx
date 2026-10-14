@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { ProfileEditActions } from '../ProfileEditActions';
 import { Select } from '@/components/ui/Select';
-import { useAuth } from '@/features/auth';
+import { useProfile } from '@/features/profile';
 import type { SelectOption } from '@/data/types';
+import type { UpdateProfilePayload } from '../../types';
+import { updateProfileApi } from '../../api';
 
 const educationOptions = [
   { value: '10th', label: '10th' },
@@ -171,16 +173,19 @@ const educationCareerDetails: EducationCareerDetail[] = [
   },
 ];
 
+const initialFormData: FormData = {
+  education: '',
+  occupation: '',
+  annualIncome: '',
+};
+
 export function EducationCareer() {
-  const { profile } = useAuth();
+  const { profile, updateProfileData } = useProfile();
 
   const [isEditing, setIsEditing] = useState(false);
-
-  const [formData, setFormData] = useState<FormData>({
-    education: '',
-    occupation: '',
-    annualIncome: '',
-  });
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   if (!profile) {
     return <div>Loading profile...</div>;
@@ -193,16 +198,13 @@ export function EducationCareer() {
       annualIncome: profile.annualIncome || '',
     });
 
+    setSaveError(null);
     setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setFormData({
-      education: '',
-      occupation: '',
-      annualIncome: '',
-    });
-
+    setFormData(initialFormData);
+    setSaveError(null);
     setIsEditing(false);
   };
 
@@ -230,12 +232,34 @@ export function EducationCareer() {
     return value;
   };
 
-  const handleSave = () => {
-    console.log('Updated education & career:', formData);
+  const handleSave = async () => {
+    const updatedProfile: UpdateProfilePayload = {
+      education: formData.education,
+      occupation: formData.occupation,
+      annualIncome: formData.annualIncome,
+    };
 
-    // API call will go here.
+    try {
+      setIsSaving(true);
+      setSaveError(null);
 
-    setIsEditing(false);
+      const response = await updateProfileApi(updatedProfile);
+
+      updateProfileData({
+        education: response.data?.education ?? updatedProfile.education,
+        occupation: response.data?.occupation ?? updatedProfile.occupation,
+        annualIncome:
+          response.data?.annualIncome ?? updatedProfile.annualIncome,
+      });
+
+      setIsEditing(false);
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Failed to update profile',
+      );
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -277,12 +301,22 @@ export function EducationCareer() {
         })}
       </div>
 
+      {saveError && (
+        <p className="mt-3 text-red-600 text-sm" role="alert">
+          {saveError}
+        </p>
+      )}
+
       <ProfileEditActions
         isEditing={isEditing}
         onEdit={handleEdit}
         onCancel={handleCancel}
         onSave={handleSave}
       />
+
+      {isSaving && (
+        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
+      )}
     </div>
   );
 }

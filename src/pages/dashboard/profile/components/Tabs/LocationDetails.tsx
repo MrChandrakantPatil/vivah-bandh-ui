@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { ProfileEditActions } from '../ProfileEditActions';
 import { Select } from '@/components/ui/Select';
-import { useAuth } from '@/features/auth';
+import { useProfile } from '@/features/profile';
 import type { SelectOption } from '@/data/types';
+import type { UpdateProfilePayload } from '../../types';
+import { updateProfileApi } from '../../api';
 
 const countryOptions = [{ value: 'India', label: 'India' }];
 
@@ -84,16 +86,19 @@ const locationDetails: LocationDetail[] = [
   },
 ];
 
+const initialFormData: FormData = {
+  country: '',
+  state: '',
+  city: '',
+};
+
 export function LocationDetails() {
-  const { profile } = useAuth();
+  const { profile, updateProfileData } = useProfile();
 
   const [isEditing, setIsEditing] = useState(false);
-
-  const [formData, setFormData] = useState<FormData>({
-    country: '',
-    state: '',
-    city: '',
-  });
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   if (!profile) {
     return <div>Loading profile...</div>;
@@ -105,17 +110,13 @@ export function LocationDetails() {
       state: profile.location?.state || '',
       city: profile.location?.city || '',
     });
-
+    setSaveError(null);
     setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setFormData({
-      country: '',
-      state: '',
-      city: '',
-    });
-
+    setFormData(initialFormData);
+    setSaveError(null);
     setIsEditing(false);
   };
 
@@ -139,18 +140,46 @@ export function LocationDetails() {
     );
   };
 
-  const handleSave = () => {
-    const updatedLocation = {
-      country: formData.country,
-      state: formData.state,
-      city: formData.city,
+  const handleSave = async () => {
+    const updatedProfile: UpdateProfilePayload = {
+      location: {
+        country: formData.country || null,
+        state: formData.state || null,
+        city: formData.city || null,
+      },
     };
 
-    console.log('Updated location:', updatedLocation);
+    try {
+      setIsSaving(true);
+      setSaveError(null);
 
-    // API call will go here.
+      const response = await updateProfileApi(updatedProfile);
 
-    setIsEditing(false);
+      updateProfileData({
+        location: {
+          country:
+            response.data?.location?.country ??
+            updatedProfile.location?.country ??
+            null,
+          state:
+            response.data?.location?.state ??
+            updatedProfile.location?.state ??
+            null,
+          city:
+            response.data?.location?.city ??
+            updatedProfile.location?.city ??
+            null,
+        },
+      });
+
+      setIsEditing(false);
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Failed to update profile',
+      );
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -194,12 +223,22 @@ export function LocationDetails() {
         })}
       </div>
 
+      {saveError && (
+        <p className="mt-3 text-red-600 text-sm" role="alert">
+          {saveError}
+        </p>
+      )}
+
       <ProfileEditActions
         isEditing={isEditing}
         onEdit={handleEdit}
         onCancel={handleCancel}
         onSave={handleSave}
       />
+
+      {isSaving && (
+        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
+      )}
     </div>
   );
 }

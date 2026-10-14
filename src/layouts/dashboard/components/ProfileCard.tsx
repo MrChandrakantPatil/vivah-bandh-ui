@@ -8,8 +8,12 @@ import {
   LogOut,
   Crown,
 } from 'lucide-react';
+
 import { Avatar } from './Avatar';
 import { useAuth } from '@/features/auth';
+import { useProfile } from '@/features/profile';
+import { getCdnUrl } from '@/utils/cdn';
+
 import type { ProfileMenuVariant, ProfileMenu, MenuItemProp } from '../types';
 
 const profileMenus: ProfileMenu[] = [
@@ -90,6 +94,7 @@ function MenuItem({
 
   return (
     <button
+      type="button"
       className="
         flex items-center justify-between
         w-full p-3.5
@@ -117,7 +122,8 @@ function MenuItem({
       </div>
 
       {RightIcon && (
-        <RightIcon size={22} className="text-amber-500 fill-amber-400" />
+        <RightIcon size={22} 
+          className="text-amber-500 fill-amber-400" />
       )}
     </button>
   );
@@ -130,9 +136,13 @@ interface ProfileCardProps {
 export function ProfileCard({ onLogout }: ProfileCardProps) {
   const navigate = useNavigate();
 
-  const { user, profile } = useAuth();
+  const { user } = useAuth();
+  const { profile } = useProfile();
 
-  const image = profile?.profilePhotos?.[1] || undefined;
+  // Use the primary photo, falling back to the first available photo.
+  const imageKey = profile?.primaryPhoto ?? profile?.profilePhotos?.[0] ?? null;
+
+  const image = imageKey ? getCdnUrl(imageKey) : undefined;
 
   const handleClick = ({ action, path }: ProfileMenu) => {
     if (action === 'logout') {
@@ -171,6 +181,7 @@ export function ProfileCard({ onLogout }: ProfileCardProps) {
           md:w-80 sm:rounded-xl
         "
       >
+        {/* Profile header */}
         <div className="px-4 py-6 bg-pink-300 sm:px-6">
           <div className="flex items-center gap-4">
             <Avatar
@@ -185,26 +196,28 @@ export function ProfileCard({ onLogout }: ProfileCardProps) {
             />
 
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-slate-700 text-xl truncate sm:text-xl">
-                {profile?.name}
+              <h3 className="font-semibold text-slate-700 text-xl truncate"
+              >
+                {profile?.name || user?.email || 'User'}
               </h3>
 
               <div className="flex items-center gap-2 mt-1 text-amber-700">
-                <Crown size={18} className="fill-amber-400" />
+                <Crown size={18} 
+                  className="fill-amber-400" />
 
-                <span className="font-medium text-sm sm:text-sm">
-                  Premium Member
-                </span>
+                <span className="font-medium text-sm">Premium Member</span>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Menu items */}
         <div className="px-3 py-3 bg-white rounded-t-[28px] sm:px-4">
           {profileMenus.map((item) => {
             if (item.divider) {
               return (
-                <div key={item.id} className="my-2 border-t border-gray-300" />
+                <div key={item.id} 
+                  className="my-2 border-t border-gray-300" />
               );
             }
 

@@ -1,15 +1,18 @@
 import { useState } from 'react';
-import type { ChangeEvent } from 'react';
 import { ProfileEditActions } from '../ProfileEditActions';
 import { Select } from '@/components/ui/Select';
-import { useAuth } from '@/features/auth';
+import { useProfile } from '@/features/profile';
+import { updateProfileApi } from '../../api';
 import {
   complexionOptions,
   genderOptions,
   maritalStatusOptions,
   profileForOptions,
 } from '@/data';
+import type { ChangeEvent } from 'react';
 import type { SelectOption } from '@/data/types';
+import type { Gender } from '@/types/profile.types';
+import type { UpdateProfilePayload } from '../../types';
 
 type PersonalDetailKey =
   | 'name'
@@ -30,7 +33,7 @@ interface PersonalDetail {
 interface FormData {
   name: string;
   profileFor: string;
-  gender: string;
+  gender: Gender | '';
   dob: string;
   height: string;
   color: string;
@@ -67,12 +70,22 @@ const personalDetails: PersonalDetail[] = [
   },
 ];
 
-function formatDateForInput(value: string | null | undefined) {
-  if (!value) {
-    return '';
-  }
+const initialFormData: FormData = {
+  name: '',
+  profileFor: '',
+  gender: '',
+  dob: '',
+  height: '',
+  color: '',
+  maritalStatus: '',
+};
+
+function formatDateForInput(value: string | null | undefined): string {
+  if (!value) return '';
 
   const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return '';
 
   return [
     date.getFullYear(),
@@ -84,20 +97,24 @@ function formatDateForInput(value: string | null | undefined) {
 function formatValue(
   detail: PersonalDetail,
   value: string | number | null | undefined,
-) {
-  if (!value) {
+): string | number {
+  if (value == null || value === '') {
     return '-';
   }
 
   if (detail.type === 'select') {
     return (
-      detail.options?.find((option) => option.value === String(value))?.label ||
+      detail.options?.find((option) => option.value === String(value))?.label ??
       value
     );
   }
 
   if (detail.key === 'dob') {
-    return new Date(value).toLocaleDateString('en-IN', {
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) return '-';
+
+    return date.toLocaleDateString('en-IN', {
       day: '2-digit',
       month: 'long',
       year: 'numeric',
@@ -112,19 +129,13 @@ function formatValue(
 }
 
 export function BasicDetails() {
-  const { profile } = useAuth();
+  const { profile, updateProfileData } = useProfile();
 
   const [isEditing, setIsEditing] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    profileFor: '',
-    gender: '',
-    dob: '',
-    height: '',
-    color: '',
-    maritalStatus: '',
-  });
+  const [formData, setFormData] = useState<FormData>(initialFormData);
 
   if (!profile) {
     return <div>Loading profile...</div>;
@@ -136,55 +147,92 @@ export function BasicDetails() {
       profileFor: profile.profileFor || '',
       gender: profile.gender || '',
       dob: formatDateForInput(profile.dob),
-      height: profile.height ? String(profile.height) : '',
+      height: profile.height != null ? String(profile.height) : '',
       color: profile.color || '',
       maritalStatus: profile.maritalStatus || '',
     });
 
+    setSaveError(null);
     setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setFormData({
-      name: '',
-      profileFor: '',
-      gender: '',
-      dob: '',
-      height: '',
-      color: '',
-      maritalStatus: '',
-    });
-
+    setFormData(initialFormData);
+    setSaveError(null);
     setIsEditing(false);
   };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((previous) => ({
+      ...previous,
       [name]: value,
     }));
   };
 
   const handleSelectChange = (name: PersonalDetailKey, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((previous) => ({
+      ...previous,
       [name]: value,
     }));
   };
 
-  const handleSave = () => {
-    const updatedProfile = {
-      ...formData,
+  const handleSave = async () => {
+    if (formData.gender !== 'male' && formData.gender !== 'female') {
+      setSaveError('Please select a valid gender.');
+      return;
+    }
+
+    if (!formData.name.trim()) {
+      setSaveError('Please enter your full name.');
+      return;
+    }
+
+    if (!formData.dob) {
+      setSaveError('Please select your date of birth.');
+      return;
+    }
+
+    const updatedProfile: UpdateProfilePayload = {
+      name: formData.name.trim(),
+      profileFor: formData.profileFor,
+      gender: formData.gender,
+      dob: formData.dob,
       height: formData.height ? Number(formData.height) : null,
+      color: formData.color || undefined,
+      maritalStatus: formData.maritalStatus || undefined,
     };
 
-    console.log('Updated profile:', updatedProfile);
+    try {
+      setIsSaving(true);
+      setSaveError(null);
 
-    // API call will go here.
+      const response = await updateProfileApi(updatedProfile);
 
-    setIsEditing(false);
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to update profile.');
+      }
+
+      updateProfileData({
+        name: response.data?.name ?? updatedProfile.name,
+        profileFor: response.data?.profileFor ?? updatedProfile.profileFor,
+        gender: response.data?.gender ?? updatedProfile.gender,
+        dob: response.data?.dob ?? updatedProfile.dob,
+        height: response.data?.height ?? updatedProfile.height,
+        color: response.data?.color ?? updatedProfile.color,
+        maritalStatus:
+          response.data?.maritalStatus ?? updatedProfile.maritalStatus,
+      });
+
+      setIsEditing(false);
+    } catch (error) {
+      setSaveError(
+        error instanceof Error ? error.message : 'Failed to update profile.',
+      );
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -221,14 +269,16 @@ export function BasicDetails() {
                   <input
                     type={detail.type}
                     name={detail.key}
-                    value={value || ''}
+                    value={value ?? ''}
                     onChange={handleInputChange}
+                    disabled={isSaving}
+                    min={detail.key === 'height' ? 1 : undefined}
                     className="
                       w-full px-3 py-2.5 mt-3
                       bg-white rounded-lg border border-gray-200
                       font-medium text-[#172554] text-base
                       transition
-                      focus:border-pink-400 focus:ring-2 focus:ring-pink-100
+                      disabled:opacity-60 focus:border-pink-400 focus:ring-2 focus:ring-pink-100
                       outline-none
                     "
                   />
@@ -243,12 +293,22 @@ export function BasicDetails() {
         })}
       </div>
 
+      {saveError && (
+        <p className="mt-3 text-red-600 text-sm" role="alert">
+          {saveError}
+        </p>
+      )}
+
       <ProfileEditActions
         isEditing={isEditing}
         onEdit={handleEdit}
         onCancel={handleCancel}
         onSave={handleSave}
       />
+
+      {isSaving && (
+        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
+      )}
     </div>
   );
 }

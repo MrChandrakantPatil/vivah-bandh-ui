@@ -18,36 +18,39 @@ import { Help } from '@/pages/dashboard/help';
 import { Upgrade } from '@/pages/dashboard/upgrade';
 
 import { PublicRoute, ProtectedRoute } from '@/features/auth';
+import { ProfileProvider } from '@/features/profile';
 
 import { Toaster } from 'sonner';
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Route>
-
-        <Route element={<PublicRoute />}>
-          <Route element={<AuthLayout />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+      <ProfileProvider>
+        <Routes>
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
           </Route>
-        </Route>
 
-        <Route element={<ProtectedRoute />}>
-          <Route element={<DashboardLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/matches" element={<Matches />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/help-and-support" element={<Help />} />
-            <Route path="/upgrade" element={<Upgrade />} />
+          <Route element={<PublicRoute />}>
+            <Route element={<AuthLayout />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
+
+          <Route element={<ProtectedRoute />}>
+            <Route element={<DashboardLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/matches" element={<Matches />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/help-and-support" element={<Help />} />
+              <Route path="/upgrade" element={<Upgrade />} />
+            </Route>
+          </Route>
+        </Routes>
+      </ProfileProvider>
 
       <Toaster position="top-right" richColors />
     </>

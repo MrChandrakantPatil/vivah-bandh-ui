@@ -5,7 +5,6 @@ import { initialAuthState } from './initialState';
 
 import {
   getCurrentUserApi,
-  getProfileApi,
   loginApi,
   logoutApi,
   refreshTokenApi,
@@ -18,51 +17,25 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [state, dispatch] = useReducer(AuthReducer, initialAuthState);
 
-  const fetchProfile = useCallback(async () => {
-    const response = await getProfileApi();
+  const login = useCallback(async (username: string, password: string) => {
+    try {
+      dispatch({ type: 'AUTH_START' });
 
-    if (!response.success || !response.data) {
-      throw new Error(response.message || 'Failed to fetch profile');
-    }
+      const response = await loginApi({ username, password });
 
-    dispatch({
-      type: 'SET_PROFILE',
-      payload: response.data,
-    });
-  }, []);
-
-  const login = useCallback(
-    async (username: string, password: string) => {
-      try {
-        dispatch({
-          type: 'AUTH_START',
-        });
-
-        const response = await loginApi({
-          username,
-          password,
-        });
-
-        if (!response.success || !response.data) {
-          throw new Error(response.message || 'Login failed');
-        }
-
-        dispatch({
-          type: 'LOGIN_SUCCESS',
-          payload: response.data,
-        });
-
-        await fetchProfile();
-      } catch (error) {
-        dispatch({
-          type: 'AUTH_FAILURE',
-        });
-
-        throw error;
+      if (!response.success || !response.data) {
+        throw new Error(response.message || 'Login failed');
       }
-    },
-    [fetchProfile],
-  );
+
+      dispatch({
+        type: 'LOGIN_SUCCESS',
+        payload: response.data,
+      });
+    } catch (error) {
+      dispatch({ type: 'AUTH_FAILURE' });
+      throw error;
+    }
+  }, []);
 
   const refreshAuth = useCallback(async () => {
     try {
@@ -88,47 +61,35 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         type: 'LOGIN_SUCCESS',
         payload: userResponse.data,
       });
-
-      await fetchProfile();
     } catch {
-      dispatch({
-        type: 'AUTH_FAILURE',
-      });
+      dispatch({ type: 'AUTH_FAILURE' });
     } finally {
-      dispatch({
-        type: 'AUTH_INITIALIZED',
-      });
+      dispatch({ type: 'AUTH_INITIALIZED' });
     }
-  }, [fetchProfile]);
+  }, []);
 
   const logout = useCallback(async () => {
     try {
       await logoutApi();
     } finally {
-      dispatch({
-        type: 'LOGOUT',
-      });
+      dispatch({ type: 'LOGOUT' });
     }
   }, []);
 
   useEffect(() => {
-    refreshAuth();
+    void refreshAuth();
   }, [refreshAuth]);
 
   return (
     <AuthContext.Provider
       value={{
         user: state.user,
-        profile: state.profile,
-
         isAuthenticated: state.isAuthenticated,
         isLoading: state.isLoading,
         isInitialized: state.isInitialized,
-
         login,
         logout,
         refreshAuth,
-        fetchProfile,
       }}
     >
       {children}

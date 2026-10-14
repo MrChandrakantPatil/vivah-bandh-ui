@@ -55,7 +55,13 @@ export function Matches() {
         </div>
       </div>
 
-      <div className="w-full mt-4 pt-6 sm:mt-6 lg:mt-8 border-t border-gray-200">
+      <div
+        className="
+          w-full pt-6 mt-4
+          border-t border-gray-200
+          sm:mt-6 lg:mt-8
+        "
+      >
         <div className="overflow-x-auto hide-scrollbar" role="presentation">
           <div
             role="tablist"
