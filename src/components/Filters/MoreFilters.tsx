@@ -8,10 +8,17 @@ import {
   X,
 } from 'lucide-react';
 import type {
+  FilterOptionItem,
   MoreFilterOption,
   MoreFiltersProps,
   SelectedMoreFilters,
 } from '@/components/Filters/types';
+
+const getOptionValue = (item: FilterOptionItem) =>
+  typeof item === 'string' ? item : item.value;
+
+const getOptionLabel = (item: FilterOptionItem) =>
+  typeof item === 'string' ? item : item.label;
 
 export function MoreFilters({
   title = 'More Filters',
@@ -353,7 +360,9 @@ export function MoreFilters({
                           sm:grid-cols-4 sm:gap-x-6 sm:gap-y-1
                         "
                       >
-                        {activeFilter.options.map((option) => {
+                        {activeFilter.options.map((item) => {
+                          const option = getOptionValue(item);
+                          const label = getOptionLabel(item);
                           const isSelected =
                             draftSelectedFilters[activeFilter.key] === option;
 
@@ -409,7 +418,7 @@ export function MoreFilters({
                                   }
                                 `}
                               >
-                                {option}
+                                {label}
                               </span>
                             </button>
                           );
@@ -479,6 +488,14 @@ export function MoreFilters({
                             (filter) => filter.key === filterKey,
                           );
 
+                          const selectedItem = selectedFilter?.options.find(
+                            (item) => getOptionValue(item) === selectedOption,
+                          );
+
+                          const selectedLabel = selectedItem
+                            ? getOptionLabel(selectedItem)
+                            : selectedOption;
+
                           return (
                             <span
                               key={filterKey}
@@ -491,8 +508,8 @@ export function MoreFilters({
                             >
                               <span className="max-w-48 truncate">
                                 {selectedFilter
-                                  ? `${selectedFilter.title}: ${selectedOption}`
-                                  : selectedOption}
+                                  ? `${selectedFilter.title}: ${selectedLabel}`
+                                  : selectedLabel}
                               </span>
 
                               <button

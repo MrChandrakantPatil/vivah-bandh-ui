@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { shortlistProfile, unshortlistProfile } from '../api';
 import { getCdnUrl } from '@/utils/cdn';
-
+import type { MatchProfile } from '../types';
 import {
   BadgeCheck,
   Bookmark,
@@ -11,24 +11,6 @@ import {
   Scaling,
   BriefcaseBusiness,
 } from 'lucide-react';
-
-interface MatchProfile {
-  userId: string;
-  name: string;
-  matchPercentage: number;
-  age: number;
-  occupation: string;
-  location: {
-    city: string | null;
-    state: string | null;
-    country: string | null;
-  };
-  height: number;
-  religion: string;
-  maritalStatus: string;
-  profilePhotos: string[];
-  isShortlisted: boolean;
-}
 
 interface MatchCardProps {
   match: MatchProfile;
@@ -41,12 +23,6 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
 
   const imageKey = match.profilePhotos?.[0];
   const image = imageKey ? getCdnUrl(imageKey) : '';
-
-  console.log(image);
-
-  console.log('Profile photos:', match.profilePhotos);
-  console.log('First photo key:', match.profilePhotos?.[0]);
-  console.log('Generated CDN URL:', getCdnUrl(match.profilePhotos?.[0]));
 
   // Get the first character of the first name and surname.
   const initials =
