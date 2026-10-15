@@ -338,8 +338,9 @@ export function PartnerPreferences() {
               "
             />
           ) : (
-            <p className="mt-3 font-semibold text-[#172554] text-base">
-              {profile.partnerPreference?.minAge || '-'} years
+            <p className="mt-3 font-semibold text-gray-400 text-base">
+              {profile.partnerPreference?.minAge ?? '-'}
+              {profile.partnerPreference?.minAge != null && ' years'}
             </p>
           )}
         </div>
@@ -371,8 +372,9 @@ export function PartnerPreferences() {
               "
             />
           ) : (
-            <p className="mt-3 font-semibold text-[#172554] text-base">
-              {profile.partnerPreference?.maxAge || '-'} years
+            <p className="mt-3 font-semibold text-gray-400 text-base">
+              {profile.partnerPreference?.maxAge ?? '-'}
+              {profile.partnerPreference?.maxAge != null && ' years'}
             </p>
           )}
         </div>

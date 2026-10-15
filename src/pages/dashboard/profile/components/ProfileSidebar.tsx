@@ -13,53 +13,95 @@ const getDefaultProfilePhoto = (gender?: string | null): string => {
     : DEFAULT_MALE_PHOTO;
 };
 
-const getProfileSectionStatus = (profile: Profile) => [
-  {
-    label: 'About Me',
-    completed: Boolean(profile.aboutMe?.trim()),
-  },
-  {
-    label: 'Personal Details',
-    completed: Boolean(
-      profile.dob &&
-      profile.religion &&
-      profile.community &&
-      profile.height &&
-      profile.color &&
-      profile.maritalStatus &&
-      profile.motherTongue,
-    ),
-  },
-  {
-    label: 'Education & Career',
-    completed: Boolean(
-      profile.education && profile.occupation && profile.annualIncome,
-    ),
-  },
-  {
-    label: 'Family Details',
-    completed: Boolean(
-      profile.familyType &&
-      profile.familyStatus &&
-      profile.fatherOccupation &&
-      profile.motherOccupation &&
-      profile.brothers != null &&
-      profile.sisters != null,
-    ),
-  },
-  {
-    label: 'Location',
-    completed: Boolean(profile.location),
-  },
-  {
-    label: 'Photos',
-    completed: Boolean(profile.profilePhotos?.length),
-  },
-  {
-    label: 'Partner Preferences',
-    completed: Boolean(profile.partnerPreference),
-  },
-];
+function isValueFilled(value: unknown): boolean {
+  if (value == null) return false;
+
+  if (typeof value === 'string') {
+    return value.trim().length > 0;
+  }
+
+  if (Array.isArray(value)) {
+    return value.length > 0 && value.every(isValueFilled);
+  }
+
+  if (typeof value === 'object') {
+    const values = Object.values(value as Record<string, unknown>);
+
+    return values.length > 0 && values.every(isValueFilled);
+  }
+
+  return true;
+}
+
+function isPartnerPreferenceComplete(partnerPreference: unknown): boolean {
+  if (
+    !partnerPreference ||
+    typeof partnerPreference !== 'object' ||
+    Array.isArray(partnerPreference)
+  ) {
+    return false;
+  }
+
+  const preferences = Object.values(
+    partnerPreference as Record<string, unknown>,
+  );
+
+  return preferences.length > 0 && preferences.every(isValueFilled);
+}
+
+function getProfileSectionStatus(profile: Profile) {
+  return [
+    {
+      label: 'About Me',
+      completed: Boolean(profile.aboutMe?.trim()),
+    },
+    {
+      label: 'Personal Details',
+      completed: Boolean(
+        profile.dob &&
+        profile.religion &&
+        profile.community &&
+        profile.height &&
+        profile.color &&
+        profile.maritalStatus &&
+        profile.motherTongue,
+      ),
+    },
+    {
+      label: 'Education & Career',
+      completed: Boolean(
+        profile.education && profile.occupation && profile.annualIncome,
+      ),
+    },
+    {
+      label: 'Family Details',
+      completed: Boolean(
+        profile.familyType &&
+        profile.familyStatus &&
+        profile.fatherOccupation &&
+        profile.motherOccupation &&
+        profile.brothers != null &&
+        profile.sisters != null,
+      ),
+    },
+    {
+      label: 'Location',
+      completed: Boolean(
+        profile.location?.city?.trim() &&
+        profile.location?.state?.trim() &&
+        profile.location?.country?.trim()
+      ),
+    },
+    {
+      label: 'Photos',
+      completed: Boolean(profile.profilePhotos?.length),
+    },
+    {
+      label: 'Partner Preferences',
+      completed: isPartnerPreferenceComplete(profile.partnerPreference),
+    },
+  ];
+}
 
 const getProfileStrength = (profile: Profile) => {
   const sections = getProfileSectionStatus(profile);

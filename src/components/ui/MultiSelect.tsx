@@ -63,7 +63,6 @@ export function MultiSelect({
         ${className}
       `}
     >
-      {/* Selected Values */}
       <button
         type="button"
         disabled={disabled}
@@ -83,7 +82,6 @@ export function MultiSelect({
           }
         `}
       >
-        {/* Horizontal Chip Container */}
         <div
           className="
             flex flex-1 items-center gap-2
@@ -110,7 +108,6 @@ export function MultiSelect({
           )}
         </div>
 
-        {/* Dropdown Icon */}
         <ChevronDown
           size={18}
           className={`
@@ -123,7 +120,6 @@ export function MultiSelect({
         />
       </button>
 
-      {/* Dropdown */}
       {isOpen && (
         <div
           className="
