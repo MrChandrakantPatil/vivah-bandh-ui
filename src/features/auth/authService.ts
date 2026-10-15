@@ -1,4 +1,4 @@
-import { apiClient } from '../../api/client';
+import { apiClient } from '@/api/client';
 import type { User } from './types';
 import type { ApiResponse } from '@/api/types';
 
@@ -30,7 +30,7 @@ export const logoutApi = async (): Promise<ApiResponse<never>> => {
   return response.data;
 };
 
-export const getCurrentUserApi = async () => {
+export const getCurrentUserApi = async (): Promise<ApiResponse<User>> => {
   const response = await apiClient.get<ApiResponse<User>>('/auth/me');
 
   return response.data;

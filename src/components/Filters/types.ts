@@ -1,8 +1,11 @@
-import type { Dispatch, ElementType, SetStateAction } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import type { LucideIcon } from 'lucide-react';
+
+export type FilterOptionItem = string | { value: string; label: string };
 
 export type MultiSelectFilterProps = {
   title: string;
-  icon: ElementType;
+  icon: LucideIcon;
   options: string[];
   selectedOptions: string[];
   setSelectedOptions: (options: string[]) => void;
@@ -11,15 +14,15 @@ export type MultiSelectFilterProps = {
 export type MoreFilterOption = {
   key: string;
   title: string;
-  icon: ElementType;
-  options: string[];
+  icon: LucideIcon;
+  options: FilterOptionItem[];
 };
 
 export type SelectedMoreFilters = Record<string, string>;
 
 export type MoreFiltersProps = {
   title?: string;
-  icon?: ElementType;
+  icon?: LucideIcon;
   options: MoreFilterOption[];
   selectedFilters: SelectedMoreFilters;
   setSelectedFilters: Dispatch<SetStateAction<SelectedMoreFilters>>;
