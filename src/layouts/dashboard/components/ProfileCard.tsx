@@ -122,8 +122,7 @@ function MenuItem({
       </div>
 
       {RightIcon && (
-        <RightIcon size={22} 
-          className="text-amber-500 fill-amber-400" />
+        <RightIcon size={22} className="text-amber-500 fill-amber-400" />
       )}
     </button>
   );
@@ -196,14 +195,12 @@ export function ProfileCard({ onLogout }: ProfileCardProps) {
             />
 
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-slate-700 text-xl truncate"
-              >
+              <h3 className="font-semibold text-slate-700 text-xl truncate">
                 {profile?.name || user?.email || 'User'}
               </h3>
 
               <div className="flex items-center gap-2 mt-1 text-amber-700">
-                <Crown size={18} 
-                  className="fill-amber-400" />
+                <Crown size={18} className="fill-amber-400" />
 
                 <span className="font-medium text-sm">Premium Member</span>
               </div>
@@ -216,8 +213,7 @@ export function ProfileCard({ onLogout }: ProfileCardProps) {
           {profileMenus.map((item) => {
             if (item.divider) {
               return (
-                <div key={item.id} 
-                  className="my-2 border-t border-gray-300" />
+                <div key={item.id} className="my-2 border-t border-gray-300" />
               );
             }
 

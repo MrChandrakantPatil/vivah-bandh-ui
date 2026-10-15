@@ -6,6 +6,8 @@ RUN npm ci
 
 ARG VITE_API_BASE_URL=http://vivahbandh.shomexa.com:3000
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+ARG VITE_CDN_BASE_URL=https://vivahbandh-images.shomexa.com
+ENV VITE_CDN_BASE_URL=$VITE_CDN_BASE_URL
 
 COPY . .
 RUN npm run build

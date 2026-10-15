@@ -3,12 +3,7 @@ import { AuthContext } from './AuthContext';
 import { AuthReducer } from './authReducer';
 import { initialAuthState } from './initialState';
 
-import {
-  getCurrentUserApi,
-  loginApi,
-  logoutApi,
-  refreshTokenApi,
-} from './authService';
+import { getCurrentUserApi, loginApi, logoutApi } from './authService';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -39,27 +34,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const refreshAuth = useCallback(async () => {
     try {
-      let userResponse;
+      const response = await getCurrentUserApi();
 
-      try {
-        userResponse = await getCurrentUserApi();
-      } catch {
-        const refreshResponse = await refreshTokenApi();
-
-        if (!refreshResponse.success) {
-          throw new Error(refreshResponse.message || 'Session expired');
-        }
-
-        userResponse = await getCurrentUserApi();
-      }
-
-      if (!userResponse.success || !userResponse.data) {
-        throw new Error(userResponse.message || 'Authentication failed');
+      if (!response.success || !response.data) {
+        throw new Error(response.message || 'Authentication failed');
       }
 
       dispatch({
         type: 'LOGIN_SUCCESS',
-        payload: userResponse.data,
+        payload: response.data,
       });
     } catch {
       dispatch({ type: 'AUTH_FAILURE' });
@@ -76,6 +59,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, []);
 
+  // Handle a refresh failure that occurs during normal API usage.
+  useEffect(() => {
+    const handleSessionExpired = () => {
+      dispatch({ type: 'AUTH_FAILURE' });
+    };
+
+    window.addEventListener('auth:session-expired', handleSessionExpired);
+
+    return () => {
+      window.removeEventListener('auth:session-expired', handleSessionExpired);
+    };
+  }, []);
+
+  // Restore the session when the application starts.
   useEffect(() => {
     void refreshAuth();
   }, [refreshAuth]);
