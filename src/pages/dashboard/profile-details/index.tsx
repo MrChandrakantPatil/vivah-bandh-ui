@@ -167,7 +167,7 @@ export function ProfileDetails({ userId: propUserId }: ProfileDetailsProps) {
         className="
           grid grid-cols-1 items-start gap-5
           min-w-0
-          xl:grid-cols-[minmax(340px,400px)_minmax(0,1fr)] xl:gap-6
+          xl:grid-cols-[minmax(400px,460px)_minmax(0,1fr)] xl:gap-6
         "
       >
         <aside className="space-y-5 min-w-0">
@@ -303,7 +303,7 @@ export function ProfileDetails({ userId: propUserId }: ProfileDetailsProps) {
           </section>
 
           {profile.aboutMe && (
-            <SectionCard title="About Me" icon={Heart}>
+            <SectionCard title="About Us" icon={Heart}>
               <p className="whitespace-pre-line leading-7 text-slate-600 text-sm">
                 {profile.aboutMe}
               </p>
