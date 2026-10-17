@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { shortlistProfile, unshortlistProfile } from '../api';
 import { getCdnUrl } from '@/utils/cdn';
 import type { MatchProfile } from '../types';
@@ -18,6 +19,8 @@ interface MatchCardProps {
 }
 
 export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
+  const navigate = useNavigate();
+
   const [isUpdating, setIsUpdating] = useState(false);
   const [imageError, setImageError] = useState(false);
 
@@ -63,6 +66,10 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
     }
   };
 
+  const handleViewProfile = () => {
+    navigate(`/matches/${encodeURIComponent(match.userId)}`);
+  };
+
   return (
     <div className="bg-white shadow-md rounded-xl transition overflow-hidden hover:shadow-xl">
       <div className="relative bg-gray-100 overflow-hidden aspect-video">
@@ -99,7 +106,7 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
           "
         >
           <div className="flex items-center text-sm">
-            <Heart className="w-4 h-4 mr-1 fill-[#ea0a55]" />
+            <Heart className="w-5 h-5 mr-1 fill-[#ea0a55]" />
             {match.matchPercentage}%
           </div>
 
@@ -216,6 +223,7 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
 
           <button
             type="button"
+            onClick={handleViewProfile}
             className="
               flex-1
               px-3 py-2
