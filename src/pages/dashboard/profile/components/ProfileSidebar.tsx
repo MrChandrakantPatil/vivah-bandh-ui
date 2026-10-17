@@ -89,7 +89,7 @@ function getProfileSectionStatus(profile: Profile) {
       completed: Boolean(
         profile.location?.city?.trim() &&
         profile.location?.state?.trim() &&
-        profile.location?.country?.trim()
+        profile.location?.country?.trim(),
       ),
     },
     {
