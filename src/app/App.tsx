@@ -16,6 +16,7 @@ import { Profile } from '@/pages/dashboard/profile';
 import { Settings } from '@/pages/dashboard/settings';
 import { Help } from '@/pages/dashboard/help';
 import { Upgrade } from '@/pages/dashboard/upgrade';
+import { ProfileDetails } from '@/pages/dashboard/profile-details';
 
 import { PublicRoute, ProtectedRoute } from '@/features/auth';
 import { ProfileProvider } from '@/features/profile';
@@ -47,6 +48,7 @@ function App() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/help-and-support" element={<Help />} />
               <Route path="/upgrade" element={<Upgrade />} />
+              <Route path="/matches/:userId" element={<ProfileDetails />} />
             </Route>
           </Route>
         </Routes>
