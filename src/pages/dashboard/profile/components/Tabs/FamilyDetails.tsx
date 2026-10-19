@@ -1,26 +1,28 @@
 import { useState } from 'react';
 import type { ChangeEvent } from 'react';
+import { UsersRound } from 'lucide-react';
 import { ProfileEditActions } from '../ProfileEditActions';
+import { SectionCard } from '../SectionCard';
 import { Select } from '@/components/ui/Select';
 import { useProfile } from '@/features/profile';
 import type { SelectOption } from '@/data/types';
 import type { UpdateProfilePayload } from '../../types';
 import { updateProfileApi } from '../../api';
 
-const familyTypeOptions = [
+const familyTypeOptions: SelectOption[] = [
   { value: 'Nuclear Family', label: 'Nuclear Family' },
   { value: 'Joint Family', label: 'Joint Family' },
   { value: 'Extended Family', label: 'Extended Family' },
 ];
 
-const familyStatusOptions = [
+const familyStatusOptions: SelectOption[] = [
   { value: 'Middle Class', label: 'Middle Class' },
   { value: 'Upper Middle Class', label: 'Upper Middle Class' },
   { value: 'Affluent', label: 'Affluent' },
   { value: 'Rich', label: 'Rich' },
 ];
 
-const occupationOptions = [
+const occupationOptions: SelectOption[] = [
   { value: 'Software Engineer', label: 'Software Engineer' },
   { value: 'Frontend Developer', label: 'Frontend Developer' },
   { value: 'Backend Developer', label: 'Backend Developer' },
@@ -185,18 +187,16 @@ export function FamilyDetails() {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormData);
 
-  if (!profile) {
-    return <div>Loading profile...</div>;
-  }
-
   const handleEdit = () => {
+    if (!profile) return;
+
     setFormData({
       familyType: profile.familyType || '',
       familyStatus: profile.familyStatus || '',
       fatherOccupation: profile.fatherOccupation || '',
       motherOccupation: profile.motherOccupation || '',
-      brothers: profile.brothers ? String(profile.brothers) : '',
-      sisters: profile.sisters ? String(profile.sisters) : '',
+      brothers: profile.brothers != null ? String(profile.brothers) : '',
+      sisters: profile.sisters != null ? String(profile.sisters) : '',
     });
 
     setSaveError(null);
@@ -249,8 +249,8 @@ export function FamilyDetails() {
       familyStatus: formData.familyStatus,
       fatherOccupation: formData.fatherOccupation,
       motherOccupation: formData.motherOccupation,
-      brothers: Number(formData.brothers),
-      sisters: Number(formData.sisters),
+      brothers: formData.brothers === '' ? 0 : Number(formData.brothers),
+      sisters: formData.sisters === '' ? 0 : Number(formData.sisters),
     };
 
     try {
@@ -267,8 +267,8 @@ export function FamilyDetails() {
           response.data?.fatherOccupation ?? updatedProfile.fatherOccupation,
         motherOccupation:
           response.data?.motherOccupation ?? updatedProfile.motherOccupation,
-        brothers: Number(response.data?.brothers ?? updatedProfile.brothers),
-        sisters: Number(response.data?.sisters ?? updatedProfile.sisters),
+        brothers: response.data?.brothers ?? updatedProfile.brothers,
+        sisters: response.data?.sisters ?? updatedProfile.sisters,
       });
 
       setIsEditing(false);
@@ -281,79 +281,98 @@ export function FamilyDetails() {
     }
   };
 
+  if (!profile) {
+    return (
+      <SectionCard title="Family Details" icon={UsersRound}>
+        <p className="text-gray-500 text-sm">Loading profile...</p>
+      </SectionCard>
+    );
+  }
+
   return (
-    <div className="relative h-full">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {familyDetails.map((detail) => {
-          const value = isEditing ? formData[detail.key] : profile[detail.key];
+    <SectionCard
+      title="Family Details"
+      icon={UsersRound}
+      onEdit={handleEdit}
+      isEditing={isEditing}
+    >
+      <div className="relative">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {familyDetails.map((detail) => {
+            const value = isEditing
+              ? formData[detail.key]
+              : profile[detail.key];
 
-          return (
-            <div
-              key={detail.key}
-              className="
-                px-5 py-5
-                bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
-                transition
-                hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
-              "
-            >
-              <p className="font-medium text-gray-500 text-sm">
-                {detail.label}
-              </p>
-
-              {isEditing ? (
-                detail.type === 'select' ? (
-                  <Select
-                    value={String(value || '')}
-                    onChange={(selectedValue) =>
-                      handleSelectChange(detail.key, selectedValue)
-                    }
-                    placeholder={`Select ${detail.label}`}
-                    options={detail.options}
-                  />
-                ) : (
-                  <input
-                    type="number"
-                    name={detail.key}
-                    value={value || ''}
-                    min={0}
-                    onChange={handleInputChange}
-                    className="
-                      w-full px-3 py-2.5 mt-3
-                      bg-white rounded-lg border border-gray-200
-                      font-medium text-[#172554] text-base
-                      transition
-                      focus:border-pink-400 focus:ring-2 focus:ring-pink-100
-                      outline-none
-                    "
-                  />
-                )
-              ) : (
-                <p className="mt-3 font-semibold text-[#172554] text-base">
-                  {formatValue(detail, value)}
+            return (
+              <div
+                key={detail.key}
+                className="
+                  px-5 py-5
+                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+                  transition
+                  hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
+                "
+              >
+                <p className="font-medium text-gray-500 text-sm">
+                  {detail.label}
                 </p>
-              )}
-            </div>
-          );
-        })}
+
+                {isEditing ? (
+                  detail.type === 'select' ? (
+                    <Select
+                      value={String(value ?? '')}
+                      onChange={(selectedValue) =>
+                        handleSelectChange(detail.key, selectedValue)
+                      }
+                      placeholder={`Select ${detail.label}`}
+                      options={detail.options}
+                    />
+                  ) : (
+                    <input
+                      type="number"
+                      name={detail.key}
+                      value={String(value ?? '')}
+                      min={0}
+                      step={1}
+                      onChange={handleInputChange}
+                      className="
+                        w-full px-3 py-2.5 mt-3
+                        bg-white rounded-lg border border-gray-200
+                        font-medium text-[#172554] text-base
+                        transition
+                        focus:border-pink-400 focus:ring-2 focus:ring-pink-100
+                        outline-none
+                      "
+                    />
+                  )
+                ) : (
+                  <p className="mt-3 font-semibold text-[#172554] text-base">
+                    {formatValue(detail, value)}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {saveError && (
+          <p className="mt-3 text-red-600 text-sm" role="alert">
+            {saveError}
+          </p>
+        )}
+
+        <ProfileEditActions
+          isEditing={isEditing}
+          onCancel={handleCancel}
+          onSave={handleSave}
+        />
+
+        {isSaving && (
+          <p className="mt-2 text-gray-500 text-sm" role="status">
+            Saving changes...
+          </p>
+        )}
       </div>
-
-      {saveError && (
-        <p className="mt-3 text-red-600 text-sm" role="alert">
-          {saveError}
-        </p>
-      )}
-
-      <ProfileEditActions
-        isEditing={isEditing}
-        onEdit={handleEdit}
-        onCancel={handleCancel}
-        onSave={handleSave}
-      />
-
-      {isSaving && (
-        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
-      )}
-    </div>
+    </SectionCard>
   );
 }

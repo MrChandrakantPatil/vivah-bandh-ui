@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { Heart } from 'lucide-react';
+
+import { SectionCard } from '../SectionCard';
 import { ProfileEditActions } from '../ProfileEditActions';
 import { useProfile } from '@/features/profile';
 import { updateProfileApi } from '../../api';
@@ -10,9 +13,7 @@ export function AboutMe() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
-  if (!profile) {
-    return null;
-  }
+  if (!profile) return null;
 
   const handleEdit = () => {
     setAboutMe(profile.aboutMe || '');
@@ -56,7 +57,12 @@ export function AboutMe() {
   };
 
   return (
-    <div className="relative h-full">
+    <SectionCard
+      title="About Me"
+      icon={Heart}
+      onEdit={handleEdit}
+      isEditing={isEditing}
+    >
       {isEditing ? (
         <textarea
           value={aboutMe}
@@ -90,7 +96,6 @@ export function AboutMe() {
 
       <ProfileEditActions
         isEditing={isEditing}
-        onEdit={handleEdit}
         onCancel={handleCancel}
         onSave={handleSave}
       />
@@ -98,6 +103,6 @@ export function AboutMe() {
       {isSaving && (
         <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
       )}
-    </div>
+    </SectionCard>
   );
 }

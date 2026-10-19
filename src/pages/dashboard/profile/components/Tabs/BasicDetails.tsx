@@ -1,15 +1,20 @@
 import { useState } from 'react';
+import type { ChangeEvent } from 'react';
+import { UserRound } from 'lucide-react';
+
+import { SectionCard } from '../SectionCard';
 import { ProfileEditActions } from '../ProfileEditActions';
 import { Select } from '@/components/ui/Select';
 import { useProfile } from '@/features/profile';
 import { updateProfileApi } from '../../api';
+
 import {
   complexionOptions,
   genderOptions,
   maritalStatusOptions,
   profileForOptions,
 } from '@/data';
-import type { ChangeEvent } from 'react';
+
 import type { SelectOption } from '@/data/types';
 import type { Gender } from '@/types/profile.types';
 import type { UpdateProfilePayload } from '../../types';
@@ -80,8 +85,29 @@ const initialFormData: FormData = {
   maritalStatus: '',
 };
 
+function getFormData(
+  profile: NonNullable<ReturnType<typeof useProfile>['profile']>,
+): FormData {
+  return {
+    name: profile.name || '',
+    profileFor: profile.profileFor || '',
+    gender: profile.gender || '',
+    dob: formatDateForInput(profile.dob),
+    height: profile.height != null ? String(profile.height) : '',
+    color: profile.color || '',
+    maritalStatus: profile.maritalStatus || '',
+  };
+}
+
 function formatDateForInput(value: string | null | undefined): string {
   if (!value) return '';
+
+  // Handle date-only values without timezone shifting.
+  const dateOnlyMatch = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
+
+  if (dateOnlyMatch) {
+    return `${dateOnlyMatch[1]}-${dateOnlyMatch[2]}-${dateOnlyMatch[3]}`;
+  }
 
   const date = new Date(value);
 
@@ -134,30 +160,23 @@ export function BasicDetails() {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
-
   const [formData, setFormData] = useState<FormData>(initialFormData);
 
-  if (!profile) {
-    return <div>Loading profile...</div>;
-  }
-
   const handleEdit = () => {
-    setFormData({
-      name: profile.name || '',
-      profileFor: profile.profileFor || '',
-      gender: profile.gender || '',
-      dob: formatDateForInput(profile.dob),
-      height: profile.height != null ? String(profile.height) : '',
-      color: profile.color || '',
-      maritalStatus: profile.maritalStatus || '',
-    });
+    if (!profile) return;
 
+    setFormData(getFormData(profile));
     setSaveError(null);
     setIsEditing(true);
   };
 
   const handleCancel = () => {
-    setFormData(initialFormData);
+    if (profile) {
+      setFormData(getFormData(profile));
+    } else {
+      setFormData(initialFormData);
+    }
+
     setSaveError(null);
     setIsEditing(false);
   };
@@ -179,18 +198,36 @@ export function BasicDetails() {
   };
 
   const handleSave = async () => {
-    if (formData.gender !== 'male' && formData.gender !== 'female') {
-      setSaveError('Please select a valid gender.');
-      return;
-    }
-
     if (!formData.name.trim()) {
       setSaveError('Please enter your full name.');
       return;
     }
 
+    if (formData.gender !== 'male' && formData.gender !== 'female') {
+      setSaveError('Please select a valid gender.');
+      return;
+    }
+
     if (!formData.dob) {
       setSaveError('Please select your date of birth.');
+      return;
+    }
+
+    const selectedDate = new Date(`${formData.dob}T00:00:00`);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (Number.isNaN(selectedDate.getTime()) || selectedDate > today) {
+      setSaveError('Please select a valid date of birth.');
+      return;
+    }
+
+    if (
+      formData.height &&
+      (!Number.isFinite(Number(formData.height)) ||
+        Number(formData.height) <= 0)
+    ) {
+      setSaveError('Please enter a valid height.');
       return;
     }
 
@@ -235,80 +272,107 @@ export function BasicDetails() {
     }
   };
 
+  if (!profile) {
+    return (
+      <SectionCard title="Personal Information" icon={UserRound}>
+        <p className="text-gray-500 text-sm">Loading profile...</p>
+      </SectionCard>
+    );
+  }
+
   return (
-    <div className="relative h-full">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {personalDetails.map((detail) => {
-          const value = isEditing ? formData[detail.key] : profile[detail.key];
+    <SectionCard
+      title="Personal Information"
+      icon={UserRound}
+      onEdit={handleEdit}
+      isEditing={isEditing}
+    >
+      <div className="relative">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {personalDetails.map((detail) => {
+            const value = isEditing
+              ? formData[detail.key]
+              : profile[detail.key];
 
-          return (
-            <div
-              key={detail.key}
-              className="
-                px-5 py-5
-                bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
-                transition
-                hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
-              "
-            >
-              <p className="font-medium text-gray-500 text-sm">
-                {detail.label}
-              </p>
-
-              {isEditing ? (
-                detail.type === 'select' ? (
-                  <Select
-                    value={String(value || '')}
-                    onChange={(selectedValue) =>
-                      handleSelectChange(detail.key, selectedValue)
-                    }
-                    placeholder={`Select ${detail.label}`}
-                    options={detail.options}
-                  />
-                ) : (
-                  <input
-                    type={detail.type}
-                    name={detail.key}
-                    value={value ?? ''}
-                    onChange={handleInputChange}
-                    disabled={isSaving}
-                    min={detail.key === 'height' ? 1 : undefined}
-                    className="
-                      w-full px-3 py-2.5 mt-3
-                      bg-white rounded-lg border border-gray-200
-                      font-medium text-[#172554] text-base
-                      transition
-                      disabled:opacity-60 focus:border-pink-400 focus:ring-2 focus:ring-pink-100
-                      outline-none
-                    "
-                  />
-                )
-              ) : (
-                <p className="mt-3 font-semibold text-[#172554] text-base">
-                  {formatValue(detail, value)}
+            return (
+              <div
+                key={detail.key}
+                className="
+                  px-5 py-5
+                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+                  transition
+                  hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
+                "
+              >
+                <p className="font-medium text-gray-500 text-sm">
+                  {detail.label}
                 </p>
-              )}
-            </div>
-          );
-        })}
+
+                {isEditing ? (
+                  detail.type === 'select' ? (
+                    <Select
+                      value={String(value ?? '')}
+                      onChange={(selectedValue) =>
+                        handleSelectChange(detail.key, selectedValue)
+                      }
+                      placeholder={`Select ${detail.label}`}
+                      options={detail.options}
+                    />
+                  ) : (
+                    <input
+                      type={detail.type}
+                      name={detail.key}
+                      value={value == null ? '' : String(value)}
+                      onChange={handleInputChange}
+                      disabled={isSaving}
+                      min={
+                        detail.key === 'height'
+                          ? 1
+                          : detail.key === 'dob'
+                            ? undefined
+                            : undefined
+                      }
+                      max={
+                        detail.key === 'dob'
+                          ? formatDateForInput(new Date().toISOString())
+                          : undefined
+                      }
+                      className="
+                        w-full px-3 py-2.5 mt-3
+                        bg-white rounded-lg border border-gray-200
+                        font-medium text-[#172554] text-base
+                        transition
+                        disabled:opacity-60 focus:border-pink-400 focus:ring-2 focus:ring-pink-100
+                        outline-none
+                      "
+                    />
+                  )
+                ) : (
+                  <p className="mt-3 font-semibold text-[#172554] text-base">
+                    {formatValue(detail, value)}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {saveError && (
+          <p className="mt-3 text-red-600 text-sm" role="alert">
+            {saveError}
+          </p>
+        )}
+
+        <ProfileEditActions
+          isEditing={isEditing}
+          onCancel={handleCancel}
+          onSave={handleSave}
+        />
+
+        {isSaving && (
+          <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
+        )}
       </div>
-
-      {saveError && (
-        <p className="mt-3 text-red-600 text-sm" role="alert">
-          {saveError}
-        </p>
-      )}
-
-      <ProfileEditActions
-        isEditing={isEditing}
-        onEdit={handleEdit}
-        onCancel={handleCancel}
-        onSave={handleSave}
-      />
-
-      {isSaving && (
-        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
-      )}
-    </div>
+    </SectionCard>
   );
 }

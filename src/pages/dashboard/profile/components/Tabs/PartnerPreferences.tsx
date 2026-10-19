@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { HeartHandshake } from 'lucide-react';
 import { MultiSelect } from '@/components/ui/MultiSelect';
 import { ChipCarousel } from '@/components/ui/ChipCarousel';
 import { ProfileEditActions } from '../ProfileEditActions';
+import { SectionCard } from '../SectionCard';
 import { useProfile } from '@/features/profile';
 import type { SelectOption } from '@/data/types';
 import type { UpdateProfilePayload } from '../../types';
@@ -199,6 +201,13 @@ const initialFormData: FormData = {
   occupation: [],
 };
 
+const parseAge = (value: string): number | null => {
+  if (value.trim() === '') return null;
+
+  const age = Number(value);
+  return Number.isFinite(age) ? age : null;
+};
+
 export function PartnerPreferences() {
   const { profile, updateProfileData } = useProfile();
 
@@ -207,21 +216,20 @@ export function PartnerPreferences() {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormData);
 
-  if (!profile) {
-    return <div>Loading profile...</div>;
-  }
-
   const handleEdit = () => {
+    if (!profile) return;
+
     const preferences = profile.partnerPreference;
 
     setFormData({
-      minAge: preferences?.minAge ? String(preferences.minAge) : '',
-      maxAge: preferences?.maxAge ? String(preferences.maxAge) : '',
-      religion: preferences?.religion || [],
-      community: preferences?.community || [],
-      education: preferences?.education || [],
-      occupation: preferences?.occupation || [],
+      minAge: preferences?.minAge != null ? String(preferences.minAge) : '',
+      maxAge: preferences?.maxAge != null ? String(preferences.maxAge) : '',
+      religion: preferences?.religion ?? [],
+      community: preferences?.community ?? [],
+      education: preferences?.education ?? [],
+      occupation: preferences?.occupation ?? [],
     });
+
     setSaveError(null);
     setIsEditing(true);
   };
@@ -250,14 +258,32 @@ export function PartnerPreferences() {
   };
 
   const handleSave = async () => {
+    const minAge = parseAge(formData.minAge);
+    const maxAge = parseAge(formData.maxAge);
+
+    if (minAge !== null && (minAge < 18 || minAge > 100)) {
+      setSaveError('Minimum age must be between 18 and 100.');
+      return;
+    }
+
+    if (maxAge !== null && (maxAge < 18 || maxAge > 100)) {
+      setSaveError('Maximum age must be between 18 and 100.');
+      return;
+    }
+
+    if (minAge !== null && maxAge !== null && minAge > maxAge) {
+      setSaveError('Minimum age cannot be greater than maximum age.');
+      return;
+    }
+
     const updatedProfile: UpdateProfilePayload = {
       partnerPreference: {
-        minAge: Number(formData.minAge || null),
-        maxAge: Number(formData.maxAge || null),
-        religion: formData.religion || [],
-        community: formData.community || [],
-        education: formData.education || [],
-        occupation: formData.occupation || [],
+        minAge,
+        maxAge,
+        religion: formData.religion,
+        community: formData.community,
+        education: formData.education,
+        occupation: formData.occupation,
       },
     };
 
@@ -266,35 +292,16 @@ export function PartnerPreferences() {
       setSaveError(null);
 
       const response = await updateProfileApi(updatedProfile);
+      const savedPreferences = response.data?.partnerPreference;
 
       updateProfileData({
         partnerPreference: {
-          minAge: Number(
-            response.data?.partnerPreference?.minAge ??
-              updatedProfile.partnerPreference?.minAge ??
-              null,
-          ),
-          maxAge: Number(
-            response.data?.partnerPreference?.maxAge ??
-              updatedProfile.partnerPreference?.minAge ??
-              null,
-          ),
-          religion:
-            response.data?.partnerPreference?.religion ??
-            updatedProfile.partnerPreference?.religion ??
-            [],
-          community:
-            response.data?.partnerPreference?.community ??
-            updatedProfile.partnerPreference?.community ??
-            [],
-          education:
-            response.data?.partnerPreference?.education ??
-            updatedProfile.partnerPreference?.education ??
-            [],
-          occupation:
-            response.data?.partnerPreference?.occupation ??
-            updatedProfile.partnerPreference?.occupation ??
-            [],
+          minAge: savedPreferences?.minAge ?? minAge,
+          maxAge: savedPreferences?.maxAge ?? maxAge,
+          religion: savedPreferences?.religion ?? formData.religion,
+          community: savedPreferences?.community ?? formData.community,
+          education: savedPreferences?.education ?? formData.education,
+          occupation: savedPreferences?.occupation ?? formData.occupation,
         },
       });
 
@@ -308,139 +315,157 @@ export function PartnerPreferences() {
     }
   };
 
+  if (!profile) {
+    return (
+      <SectionCard title="Partner Preferences" icon={HeartHandshake}>
+        <p className="text-gray-500 text-sm">Loading profile...</p>
+      </SectionCard>
+    );
+  }
+
+  const preferences = profile.partnerPreference;
+
   return (
-    <div className="relative h-full">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <div
-          className="
-            px-5 py-5
-            bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
-          "
-        >
-          <p className="font-medium text-gray-500 text-sm">Minimum Age</p>
+    <SectionCard
+      title="Partner Preferences"
+      icon={HeartHandshake}
+      onEdit={handleEdit}
+      isEditing={isEditing}
+    >
+      <div className="relative">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div
+            className="
+              px-5 py-5
+              bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+            "
+          >
+            <p className="font-medium text-gray-500 text-sm">Minimum Age</p>
 
-          {isEditing ? (
-            <input
-              type="number"
-              value={formData.minAge}
-              min={18}
-              max={100}
-              onChange={(event) =>
-                handleAgeChange('minAge', event.target.value)
-              }
-              className="
-                w-full px-3 py-2.5 mt-3
-                bg-white rounded-lg border border-gray-200
-                font-medium text-[#172554] text-base
-                transition
-                focus:border-pink-400 focus:ring-2 focus:ring-pink-100
-                outline-none
-              "
-            />
-          ) : (
-            <p className="mt-3 font-semibold text-gray-400 text-base">
-              {profile.partnerPreference?.minAge ?? '-'}
-              {profile.partnerPreference?.minAge != null && ' years'}
-            </p>
-          )}
-        </div>
-
-        <div
-          className="
-            px-5 py-5
-            bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
-          "
-        >
-          <p className="font-medium text-gray-500 text-sm">Maximum Age</p>
-
-          {isEditing ? (
-            <input
-              type="number"
-              value={formData.maxAge}
-              min={18}
-              max={100}
-              onChange={(event) =>
-                handleAgeChange('maxAge', event.target.value)
-              }
-              className="
-                w-full px-3 py-2.5 mt-3
-                bg-white rounded-lg border border-gray-200
-                font-medium text-[#172554] text-base
-                transition
-                focus:border-pink-400 focus:ring-2 focus:ring-pink-100
-                outline-none
-              "
-            />
-          ) : (
-            <p className="mt-3 font-semibold text-gray-400 text-base">
-              {profile.partnerPreference?.maxAge ?? '-'}
-              {profile.partnerPreference?.maxAge != null && ' years'}
-            </p>
-          )}
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 gap-5 mt-5 md:grid-cols-2">
-        {partnerPreferenceDetails.map((detail) => {
-          const values = isEditing
-            ? formData[detail.key]
-            : profile.partnerPreference?.[detail.key] || [];
-
-          return (
-            <div
-              key={detail.key}
-              className="
-                px-5 py-5
-                bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
-                transition
-                hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
-              "
-            >
-              <p className="mb-4 font-medium text-gray-500 text-sm">
-                {detail.label}
+            {isEditing ? (
+              <input
+                type="number"
+                value={formData.minAge}
+                min={18}
+                max={100}
+                onChange={(event) =>
+                  handleAgeChange('minAge', event.target.value)
+                }
+                className="
+                  w-full px-3 py-2.5 mt-3
+                  bg-white rounded-lg border border-gray-200
+                  font-medium text-[#172554] text-base
+                  transition
+                  focus:border-pink-400 focus:ring-2 focus:ring-pink-100
+                  outline-none
+                "
+              />
+            ) : (
+              <p className="mt-3 font-semibold text-[#172554] text-base">
+                {preferences?.minAge ?? '-'}
+                {preferences?.minAge != null && ' years'}
               </p>
+            )}
+          </div>
 
-              {isEditing ? (
-                <MultiSelect
-                  value={values}
-                  onChange={(selectedValues) =>
-                    handleMultiSelectChange(detail.key, selectedValues)
-                  }
-                  options={detail.options}
-                  placeholder={`Select ${detail.label}`}
-                />
-              ) : (
-                <ChipCarousel
-                  values={values.map((value) => {
-                    const option = detail.options.find(
-                      (item) => item.value === value,
-                    );
+          <div
+            className="
+              px-5 py-5
+              bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+            "
+          >
+            <p className="font-medium text-gray-500 text-sm">Maximum Age</p>
 
-                    return option?.label || value;
-                  })}
-                />
-              )}
-            </div>
-          );
-        })}
+            {isEditing ? (
+              <input
+                type="number"
+                value={formData.maxAge}
+                min={18}
+                max={100}
+                onChange={(event) =>
+                  handleAgeChange('maxAge', event.target.value)
+                }
+                className="
+                  w-full px-3 py-2.5 mt-3
+                  bg-white rounded-lg border border-gray-200
+                  font-medium text-[#172554] text-base
+                  transition
+                  focus:border-pink-400 focus:ring-2 focus:ring-pink-100
+                  outline-none
+                "
+              />
+            ) : (
+              <p className="mt-3 font-semibold text-[#172554] text-base">
+                {preferences?.maxAge ?? '-'}
+                {preferences?.maxAge != null && ' years'}
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 mt-5 md:grid-cols-2">
+          {partnerPreferenceDetails.map((detail) => {
+            const values = isEditing
+              ? formData[detail.key]
+              : (preferences?.[detail.key] ?? []);
+
+            return (
+              <div
+                key={detail.key}
+                className="
+                  px-5 py-5
+                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+                  transition
+                  hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
+                "
+              >
+                <p className="mb-4 font-medium text-gray-500 text-sm">
+                  {detail.label}
+                </p>
+
+                {isEditing ? (
+                  <MultiSelect
+                    value={values}
+                    onChange={(selectedValues) =>
+                      handleMultiSelectChange(detail.key, selectedValues)
+                    }
+                    options={detail.options}
+                    placeholder={`Select ${detail.label}`}
+                  />
+                ) : (
+                  <ChipCarousel
+                    values={values.map((value) => {
+                      const option = detail.options.find(
+                        (item) => item.value === value,
+                      );
+
+                      return option?.label || value;
+                    })}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {saveError && (
+          <p className="mt-3 text-red-600 text-sm" role="alert">
+            {saveError}
+          </p>
+        )}
+
+        <ProfileEditActions
+          isEditing={isEditing}
+          onCancel={handleCancel}
+          onSave={handleSave}
+        />
+
+        {isSaving && (
+          <p className="mt-2 text-gray-500 text-sm" role="status">
+            Saving changes...
+          </p>
+        )}
       </div>
-
-      {saveError && (
-        <p className="mt-3 text-red-600 text-sm" role="alert">
-          {saveError}
-        </p>
-      )}
-
-      <ProfileEditActions
-        isEditing={isEditing}
-        onEdit={handleEdit}
-        onCancel={handleCancel}
-        onSave={handleSave}
-      />
-
-      {isSaving && (
-        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
-      )}
-    </div>
+    </SectionCard>
   );
 }
