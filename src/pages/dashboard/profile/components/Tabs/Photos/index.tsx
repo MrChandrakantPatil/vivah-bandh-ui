@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
-import { LoaderCircle } from 'lucide-react';
-
+import { Images, LoaderCircle } from 'lucide-react';
 import { useProfile } from '@/features/profile';
 import { deleteProfilePhotoApi, updateProfileApi } from '../../../api';
 import { uploadProfilePhotos } from '../../../api';
-
+import { SectionCard } from '../../SectionCard';
 import { PhotoGallery } from './PhotoGallery';
 import { PhotoUploadModal } from './PhotoUploadModal';
 import type { PhotoItem } from './PhotoGallery';
@@ -45,7 +44,11 @@ export function Photos() {
   }, []);
 
   if (!profile) {
-    return <div>Loading profile...</div>;
+    return (
+      <SectionCard title="Profile Photos" icon={Images}>
+        <div>Loading profile...</div>
+      </SectionCard>
+    );
   }
 
   const profilePhotos = profile.profilePhotos ?? [];
@@ -212,56 +215,58 @@ export function Photos() {
   ];
 
   return (
-    <div className="relative h-full">
-      <PhotoGallery
-        photos={displayedPhotos}
-        primaryPhoto={primaryPhoto}
-        remainingSlots={remainingSlots}
-        isSaving={isSaving}
-        isSettingPrimary={isSettingPrimary}
-        deletingPhotoKey={deletingPhotoKey}
-        onAddPhoto={handleAddPhoto}
-        onSetPrimary={handleSetPrimary}
-        onDelete={handleDeletePhoto}
-      />
+    <SectionCard title="Profile Photos" icon={Images}>
+      <div className="relative h-full">
+        <PhotoGallery
+          photos={displayedPhotos}
+          primaryPhoto={primaryPhoto}
+          remainingSlots={remainingSlots}
+          isSaving={isSaving}
+          isSettingPrimary={isSettingPrimary}
+          deletingPhotoKey={deletingPhotoKey}
+          onAddPhoto={handleAddPhoto}
+          onSetPrimary={handleSetPrimary}
+          onDelete={handleDeletePhoto}
+        />
 
-      {error && (
-        <div
-          role="alert"
-          className="
-            px-4 py-3 mt-4
-            bg-red-50 rounded-lg
-            text-red-600 text-sm
-          "
-        >
-          {error}
-        </div>
-      )}
+        {error && (
+          <div
+            role="alert"
+            className="
+              px-4 py-3 mt-4
+              bg-red-50 rounded-lg
+              text-red-600 text-sm
+            "
+          >
+            {error}
+          </div>
+        )}
 
-      {(isSaving || isSettingPrimary) && (
-        <div role="status" aria-live="polite" className="mt-4 sr-only">
-          {isSaving ? 'Saving photos...' : 'Updating primary photo...'}
-        </div>
-      )}
+        {(isSaving || isSettingPrimary) && (
+          <div role="status" aria-live="polite" className="mt-4 sr-only">
+            {isSaving ? 'Saving photos...' : 'Updating primary photo...'}
+          </div>
+        )}
 
-      <PhotoUploadModal
-        isOpen={isUploadModalOpen}
-        remainingSlots={remainingSlots}
-        isSaving={isSaving}
-        onClose={() => {
-          if (!isSaving) {
-            setIsUploadModalOpen(false);
-          }
-        }}
-        onSave={handleSavePhotos}
-      />
+        <PhotoUploadModal
+          isOpen={isUploadModalOpen}
+          remainingSlots={remainingSlots}
+          isSaving={isSaving}
+          onClose={() => {
+            if (!isSaving) {
+              setIsUploadModalOpen(false);
+            }
+          }}
+          onSave={handleSavePhotos}
+        />
 
-      {isBusy && (
-        <div className="sr-only" role="status" aria-live="polite">
-          <LoaderCircle className="animate-spin" />
-          Please wait while your photo operation completes.
-        </div>
-      )}
-    </div>
+        {isBusy && (
+          <div className="sr-only" role="status" aria-live="polite">
+            <LoaderCircle className="animate-spin" />
+            Please wait while your photo operation completes.
+          </div>
+        )}
+      </div>
+    </SectionCard>
   );
 }

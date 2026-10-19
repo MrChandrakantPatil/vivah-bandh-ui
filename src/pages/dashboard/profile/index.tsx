@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { User } from 'lucide-react';
+
 import { ProfileSidebar } from './components/ProfileSidebar';
-import { ProfileNavigation } from './components/ProfileNavigation';
+
 import {
   AboutMe,
   BasicDetails,
@@ -12,34 +12,15 @@ import {
   PartnerPreferences,
 } from './components/Tabs';
 
-import type { ProfileSection } from './types';
-
 export function Profile() {
-  const [activeSection, setActiveSection] = useState<ProfileSection>('about');
-
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'about':
-        return <AboutMe />;
-      case 'personal':
-        return <BasicDetails />;
-      case 'education':
-        return <EducationCareer />;
-      case 'family':
-        return <FamilyDetails />;
-      case 'location':
-        return <LocationDetails />;
-      case 'photos':
-        return <Photos />;
-      case 'partner':
-        return <PartnerPreferences />;
-      default:
-        return <AboutMe />;
-    }
+  const scrollToPhotos = () => {
+    document
+      .getElementById('profile-photos')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <div className="flex flex-col w-full h-auto lg:h-full lg:min-h-0">
+    <div className="max-w-6xl min-w-0 pb-10 mx-auto text-slate-900">
       <div className="flex items-center gap-3 shrink-0 sm:gap-4">
         <div
           className="
@@ -50,8 +31,7 @@ export function Profile() {
             sm:w-16 sm:h-16
           "
         >
-          <User size={24} className="sm:hidden" />
-          <User size={28} className="sm:block hidden" />
+          <User size={28} />
         </div>
 
         <div className="min-w-0">
@@ -67,33 +47,30 @@ export function Profile() {
 
       <div
         className="
-          flex flex-col flex-1 gap-4
-          w-full min-h-0 mt-6
+          grid grid-cols-1 items-start gap-5
+          min-w-0 pt-8 mt-6
           border-t border-gray-200
-          lg:flex-row sm:gap-6 sm:mt-8
+          xl:grid-cols-[minmax(320px,380px)_minmax(0,1fr)] xl:gap-8
         "
       >
-        <div className="w-full min-w-0 pt-6 lg:shrink-0 lg:w-auto">
-          <ProfileSidebar
-            navigateToPhotosSection={() => setActiveSection('photos')}
-          />
-        </div>
+        <ProfileSidebar navigateToPhotosSection={scrollToPhotos} />
 
-        <main
-          className="
-            flex flex-col flex-1
-            w-full min-w-0 min-h-0 pb-6
-            lg:pl-8 lg:border-l lg:border-gray-200
-          "
-        >
-          <ProfileNavigation
-            activeSection={activeSection}
-            onSectionChange={setActiveSection}
-          />
+        <main className="space-y-8 min-w-0">
+          <AboutMe />
 
-          <div className="flex-1 min-w-0 min-h-0 mt-6 sm:mt-8">
-            {renderContent()}
+          <BasicDetails />
+
+          <EducationCareer />
+
+          <FamilyDetails />
+
+          <LocationDetails />
+
+          <div id="profile-photos" className="scroll-mt-13">
+            <Photos />
           </div>
+
+          <PartnerPreferences />
         </main>
       </div>
     </div>
