@@ -158,7 +158,14 @@ export function ProfileSidebar({
   const allSectionsCompleted = completedCount === sectionStatuses.length;
 
   return (
-    <aside className="shrink-0 w-full lg:w-75">
+    <aside
+      className="
+        min-w-0 p-6
+        bg-white shadow-[0_4px_24px_rgba(15,23,42,0.04)] rounded-2xl border border-slate-200/80
+        overflow-hidden
+        xl:sticky xl:top-5 xl:self-start
+      "
+    >
       <div
         className={`
           relative

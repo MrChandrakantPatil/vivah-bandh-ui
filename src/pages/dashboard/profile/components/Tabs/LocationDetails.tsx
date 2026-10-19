@@ -1,16 +1,20 @@
 import { useState } from 'react';
+import { MapPin } from 'lucide-react';
 import { ProfileEditActions } from '../ProfileEditActions';
+import { SectionCard } from '../SectionCard';
 import { Select } from '@/components/ui/Select';
 import { useProfile } from '@/features/profile';
 import type { SelectOption } from '@/data/types';
 import type { UpdateProfilePayload } from '../../types';
 import { updateProfileApi } from '../../api';
 
-const countryOptions = [{ value: 'India', label: 'India' }];
+const countryOptions: SelectOption[] = [{ value: 'India', label: 'India' }];
 
-const stateOptions = [{ value: 'Maharashtra', label: 'Maharashtra' }];
+const stateOptions: SelectOption[] = [
+  { value: 'Maharashtra', label: 'Maharashtra' },
+];
 
-const cityOptions = [
+const cityOptions: SelectOption[] = [
   { value: 'Mumbai', label: 'Mumbai' },
   { value: 'Pune', label: 'Pune' },
   { value: 'Nagpur', label: 'Nagpur' },
@@ -59,7 +63,7 @@ type LocationDetailKey = 'country' | 'state' | 'city';
 interface LocationDetail {
   label: string;
   key: LocationDetailKey;
-  options?: SelectOption[];
+  options: SelectOption[];
 }
 
 interface FormData {
@@ -100,16 +104,15 @@ export function LocationDetails() {
   const [saveError, setSaveError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>(initialFormData);
 
-  if (!profile) {
-    return <div>Loading profile...</div>;
-  }
-
   const handleEdit = () => {
+    if (!profile) return;
+
     setFormData({
       country: profile.location?.country || '',
       state: profile.location?.state || '',
       city: profile.location?.city || '',
     });
+
     setSaveError(null);
     setIsEditing(true);
   };
@@ -131,12 +134,10 @@ export function LocationDetails() {
     detail: LocationDetail,
     value: string | null | undefined,
   ) => {
-    if (!value) {
-      return '-';
-    }
+    if (!value) return '-';
 
     return (
-      detail.options?.find((option) => option.value === value)?.label || value
+      detail.options.find((option) => option.value === value)?.label || value
     );
   };
 
@@ -182,63 +183,79 @@ export function LocationDetails() {
     }
   };
 
+  if (!profile) {
+    return (
+      <SectionCard title="Location Details" icon={MapPin}>
+        <p className="text-gray-500 text-sm">Loading profile...</p>
+      </SectionCard>
+    );
+  }
+
   return (
-    <div className="relative h-full">
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {locationDetails.map((detail) => {
-          const value = isEditing
-            ? formData[detail.key]
-            : profile.location?.[detail.key];
+    <SectionCard
+      title="Location Details"
+      icon={MapPin}
+      onEdit={handleEdit}
+      isEditing={isEditing}
+    >
+      <div className="relative">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+          {locationDetails.map((detail) => {
+            const value = isEditing
+              ? formData[detail.key]
+              : profile.location?.[detail.key];
 
-          return (
-            <div
-              key={detail.key}
-              className="
-                px-5 py-5
-                bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
-                transition
-                hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
-              "
-            >
-              <p className="font-medium text-gray-500 text-sm">
-                {detail.label}
-              </p>
-
-              {isEditing ? (
-                <Select
-                  value={String(value || '')}
-                  onChange={(selectedValue) =>
-                    handleSelectChange(detail.key, selectedValue)
-                  }
-                  placeholder={`Select ${detail.label}`}
-                  options={detail.options}
-                />
-              ) : (
-                <p className="mt-3 font-semibold text-[#172554] text-base">
-                  {formatValue(detail, value)}
+            return (
+              <div
+                key={detail.key}
+                className="
+                  px-5 py-5
+                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+                  transition
+                  hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
+                "
+              >
+                <p className="font-medium text-gray-500 text-sm">
+                  {detail.label}
                 </p>
-              )}
-            </div>
-          );
-        })}
+
+                {isEditing ? (
+                  <Select
+                    value={String(value ?? '')}
+                    onChange={(selectedValue) =>
+                      handleSelectChange(detail.key, selectedValue)
+                    }
+                    placeholder={`Select ${detail.label}`}
+                    options={detail.options}
+                  />
+                ) : (
+                  <p className="mt-3 font-semibold text-[#172554] text-base">
+                    {formatValue(detail, value)}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {saveError && (
+          <p className="mt-3 text-red-600 text-sm" role="alert">
+            {saveError}
+          </p>
+        )}
+
+        <ProfileEditActions
+          isEditing={isEditing}
+          onCancel={handleCancel}
+          onSave={handleSave}
+        />
+
+        {isSaving && (
+          <p className="mt-2 text-gray-500 text-sm" role="status">
+            Saving changes...
+          </p>
+        )}
       </div>
-
-      {saveError && (
-        <p className="mt-3 text-red-600 text-sm" role="alert">
-          {saveError}
-        </p>
-      )}
-
-      <ProfileEditActions
-        isEditing={isEditing}
-        onEdit={handleEdit}
-        onCancel={handleCancel}
-        onSave={handleSave}
-      />
-
-      {isSaving && (
-        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
-      )}
-    </div>
+    </SectionCard>
   );
 }
