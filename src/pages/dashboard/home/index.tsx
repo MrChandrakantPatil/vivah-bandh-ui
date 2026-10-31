@@ -1,206 +1,235 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Card } from './components/Card';
+import { useNavigate } from 'react-router-dom';
+import {
+  ArrowRight,
+  BadgeCheck,
+  BookOpen,
+  HeartHandshake,
+  HelpCircle,
+  ShieldCheck,
+  SlidersHorizontal,
+  Users,
+} from 'lucide-react';
+
+import { CompleteProfile } from './components/CompleteProfile';
 import { MatchesSection } from './components/MatchesSection';
-import { RecentActivities } from './components/RecentActivities';
-import { ProfileStrength } from './components/ProfileStrength';
-import { ProfileViewsChart } from './components/ProfileViewsChart';
-import { dashboardStats } from './data';
-import { useHorizontalScroll } from '@/hooks/useHorizontalScroll';
 import { useProfile } from '@/features/profile';
 
 export function Dashboard() {
-  const { scrollRef, canScrollLeft, canScrollRight, scrollLeft, scrollRight } =
-    useHorizontalScroll('.dashboard-card', dashboardStats.length);
-
+  const navigate = useNavigate();
   const { profile } = useProfile();
 
+  const handleCompleteProfile = () => {
+    navigate('/profile');
+  };
+
+  const profileCompletionPercentage = Math.min(
+    100,
+    Math.max(0, profile?.profilePercentage ?? 0),
+  );
+
+  const isProfileComplete = profileCompletionPercentage === 100;
+
+  if (!isProfileComplete) {
+    return <CompleteProfile onCompleteProfile={handleCompleteProfile} />;
+  }
+
   return (
-    <div className="flex flex-col gap-6 xl:flex-row xl:items-start">
-      <div className="flex-1 min-w-0">
-        <h1 className="font-semibold text-xl sm:text-2xl lg:text-3xl">
-          Welcome back, {profile?.name}!
-        </h1>
+    <div className="space-y-6 pb-8">
+      {/* Welcome header */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-xl font-semibold text-slate-900 sm:text-2xl lg:text-3xl">
+            Welcome back!
+          </h1>
 
-        <p className="mt-1 text-gray-500 text-sm sm:text-base">
-          Let's find your perfect life partner
-        </p>
-
-        <div className="relative my-6">
-          {canScrollLeft && (
-            <button
-              type="button"
-              onClick={scrollLeft}
-              className="
-                absolute top-1/2 left-1 z-10
-                flex items-center justify-center
-                w-9 h-9
-                bg-white shadow rounded-full border border-gray-200
-                text-gray-600
-                -translate-y-1/2
-              "
-            >
-              <ChevronLeft size={20} />
-            </button>
-          )}
-
-          <div ref={scrollRef} className="pb-4 overflow-x-auto">
-            <div className="grid grid-cols-[repeat(4,minmax(200px,1fr))] gap-4">
-              {dashboardStats.map((stat) => (
-                <div key={stat.id} className="dashboard-card">
-                  <Card {...stat} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {canScrollRight && (
-            <button
-              type="button"
-              onClick={scrollRight}
-              className="
-                absolute top-1/2 right-1 z-10
-                flex items-center justify-center
-                w-9 h-9
-                bg-white shadow rounded-full border border-gray-200
-                text-gray-600
-                -translate-y-1/2
-              "
-            >
-              <ChevronRight size={20} />
-            </button>
-          )}
+          <p className="mt-1 text-sm text-gray-500 sm:text-base">
+            Your journey toward finding the right life partner starts here.
+          </p>
         </div>
 
-        <MatchesSection />
-
-        <div className="grid grid-cols-1 gap-6 mt-6 lg:grid-cols-2">
-          <RecentActivities />
-
-          <div className="p-4 shadow-sm rounded-lg border border-gray-200 text-gray-600">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-bold text-md">Profile Views Overview</h3>
-
-              <select className="p-1 rounded-sm border border-gray-300 text-xs">
-                <option>This Week</option>
-                <option>This Month</option>
-              </select>
-            </div>
-
-            <ProfileViewsChart />
-
-            <div className="flex items-center pt-2 border-t border-gray-200">
-              <div className="flex-1 flex items-center gap-1">
-                <span className="font-semibold text-gray-500 text-xs">
-                  Total Views
-                </span>
-
-                <span className="font-bold text-gray-500 text-md">890</span>
-              </div>
-
-              <div
-                className="
-                  flex-1 flex items-center gap-1
-                  pl-6
-                  border-l border-gray-200
-                "
-              >
-                <span className="font-bold text-green-500 text-md">+120</span>
-
-                <span className="font-semibold text-gray-500 text-xs">
-                  vs last week
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Partner preferences */}
+        <button
+          type="button"
+          onClick={() => navigate('/profile')}
+          className="
+            inline-flex w-fit items-center gap-2
+            rounded-lg border border-gray-200 bg-white
+            px-4 py-2.5 text-sm font-semibold text-slate-700
+            transition hover:border-pink-200 hover:bg-pink-50
+          "
+        >
+          <SlidersHorizontal size={17} className="text-[#e63b66]" />
+          Partner Preferences
+        </button>
       </div>
 
-      <div className="shrink-0 w-full xl:w-87.5">
-        <ProfileStrength />
+      {/* Recommended matches */}
+      <MatchesSection />
 
-        <div
-          className="
-            p-5 mt-6
-            shadow rounded-lg border border-gray-200
-            text-gray-600
-          "
-        >
-          <div className="flex justify-between">
-            <h4 className="font-bold text-md">Who Viewed You</h4>
-
-            <button className="font-semibold text-[#e63b66] text-xs">
-              View All
-            </button>
-          </div>
-
-          <div className="grid grid-cols-6 gap-2 mt-5">
-            {[...Array(5)].map((_, index) => (
-              <div
-                key={index}
-                className="w-10 h-10 bg-[#f9f1f3] rounded-full overflow-hidden"
-              >
-                <img
-                  src="https://vivahbandh-images.shomexa.com/users/female/i.png"
-                  alt="Profile"
-                  className="w-full h-full object-cover object-center"
-                />
-              </div>
-            ))}
-
-            <div
-              className="
-                flex items-center justify-center
-                w-10 h-10
-                bg-[#f9f1f3] rounded-full
-                font-bold text-gray-600 text-xs
-                overflow-hidden
-              "
-            >
-              +15
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="
-            px-5 py-4 mt-6
-            shadow rounded-lg border border-gray-200
-            text-gray-600
-          "
-        >
-          <div className="flex justify-between">
-            <h4 className="font-bold text-md">Success Stories</h4>
-          </div>
-
-          <div className="flex justify-between gap-5 mt-4">
-            <div className="w-25 h-25 rounded-full overflow-hidden">
-              <img
-                src="https://vivahbandh-images.shomexa.com/users/female/ii.png"
-                alt="Profile"
-                className="w-full h-full object-cover object-center"
-              />
+      {/* Trust and safety banner */}
+      <section className="overflow-hidden rounded-2xl border border-pink-100 bg-linear-to-r from-pink-50 to-white p-5 sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
+              <ShieldCheck size={26} className="text-[#e63b66]" />
             </div>
 
-            <div className="flex-1">
-              <p className="text-gray-700 text-sm">
-                Thousands of couples found their perfect match on Vivah Bandh.
+            <div className="max-w-xl">
+              <h2 className="text-lg font-bold text-slate-900">
+                Your Safety Matters
+              </h2>
+
+              <p className="mt-1 text-sm leading-6 text-gray-600">
+                Take your time getting to know potential partners. Protect
+                your personal information, never send money to someone you
+                have only met online, and report suspicious behaviour.
               </p>
-
-              <button
-                className="
-                  px-3 py-1 mt-4
-                  rounded-md border border-pink-300
-                  font-semibold text-pink-600 text-xs
-                  transition
-                  hover:bg-pink-50
-                "
-              >
-                Read Stories
-              </button>
             </div>
           </div>
+
+          <button
+            type="button"
+            onClick={() => navigate('/help')}
+            className="
+              inline-flex shrink-0 items-center gap-2
+              self-start rounded-lg bg-[#e63b66] px-4 py-2.5
+              text-sm font-semibold text-white transition
+              hover:bg-[#cf2855]
+              sm:self-center
+            "
+          >
+            Safety Tips
+            <ArrowRight size={16} />
+          </button>
         </div>
-      </div>
+      </section>
+
+      {/* Trust-focused information cards */}
+      <section>
+        <div className="mb-4">
+          <h2 className="text-lg font-bold text-slate-900">
+            Your Journey with VivahBandh
+          </h2>
+
+          <p className="mt-1 text-sm text-gray-500">
+            Helpful guidance for a confident matrimonial journey.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          {/* Profile verification */}
+          <article className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-pink-50">
+              <BadgeCheck size={24} className="text-[#e63b66]" />
+            </div>
+
+            <h3 className="mt-4 font-bold text-slate-900">
+              Understanding Verification
+            </h3>
+
+            <p className="mt-2 flex-1 text-sm leading-6 text-gray-500">
+              Learn what profile verification means, which details may be
+              checked, and how to understand verification badges.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => navigate('/help')}
+              className="mt-4 inline-flex items-center gap-2 self-start text-sm font-semibold text-[#e63b66] hover:underline"
+            >
+              Learn More
+              <ArrowRight size={16} />
+            </button>
+          </article>
+
+          {/* Family guide */}
+          <article className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-pink-50">
+              <Users size={24} className="text-[#e63b66]" />
+            </div>
+
+            <h3 className="mt-4 font-bold text-slate-900">
+              A Guide for Families
+            </h3>
+
+            <p className="mt-2 flex-1 text-sm leading-6 text-gray-500">
+              Explore helpful questions to discuss, ways to communicate
+              expectations, and tips for making informed decisions together.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => navigate('/help')}
+              className="mt-4 inline-flex items-center gap-2 self-start text-sm font-semibold text-[#e63b66] hover:underline"
+            >
+              Read Guide
+              <ArrowRight size={16} />
+            </button>
+          </article>
+
+          {/* Matrimonial journey guide */}
+          <article className="flex flex-col rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:shadow-md">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-pink-50">
+              <HeartHandshake size={24} className="text-[#e63b66]" />
+            </div>
+
+            <h3 className="mt-4 font-bold text-slate-900">
+              How VivahBandh Works
+            </h3>
+
+            <p className="mt-2 flex-1 text-sm leading-6 text-gray-500">
+              Understand how to discover compatible profiles, express
+              interest, and take the next steps at your own pace.
+            </p>
+
+            <button
+              type="button"
+              onClick={() => navigate('/help')}
+              className="mt-4 inline-flex items-center gap-2 self-start text-sm font-semibold text-[#e63b66] hover:underline"
+            >
+              Explore Guide
+              <ArrowRight size={16} />
+            </button>
+          </article>
+        </div>
+      </section>
+
+      {/* Help and support */}
+      <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-start gap-3">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-pink-50">
+              <HelpCircle size={24} className="text-[#e63b66]" />
+            </div>
+
+            <div>
+              <h2 className="font-bold text-slate-900">
+                Need Help?
+              </h2>
+
+              <p className="mt-1 text-sm leading-6 text-gray-500">
+                Find answers about your account, privacy, and using VivahBandh.
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => navigate('/help')}
+            className="
+              inline-flex shrink-0 items-center gap-2
+              self-start rounded-lg border border-gray-200
+              px-4 py-2.5 text-sm font-semibold text-slate-700
+              transition hover:bg-gray-50
+              sm:self-center
+            "
+          >
+            <BookOpen size={17} />
+            Help Center
+            <ArrowRight size={16} />
+          </button>
+        </div>
+      </section>
     </div>
   );
 }

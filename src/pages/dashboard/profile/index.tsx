@@ -20,7 +20,7 @@ export function Profile() {
   };
 
   return (
-    <div className="max-w-6xl min-w-0 pb-10 mx-auto text-slate-900">
+    <div className="min-w-0 pb-10 mx-auto text-slate-900">
       <div className="flex items-center gap-3 shrink-0 sm:gap-4">
         <div
           className="

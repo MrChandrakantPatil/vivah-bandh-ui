@@ -45,6 +45,7 @@ export interface Profile {
   hobbies: string[] | null;
   lifestyle: string | null;
   profileCompleted: boolean;
+  profilePercentage: number | null;
   status:
     'draft' | 'active' | 'hidden' | 'under_review' | 'rejected' | 'inactive';
 }
