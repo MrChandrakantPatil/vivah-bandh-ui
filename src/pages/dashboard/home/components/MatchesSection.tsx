@@ -1,132 +1,377 @@
-import { CircleCheck, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
-import { useHorizontalScroll } from '@/hooks/useHorizontalScroll';
-import { matches } from '../data';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  HeartHandshake,
+  RefreshCw,
+} from 'lucide-react';
+
+import { initialMatchFilters } from '@/components/Filters/types';
+import type { MatchFiltersState } from '@/components/Filters/types';
+
+import type { MatchProfile } from '@/pages/dashboard/matches/types';
+import { getRecommendedMatches } from '@/pages/dashboard/matches/api';
+import { MatchCard } from '@/pages/dashboard/matches/components/MatchCard';
 
 export function MatchesSection() {
-  const { scrollRef, canScrollLeft, canScrollRight, scrollLeft, scrollRight } =
-    useHorizontalScroll('.match-card', matches.length);
+  const navigate = useNavigate();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const [matches, setMatches] = useState<MatchProfile[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const loadMatches = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await getRecommendedMatches(
+        initialMatchFilters as MatchFiltersState,
+        'bestMatch',
+        '',
+        1,
+        10,
+      );
+
+      setMatches(response.data.matches);
+    } catch (error) {
+      console.error('Failed to fetch dashboard matches:', error);
+      setError('Unable to load recommended matches.');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    let isActive = true;
+
+    const fetchMatches = async () => {
+      try {
+        const response = await getRecommendedMatches(
+          initialMatchFilters as MatchFiltersState,
+          'bestMatch',
+          '',
+          1,
+          10,
+        );
+
+        if (isActive) {
+          setMatches(response.data.matches);
+          setError(null);
+        }
+      } catch (error) {
+        console.error('Failed to fetch dashboard matches:', error);
+
+        if (isActive) {
+          setError('Unable to load recommended matches.');
+        }
+      } finally {
+        if (isActive) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    void fetchMatches();
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  const updateScrollButtons = useCallback(() => {
+    const container = scrollRef.current;
+
+    if (!container) return;
+
+    const firstCard = container.querySelector(
+      '.dashboard-match-card',
+    ) as HTMLElement | null;
+
+    const lastCard = container.querySelector(
+      '.dashboard-match-card:last-child',
+    ) as HTMLElement | null;
+
+    if (!firstCard || !lastCard) {
+      setCanScrollLeft(false);
+      setCanScrollRight(false);
+      return;
+    }
+
+    const containerRect = container.getBoundingClientRect();
+    const firstCardRect = firstCard.getBoundingClientRect();
+    const lastCardRect = lastCard.getBoundingClientRect();
+
+    const tolerance = 3;
+
+    setCanScrollLeft(
+      firstCardRect.left < containerRect.left - tolerance,
+    );
+
+    setCanScrollRight(
+      lastCardRect.right > containerRect.right + tolerance,
+    );
+  }, []);
+
+  useEffect(() => {
+    const container = scrollRef.current;
+
+    if (!container || isLoading || error || matches.length === 0) {
+      setCanScrollLeft(false);
+      setCanScrollRight(false);
+      return;
+    }
+
+    let animationFrame = 0;
+
+    const scheduleUpdate = () => {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(updateScrollButtons);
+    };
+
+    scheduleUpdate();
+
+    container.addEventListener('scroll', scheduleUpdate, {
+      passive: true,
+    });
+
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
+
+    resizeObserver.observe(container);
+
+    if (container.firstElementChild) {
+      resizeObserver.observe(container.firstElementChild);
+    }
+
+    window.addEventListener('resize', scheduleUpdate);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      container.removeEventListener('scroll', scheduleUpdate);
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', scheduleUpdate);
+    };
+  }, [matches, isLoading, error, updateScrollButtons]);
+
+  const scroll = (direction: 'left' | 'right') => {
+    const container = scrollRef.current;
+
+    if (!container) return;
+
+    const firstCard = container.querySelector(
+      '.dashboard-match-card',
+    ) as HTMLElement | null;
+
+    if (!firstCard) return;
+
+    const cardWidth = firstCard.getBoundingClientRect().width;
+    const track = firstCard.parentElement;
+    const trackStyle = track ? window.getComputedStyle(track) : null;
+    const gap = trackStyle
+      ? parseFloat(trackStyle.columnGap) || 0
+      : 0;
+
+    container.scrollBy({
+      left:
+        direction === 'right'
+          ? cardWidth + gap
+          : -(cardWidth + gap),
+      behavior: 'smooth',
+    });
+  };
+
+  const handleShortlistChange = (
+    candidateUserId: string,
+    isShortlisted: boolean,
+  ) => {
+    setMatches((previousMatches) =>
+      previousMatches.map((match) =>
+        match.userId === candidateUserId
+          ? { ...match, isShortlisted }
+          : match,
+      ),
+    );
+  };
 
   return (
-    <div
+    <section
       className="
-        px-6 py-2
-        shadow rounded-lg border border-gray-100
-        text-gray-600
+        rounded-2xl border border-pink-100
+        bg-linear-to-l from-pink-50 to-white
+        px-5 py-5 shadow-sm
+        sm:px-6
       "
     >
-      <div className="flex justify-between pt-4">
-        <h4 className="font-bold text-md">Recommended Matches</h4>
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-base font-bold text-slate-900">
+          Recommended Matches
+        </h2>
 
-        <button className="font-semibold text-[#e63b66] text-xs">
-          View All
-        </button>
-      </div>
-
-      <div className="relative">
-        {canScrollLeft && (
+        {matches.length > 0 && (
           <button
             type="button"
-            onClick={scrollLeft}
+            onClick={() => navigate('/matches')}
             className="
-              absolute top-1/3 z-10 -left-5
-              flex items-center justify-center
-              w-9 h-9
-              bg-white shadow rounded-full border border-gray-200
-              text-gray-600
-              -translate-y-1/2
+              inline-flex shrink-0 items-center gap-1
+              text-xs font-semibold text-[#e63b66]
+              transition hover:underline
             "
           >
-            <ChevronLeft size={20} />
+            View All
+            <ArrowRight size={14} />
           </button>
         )}
+      </div>
 
-        <div ref={scrollRef} className="px-1 py-4 overflow-x-auto">
-          <div className="grid grid-cols-[repeat(4,minmax(200px,1fr))] gap-6">
-            {matches.map((profile) => (
-              <div
-                key={profile.id}
-                className="shadow rounded-md overflow-hidden match-card"
-              >
-                <div className="relative">
-                  <img
-                    src={profile.image}
-                    alt="Profile"
-                    className="object-cover object-top"
-                  />
+      {isLoading && (
+        <div
+          className="flex min-h-52 flex-col items-center justify-center gap-3"
+          role="status"
+        >
+          <div
+            className="
+              h-8 w-8 animate-spin rounded-full
+              border-2 border-pink-200 border-t-[#e91e63]
+            "
+          />
 
-                  <span
-                    className="
-                      absolute top-1.5 right-1.5
-                      px-2 py-0.5
-                      bg-[#ea416f] rounded-md
-                      font-bold text-white text-xs
-                    "
-                  >
-                    New
-                  </span>
-
-                  <span className="absolute right-2.5 bottom-2 p-2 bg-white rounded-full">
-                    <Heart
-                      size={16}
-                      className="text-[#eb849f] fill-[#eb849f]"
-                    />
-                  </span>
-                </div>
-
-                <div className="p-3">
-                  <h5 className="flex items-center gap-2 font-semibold text-sm">
-                    {profile.name}, {profile.age}
-                    <span
-                      className="
-                        flex items-center justify-center
-                        w-4 h-4
-                        bg-green-500 rounded-full
-                      "
-                    >
-                      <CircleCheck size={15} className="font-bold text-white" />
-                    </span>
-                  </h5>
-
-                  <p className="mt-2 text-gray-500 text-xs">
-                    {profile.profession}
-                  </p>
-
-                  <p className="my-2 text-gray-500 text-xs">
-                    {profile.address}
-                  </p>
-
-                  <span
-                    className="
-                      px-3 py-1
-                      bg-[#fdf0f3] rounded-md
-                      font-bold text-[#e63b66] text-xs
-                    "
-                  >
-                    {profile.matchPercentage}% Match
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p className="text-sm text-gray-500">
+            Finding compatible profiles for you...
+          </p>
         </div>
+      )}
 
-        {canScrollRight && (
+      {!isLoading && error && (
+        <div className="flex min-h-52 flex-col items-center justify-center px-4 text-center">
+          <p className="text-sm text-gray-600">{error}</p>
+
           <button
             type="button"
-            onClick={scrollRight}
+            onClick={() => void loadMatches()}
             className="
-              absolute top-1/3 z-10 -right-5
-              flex items-center justify-center
-              w-9 h-9
-              bg-white shadow rounded-full border border-gray-200
-              text-gray-600
-              -translate-y-1/2
+              mt-4 inline-flex items-center gap-2
+              rounded-lg border border-gray-200 px-4 py-2
+              text-sm font-semibold text-slate-700
+              transition hover:bg-gray-50
             "
           >
-            <ChevronRight size={20} />
+            <RefreshCw size={15} />
+            Try Again
           </button>
-        )}
-      </div>
-    </div>
+        </div>
+      )}
+
+      {!isLoading && !error && matches.length === 0 && (
+        <div className="flex flex-col items-center px-4 py-9 text-center sm:py-11">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-pink-50">
+            <HeartHandshake
+              size={34}
+              strokeWidth={1.5}
+              className="text-[#e63b66]"
+            />
+          </div>
+
+          <h3 className="mt-4 text-lg font-bold text-slate-900">
+            Your perfect match may be just around the corner!
+          </h3>
+
+          <p className="mt-2 max-w-md text-sm leading-6 text-gray-500">
+            We couldn't find compatible profiles right now. New profiles
+            are joining VivahBandh, so check back soon.
+          </p>
+
+          <button
+            type="button"
+            onClick={() => navigate('/profile')}
+            className="
+              mt-4 inline-flex items-center gap-2
+              rounded-lg px-4 py-2.5
+              text-sm font-semibold text-[#e63b66]
+              transition hover:bg-pink-50
+            "
+          >
+            Review Partner Preferences
+            <ArrowRight size={15} />
+          </button>
+        </div>
+      )}
+
+      {!isLoading && !error && matches.length > 0 && (
+        <div className="relative mt-2">
+          <button
+            type="button"
+            aria-label="Previous match"
+            onClick={() => scroll('left')}
+            disabled={!canScrollLeft}
+            className="
+              absolute left-0 top-1/2 z-20
+              flex h-9 w-9 -translate-x-1/2 -translate-y-1/2
+              items-center justify-center
+              rounded-full border border-gray-200
+              bg-white text-gray-700 shadow-md
+              transition hover:bg-pink-50 hover:text-[#e91e63]
+              disabled:cursor-not-allowed disabled:opacity-40
+            "
+          >
+            <ChevronLeft size={21} />
+          </button>
+
+          <div
+            ref={scrollRef}
+            className="
+              overflow-x-auto snap-x snap-mandatory
+              px-[10%] py-3
+              sm:px-2
+              scroll-smooth
+              scrollbar-none
+              [&::-webkit-scrollbar]:hidden
+            "
+          >
+            <div className="flex w-max gap-4 sm:gap-5">
+              {matches.map((match) => (
+                <div
+                  key={match.userId}
+                  className="
+                    dashboard-match-card
+                    w-[80vw] max-w-80 shrink-0
+                    snap-center
+                    sm:w-70 md:w-75
+                  "
+                >
+                  <MatchCard
+                    match={match}
+                    onShortlistChange={handleShortlistChange}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            aria-label="Next match"
+            onClick={() => scroll('right')}
+            disabled={!canScrollRight}
+            className="
+              absolute right-0 top-1/2 z-20
+              flex h-9 w-9 translate-x-1/2 -translate-y-1/2
+              items-center justify-center
+              rounded-full border border-gray-200
+              bg-white text-gray-700 shadow-md
+              transition hover:bg-pink-50 hover:text-[#e91e63]
+              disabled:cursor-not-allowed disabled:opacity-40
+            "
+          >
+            <ChevronRight size={21} />
+          </button>
+        </div>
+      )}
+    </section>
   );
 }

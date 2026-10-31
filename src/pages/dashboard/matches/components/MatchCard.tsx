@@ -96,7 +96,6 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
           </div>
         )}
 
-        {/* Match percentage */}
         <div
           className="
             absolute top-2.5 left-2.5
@@ -113,7 +112,6 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
           <span className="text-md">Match</span>
         </div>
 
-        {/* Shortlist button */}
         <button
           type="button"
           onClick={handleShortlist}
@@ -144,10 +142,12 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
         </button>
       </div>
 
-      {/* Profile details */}
-      <div className="p-4">
-        <div className="flex items-center gap-2">
-          <h3 className="font-bold text-gray-800 text-lg truncate">
+      <div className="min-w-0 p-4">
+        <div className="flex items-center gap-2 min-w-0">
+          <h3
+            className="flex-1 min-w-0 font-bold text-gray-800 text-lg truncate"
+            title={`${match.name}, ${match.age}`}
+          >
             {match.name}, {match.age}
           </h3>
 
@@ -158,53 +158,70 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
           />
         </div>
 
-        {/* Occupation */}
         <div
           className="
             flex items-center gap-1.5
-            mt-1
+            min-w-0 mt-1
             font-medium text-gray-600 text-sm
           "
         >
           <BriefcaseBusiness size={15} className="shrink-0 text-gray-500" />
 
-          <span className="truncate">{match.occupation}</span>
+          <span className="flex-1 min-w-0 truncate" title={match.occupation}>
+            {match.occupation}
+          </span>
         </div>
 
-        {/* Location */}
-        <div className="flex items-center gap-1.5 mt-2 text-gray-600 text-sm">
+        <div
+          className="
+            flex items-center gap-1.5
+            min-w-0 mt-2
+            text-gray-600 text-sm
+          "
+        >
           <MapPin size={16} className="shrink-0 text-gray-500" />
 
-          <span className="truncate">
+          <span
+            className="flex-1 min-w-0 truncate"
+            title={
+              location || match.location.country || 'Location not specified'
+            }
+          >
             {location || match.location.country || 'Location not specified'}
           </span>
         </div>
 
-        {/* Additional details */}
         <div
           className="
-            flex flex-wrap gap-x-4 gap-y-2
-            mt-3
+            flex items-center gap-3
+            min-w-0 mt-3
             text-gray-600 text-sm
           "
         >
-          <span className="flex items-center gap-1.5">
-            <Scaling size={15} className="text-gray-500" />
-            {match.height} cm
+          <span className="flex items-center gap-1.5 shrink-0">
+            <Scaling size={15} className="shrink-0 text-gray-500" />
+
+            <span>{match.height} cm</span>
           </span>
 
-          <span className="flex items-center gap-1.5">
-            <Mosque size={15} className="text-gray-500" />
-            {match.religion}
+          <span className="flex items-center gap-1.5 shrink-0">
+            <Mosque size={15} className="shrink-0 text-gray-500" />
+
+            <span>{match.religion}</span>
           </span>
 
-          <span className="flex items-center gap-1.5">
-            <Heart size={15} className="text-gray-500" />
-            {match.maritalStatus}
+          <span className="flex flex-1 items-center gap-1.5 min-w-0">
+            <Heart size={15} className="shrink-0 text-gray-500" />
+
+            <span
+              className="flex-1 min-w-0 truncate"
+              title={match.maritalStatus}
+            >
+              {match.maritalStatus}
+            </span>
           </span>
         </div>
 
-        {/* Actions */}
         <div className="flex gap-3 mt-4">
           <button
             type="button"

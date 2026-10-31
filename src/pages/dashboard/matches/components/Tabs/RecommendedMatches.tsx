@@ -3,7 +3,7 @@ import type { Dispatch, SetStateAction } from 'react';
 
 import { initialMatchFilters } from '@/components/Filters/types';
 import type { MatchFiltersState } from '@/components/Filters/types';
-import type { MatchProfile } from '../../../matches/types';
+import type { MatchProfile } from '../../types';
 import type { Paginations } from '@/components/Pagination/types';
 
 import { Pagination } from '@/components/Pagination';
