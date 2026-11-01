@@ -1,24 +1,8 @@
 import { useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import type { MatchFiltersState } from '@/components/Filters/types';
-import {
-  Calendar,
-  GraduationCap,
-  Landmark,
-  MapPin,
-  UsersRound,
-} from 'lucide-react';
-
-import {
-  ageOptions,
-  locationOptions,
-  religionOptions,
-  communityOptions,
-  educationOptions,
-  moreFilterOptions,
-  sortOptions,
-} from '@/data';
-
+import type { MatchFiltersState } from '@/types/common.types';
+import { Calendar, GraduationCap, Landmark, MapPin, UsersRound, } from 'lucide-react';
+import { ageOptions, locationOptions, religionOptions, communityOptions, educationOptions, moreFilterOptions, sortOptions, } from '@/data';
 import { MultiSelectFilter } from '@/components/Filters/MultiSelectFilter';
 import { MoreFilters } from '../../../../components/Filters/MoreFilters';
 import { SortBy } from './SortBy';

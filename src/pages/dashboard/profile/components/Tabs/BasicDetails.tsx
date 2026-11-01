@@ -1,20 +1,11 @@
-import { useState } from 'react';
-import type { ChangeEvent } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { UserRound } from 'lucide-react';
-
 import { SectionCard } from '../SectionCard';
 import { ProfileEditActions } from '../ProfileEditActions';
 import { Select } from '@/components/ui/Select';
 import { useProfile } from '@/features/profile';
 import { updateProfileApi } from '../../api';
-
-import {
-  complexionOptions,
-  genderOptions,
-  maritalStatusOptions,
-  profileForOptions,
-} from '@/data';
-
+import { complexionOptions, genderOptions, maritalStatusOptions, profileForOptions, } from '@/data';
 import type { SelectOption } from '@/data/types';
 import type { Gender } from '@/types/profile.types';
 import type { UpdateProfilePayload } from '../../types';

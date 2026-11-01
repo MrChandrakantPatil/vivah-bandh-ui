@@ -1,7 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ChevronDown, RotateCcw, Search, X } from 'lucide-react';
-import type { MultiSelectFilterProps } from './types';
+import { Check, ChevronDown, RotateCcw, Search, X, type LucideIcon } from 'lucide-react';
+
+export type MultiSelectFilterProps = {
+  title: string;
+  icon: LucideIcon;
+  options: string[];
+  selectedOptions: string[];
+  setSelectedOptions: (options: string[]) => void;
+};
 
 export function MultiSelectFilter({
   title,

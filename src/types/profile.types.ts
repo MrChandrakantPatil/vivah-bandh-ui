@@ -1,4 +1,16 @@
+export type RegistrationStep = 1 | 2 | 3 | 4 | 5;
+
+export type ProfileForOption =
+  'self' |
+  'son' |
+  'daughter' |
+  'brother' |
+  'sister' |
+  'relative' |
+  'friend';
+
 export type Gender = 'male' | 'female';
+
 
 export interface Location {
   country: string | null;
@@ -48,4 +60,24 @@ export interface Profile {
   profilePercentage: number | null;
   status:
     'draft' | 'active' | 'hidden' | 'under_review' | 'rejected' | 'inactive';
+}
+
+export interface MatchProfile {
+  userId: string;
+  name: string;
+  age: number;
+  height: number;
+  religion: string;
+  community: string;
+  maritalStatus: string;
+  profilePhotos: string[] | null;
+  occupation: string;
+  education: string;
+  location: Location;
+  familyType: string;
+  hobbies: string;
+  annualIncome: string;
+  lifestyle: string;
+  matchPercentage: number;
+  isShortlisted: boolean;
 }

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Camera, Circle, CircleCheck } from 'lucide-react';
 import { useProfile } from '@/features/profile';
-import type { Profile } from '@/types/profile.types';
 import { getCdnUrl } from '@/utils/cdn';
+import type { Profile } from '@/types/profile.types';
 
 const DEFAULT_MALE_PHOTO = '/images/profile/male.png';
 const DEFAULT_FEMALE_PHOTO = '/images/profile/female.png';

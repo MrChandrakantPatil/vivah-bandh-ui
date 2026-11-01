@@ -1,4 +1,7 @@
-import type { NotificationBadgeProp } from '../types';
+export interface NotificationBadgeProp {
+  count: number;
+  className?: string;
+}
 
 export function NotificationBadge({
   count,

@@ -1,7 +1,7 @@
-export { AccountDetails } from './AccountDetails';
-export { BasicDetails } from './BasicDetails';
-export { ConfirmDetails } from './ConfirmDetails';
-export { ProfileDetails } from './ProfileDetails';
-export { ProgressBar } from './ProgressBar';
+export { AccountDetails } from './Steps/AccountDetails';
+export { BasicDetails } from './Steps/BasicDetails';
+export { ConfirmDetails } from './Steps/ConfirmDetails';
+export { ProfileDetails } from './Steps/ProfileDetails';
+export { ProgressBar } from './Steps/ProgressBar';
 export { RegistrationSuccess } from './RegistrationSuccess';
-export { ReligionDetails } from './ReligionDetails';
+export { ReligionDetails } from './Steps/ReligionDetails';

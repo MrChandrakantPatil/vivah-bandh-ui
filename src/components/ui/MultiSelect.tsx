@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
-import type { SelectOption } from '@/data/types';
+import type { SelectOption } from '@/types/common.types';
 
 interface MultiSelectProps {
   value: string[];

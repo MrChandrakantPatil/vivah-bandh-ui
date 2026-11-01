@@ -1,28 +1,26 @@
 import { useState, useRef } from 'react';
+import type { ButtonHTMLAttributes, ReactNode, Dispatch, SetStateAction, } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Search,
-  MessageCircleMore,
-  Bell,
-  Menu,
-  X,
-  PanelLeftClose,
-  PanelLeftOpen,
-  Crown,
-} from 'lucide-react';
-
+import { Search, MessageCircleMore, Bell, Menu, X, PanelLeftClose, PanelLeftOpen, Crown, } from 'lucide-react';
 import { NotificationBadge } from './NotificationBadge';
 import { Avatar } from './Avatar';
 import { ProfileCard } from './ProfileCard';
-
 import { useHandleOutsideClick } from '@/hooks/useHandleOutsideClick';
 import { useAuth } from '@/features/auth';
 import { useProfile } from '@/features/profile';
 import { getCdnUrl } from '@/utils/cdn';
-
-import type { HeaderIconPropTypes, DashboardHeaderPropTypes } from '../types';
-
 import { logo, logoIcon } from '@/assets/images';
+
+export interface HeaderIconPropTypes extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  count?: number;
+}
+
+export interface DashboardHeaderPropTypes {
+  setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
+  isCollapsed: boolean;
+  setIsCollapsed: Dispatch<SetStateAction<boolean>>;
+}
 
 function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
   return (

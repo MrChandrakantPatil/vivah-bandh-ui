@@ -1,11 +1,5 @@
 import { ImagePlus, LoaderCircle, Star, Trash2 } from 'lucide-react';
-
-export type PhotoItem = {
-  id: string;
-  key: string;
-  src: string;
-  name: string;
-};
+import type { PhotoItem } from '../../../types';
 
 type PhotoGalleryProps = {
   photos: PhotoItem[];

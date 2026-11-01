@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useState, type RefObject } from 'react';
 import { Eye, EyeOff, type LucideIcon } from 'lucide-react';
-import type { RefObject } from 'react';
 
 export type FormInputProps = {
   id: string;

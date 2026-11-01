@@ -1,11 +1,7 @@
 import { apiClient } from '@/api/client';
-import type { ProfileDetailsData } from './types';
+import type { ApiResponse } from '@/types/api.types';
 
-export interface ApiResponse<T> {
-  success: boolean;
-  message: string;
-  data: T;
-}
+import type { ProfileDetailsData } from './types';
 
 export const getMatchProfileDetailsApi = async (
   userId: string,

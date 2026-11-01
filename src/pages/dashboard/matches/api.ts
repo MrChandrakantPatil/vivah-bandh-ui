@@ -1,7 +1,16 @@
 import { apiClient } from '@/api/client';
-import type { MatchesResponse } from './types';
-import type { MatchFiltersState } from '@/components/Filters/types';
 import { buildMatchQueryParams } from './utils';
+import type { MatchFiltersState, Paginations } from '@/types/common.types';
+import type { MatchProfile } from '@/types/profile.types';
+
+export interface MatchesResponse {
+  success: boolean;
+  message: string;
+  data: {
+    matches: MatchProfile[];
+    pagination: Paginations;
+  };
+}
 
 export const getRecommendedMatches = async (
   filters: MatchFiltersState,

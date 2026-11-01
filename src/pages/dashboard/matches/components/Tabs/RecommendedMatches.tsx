@@ -1,17 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-
-import { initialMatchFilters } from '@/components/Filters/types';
-import type { MatchFiltersState } from '@/components/Filters/types';
-import type { MatchProfile } from '../../types';
-import type { Paginations } from '@/components/Pagination/types';
-
+import { initialMatchFilters } from '@/data/initialMatchFilters';
 import { Pagination } from '@/components/Pagination';
 import { MatchFilters } from '../MatchFilters';
 import { DataState } from '../DataState';
 import { MatchCard } from '../MatchCard';
-
 import { getRecommendedMatches } from '../../api';
+import type { MatchFiltersState, Paginations } from "@/types/common.types";
+import type { MatchProfile } from '@/types/profile.types';
 
 export function RecommendedMatches() {
   const [matches, setMatches] = useState<MatchProfile[]>([]);

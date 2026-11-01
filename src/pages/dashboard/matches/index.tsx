@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Heart } from 'lucide-react';
 import { tabs } from './data';
-import type { TabId } from './types';
 import { NotificationBadge } from '@/layouts/dashboard/components/NotificationBadge';
-import {
-  RecommendedMatches,
-  NewMatches,
-  ShortlistedMatches,
-} from './components/Tabs';
+import { RecommendedMatches, NewMatches, ShortlistedMatches, } from './components/Tabs';
+import type { TabId } from './types';
+
 
 const tabContent = {
   recommendedMatches: <RecommendedMatches />,

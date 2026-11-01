@@ -1,7 +1,7 @@
 import { UserRound, CalendarDays } from 'lucide-react';
-import { FormInput } from '../../component/FormFields/FormInput';
+import { FormInput } from '../../../component/FormFields/FormInput';
 import { useRegistration } from '@/context/registration/useRegistration';
-import { useRegistrationValidation } from '../hooks/useRegistrationValidation';
+import { useRegistrationValidation } from '../../hooks/useRegistrationValidation';
 
 export function BasicDetails() {
   const { state } = useRegistration();

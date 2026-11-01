@@ -13,10 +13,3 @@ export interface AuthState {
   isLoading: boolean;
   isInitialized: boolean;
 }
-
-export type AuthAction =
-  | { type: 'AUTH_START' }
-  | { type: 'LOGIN_SUCCESS'; payload: User }
-  | { type: 'AUTH_FAILURE' }
-  | { type: 'LOGOUT' }
-  | { type: 'AUTH_INITIALIZED' };

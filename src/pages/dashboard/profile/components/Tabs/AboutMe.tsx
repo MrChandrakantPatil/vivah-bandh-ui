@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Heart } from 'lucide-react';
-
 import { SectionCard } from '../SectionCard';
 import { ProfileEditActions } from '../ProfileEditActions';
 import { useProfile } from '@/features/profile';

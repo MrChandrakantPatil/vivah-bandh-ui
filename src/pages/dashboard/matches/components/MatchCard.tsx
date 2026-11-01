@@ -1,17 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BadgeCheck, Bookmark, Heart, MapPin, Mosque, Scaling, BriefcaseBusiness, } from 'lucide-react';
 import { shortlistProfile, unshortlistProfile } from '../api';
 import { getCdnUrl } from '@/utils/cdn';
-import type { MatchProfile } from '../types';
-import {
-  BadgeCheck,
-  Bookmark,
-  Heart,
-  MapPin,
-  Mosque,
-  Scaling,
-  BriefcaseBusiness,
-} from 'lucide-react';
+import type { MatchProfile } from '@/types/profile.types';
 
 interface MatchCardProps {
   match: MatchProfile;

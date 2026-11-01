@@ -3,9 +3,19 @@ import { Link, NavLink } from 'react-router-dom';
 import { sidebarMenu } from '../data';
 import { NotificationBadge } from './NotificationBadge';
 import { SidebarTooltip } from './SidebarTooltip';
-import type { DashboardSidebarProp, TooltipState } from '../types';
 import { logo, logoIcon, devider } from '@/assets/images';
 import { Crown } from 'lucide-react';
+
+export interface DashboardSidebarProp {
+  isSidebarOpen: boolean;
+  isCollapsed: boolean;
+}
+
+export interface TooltipState {
+  label: string;
+  left: number;
+  top: number;
+}
 
 export function DashboardSidebar({
   isSidebarOpen,

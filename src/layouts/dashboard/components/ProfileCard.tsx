@@ -1,3 +1,4 @@
+import type { ButtonHTMLAttributes } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   User,
@@ -7,14 +8,33 @@ import {
   HelpCircle,
   LogOut,
   Crown,
+  type LucideIcon,
 } from 'lucide-react';
-
 import { Avatar } from './Avatar';
 import { useAuth } from '@/features/auth';
 import { useProfile } from '@/features/profile';
 import { getCdnUrl } from '@/utils/cdn';
 
-import type { ProfileMenuVariant, ProfileMenu, MenuItemProp } from '../types';
+export type ProfileMenuVariant = 'default' | 'premium' | 'danger';
+export type ProfileMenuAction = 'logout';
+
+export interface ProfileMenu {
+  id: string;
+  label?: string;
+  icon?: LucideIcon;
+  rightIcon?: LucideIcon;
+  variant?: ProfileMenuVariant;
+  divider?: boolean;
+  path?: string;
+  action?: ProfileMenuAction;
+}
+
+export interface MenuItemProp extends ButtonHTMLAttributes<HTMLButtonElement> {
+  label?: string;
+  icon?: LucideIcon;
+  rightIcon?: LucideIcon;
+  variant?: ProfileMenuVariant;
+}
 
 const profileMenus: ProfileMenu[] = [
   {

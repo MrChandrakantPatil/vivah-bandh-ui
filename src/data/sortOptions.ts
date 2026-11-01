@@ -1,4 +1,4 @@
-import type { SelectOption } from '@/data/types';
+import type { SelectOption } from '@/types/common.types';
 
 export const sortOptions: SelectOption[] = [
   {

@@ -1,7 +1,7 @@
-import type { Paginations as PaginationType } from './types';
+import type { Paginations } from '@/types/common.types';
 
 type PaginationProps = {
-  pagination: PaginationType;
+  pagination: Paginations;
   setPage: (page: number) => void;
 };
 

@@ -10,7 +10,6 @@ export function ChipCarousel({ values, className = '' }: ChipCarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-
   const [canScrollRight, setCanScrollRight] = useState(false);
 
   const updateScrollState = () => {

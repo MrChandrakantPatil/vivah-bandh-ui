@@ -1,6 +1,5 @@
 import type { ReactNode, ComponentType } from 'react';
-import type { LucideProps } from 'lucide-react';
-import { Pencil } from 'lucide-react';
+import { Pencil, type LucideProps } from 'lucide-react';
 
 type SectionCardProps = {
   title: string;

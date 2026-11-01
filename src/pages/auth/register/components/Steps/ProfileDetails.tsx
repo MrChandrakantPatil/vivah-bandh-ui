@@ -1,10 +1,7 @@
 import { Check } from 'lucide-react';
 import { useRegistration } from '@/context/registration/useRegistration';
 import { profileOptions, gender } from '@/pages/auth/register/data';
-
-type ProfileOptionValue =
-  'self' | 'son' | 'daughter' | 'brother' | 'sister' | 'relative' | 'friend';
-type GenderOptionValue = 'male' | 'female';
+import type { Gender, ProfileForOption } from '@/types/profile.types';
 
 export function ProfileDetails() {
   const { state, dispatch } = useRegistration();
@@ -15,7 +12,7 @@ export function ProfileDetails() {
     (option) => option.value === selectedProfileOption,
   );
 
-  function handleProfileOptionChange(value: ProfileOptionValue) {
+  function handleProfileOptionChange(value: ProfileForOption) {
     const selectedOption = profileOptions.find(
       (option) => option.value === value,
     );
@@ -28,7 +25,7 @@ export function ProfileDetails() {
     });
   }
 
-  function handleGenderOptionChange(value: GenderOptionValue) {
+  function handleGenderOptionChange(value: Gender) {
     dispatch({
       type: 'UPDATE_FIELD',
       payload: { gender: value },

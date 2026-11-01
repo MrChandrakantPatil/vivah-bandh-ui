@@ -9,7 +9,6 @@ import {
   SlidersHorizontal,
   Users,
 } from 'lucide-react';
-
 import { CompleteProfile } from './components/CompleteProfile';
 import { MatchesSection } from './components/MatchesSection';
 import { useProfile } from '@/features/profile';

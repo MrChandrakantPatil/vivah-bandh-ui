@@ -1,23 +1,30 @@
 import { useEffect, useRef, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 import { motion } from 'framer-motion';
-import {
-  Check,
-  ChevronDown,
-  RotateCcw,
-  SlidersHorizontal,
-  X,
-} from 'lucide-react';
-import type {
-  FilterOptionItem,
-  MoreFilterOption,
-  MoreFiltersProps,
-  SelectedMoreFilters,
-} from '@/components/Filters/types';
+import { Check, ChevronDown, RotateCcw, SlidersHorizontal, X, type LucideIcon } from 'lucide-react';
+import type { FilterOption } from '@/types/common.types';
 
-const getOptionValue = (item: FilterOptionItem) =>
+export type MoreFilterOption = {
+  key: string;
+  title: string;
+  icon: LucideIcon;
+  options: FilterOption[];
+};
+
+export type SelectedMoreFilters = Record<string, string>;
+
+export type MoreFiltersProps = {
+  title?: string;
+  icon?: LucideIcon;
+  options: MoreFilterOption[];
+  selectedFilters: SelectedMoreFilters;
+  setSelectedFilters: Dispatch<SetStateAction<SelectedMoreFilters>>;
+};
+
+const getOptionValue = (item: FilterOption) =>
   typeof item === 'string' ? item : item.value;
 
-const getOptionLabel = (item: FilterOptionItem) =>
+const getOptionLabel = (item: FilterOption) =>
   typeof item === 'string' ? item : item.label;
 
 export function MoreFilters({

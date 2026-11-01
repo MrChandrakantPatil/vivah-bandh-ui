@@ -1,6 +1,6 @@
 import { apiClient } from '@/api/client';
 import type { User } from './types';
-import type { ApiResponse } from '@/api/types';
+import type { ApiResponse } from '@/types/api.types';
 
 interface LoginPayload {
   username: string;

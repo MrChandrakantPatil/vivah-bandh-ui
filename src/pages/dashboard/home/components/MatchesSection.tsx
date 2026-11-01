@@ -1,19 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight,
-  HeartHandshake,
-  RefreshCw,
-} from 'lucide-react';
-
-import { initialMatchFilters } from '@/components/Filters/types';
-import type { MatchFiltersState } from '@/components/Filters/types';
-
-import type { MatchProfile } from '@/pages/dashboard/matches/types';
+import { ArrowRight, ChevronLeft, ChevronRight, HeartHandshake, RefreshCw, } from 'lucide-react';
+import { initialMatchFilters } from '@/data/initialMatchFilters';
 import { getRecommendedMatches } from '@/pages/dashboard/matches/api';
 import { MatchCard } from '@/pages/dashboard/matches/components/MatchCard';
+import type { MatchFiltersState } from "@/types/common.types";
+import type { MatchProfile } from '@/types/profile.types';
 
 export function MatchesSection() {
   const navigate = useNavigate();
