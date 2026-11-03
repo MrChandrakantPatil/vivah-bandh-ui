@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { Dispatch, SetStateAction, MouseEvent } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { sidebarMenu } from '../data';
 import { NotificationBadge } from './NotificationBadge';
@@ -9,6 +10,7 @@ import { Crown } from 'lucide-react';
 export interface DashboardSidebarProp {
   isSidebarOpen: boolean;
   isCollapsed: boolean;
+  setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface TooltipState {
@@ -20,8 +22,15 @@ export interface TooltipState {
 export function DashboardSidebar({
   isSidebarOpen,
   isCollapsed,
+  setIsSidebarOpen,
 }: DashboardSidebarProp) {
   const [tooltip, setTooltip] = useState<TooltipState | null>(null);
+
+  const handleMenuClick = () => {
+    if (window.innerWidth < 768) {
+      setIsSidebarOpen(false);
+    }
+  };
 
   return (
     <aside
@@ -29,7 +38,7 @@ export function DashboardSidebar({
         fixed top-0 left-0 z-50
         flex flex-col
         h-full
-        bg-white border-r border-gray-200
+        bg-white shadow-[2px_0_12px_rgba(15,23,42,0.07)] border-r border-slate-200
         transition-all duration-300 ease-in-out
         md:translate-x-0
         ${
@@ -38,7 +47,7 @@ export function DashboardSidebar({
         ${isCollapsed ? 'w-17.5' : 'w-68.5'}
       `}
     >
-      <div className="border-b border-gray-200 overflow-hidden">
+      <div className="overflow-hidden">
         <Link to="/" className="grid items-center w-full h-21 px-1">
           <img
             src={logo}
@@ -73,12 +82,17 @@ export function DashboardSidebar({
               key={item.id}
               to={item.path}
               title={isCollapsed ? item.label : ''}
+              onClick={handleMenuClick}
               className={({ isActive }) => `
                 flex items-center p-3 mb-2 rounded-xl transition-all duration-300
                 ${isCollapsed ? '' : 'justify-between'}
-                ${isActive ? 'bg-[#fdeff1] text-[#e13060] font-semibold' : 'text-slate-700 hover:bg-[#fdeff1] hover:text-[#e13060] hover:translate-x-1'}
+                ${
+                  isActive
+                    ? 'bg-[#fdeff1] text-[#e13060] font-semibold'
+                    : 'text-slate-700 hover:bg-[#fdeff1] hover:text-[#e13060] hover:translate-x-1'
+                }
               `}
-              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
+              onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
                 if (!isCollapsed) return;
 
                 const rect = e.currentTarget.getBoundingClientRect();
