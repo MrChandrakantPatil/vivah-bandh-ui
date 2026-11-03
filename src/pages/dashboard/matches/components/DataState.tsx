@@ -1,5 +1,5 @@
 import { AlertCircle, RefreshCw } from 'lucide-react';
-import { Loader } from '@/components/Loader';
+import { Loader } from '@/components';
 
 interface DataStateProps {
   isLoading: boolean;

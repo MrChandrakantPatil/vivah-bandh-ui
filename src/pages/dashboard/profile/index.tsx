@@ -1,6 +1,14 @@
 import { User } from 'lucide-react';
 import { ProfileSidebar } from './components/ProfileSidebar';
-import { AboutMe, BasicDetails, EducationCareer, FamilyDetails, LocationDetails, Photos, PartnerPreferences, } from './components/Tabs';
+import {
+  AboutMe,
+  BasicDetails,
+  EducationCareer,
+  FamilyDetails,
+  LocationDetails,
+  Photos,
+  PartnerPreferences,
+} from './components/Tabs';
 
 export function Profile() {
   const scrollToPhotos = () => {

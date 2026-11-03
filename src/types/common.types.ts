@@ -1,6 +1,6 @@
 export type FilterOption = string | { value: string; label: string };
 
-export interface SelectOption {
+export interface SelectOptionType {
   label: string;
   value: string;
 }

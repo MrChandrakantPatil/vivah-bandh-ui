@@ -1,4 +1,4 @@
-import type { RegistrationStep } from "@/types/profile.types";
+import type { RegistrationStep } from '@/types/profile.types';
 
 type RegistrationField = {
   profileFor: string;

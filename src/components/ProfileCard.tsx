@@ -1,16 +1,34 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BadgeCheck, Bookmark, Heart, MapPin, Mosque, Scaling, BriefcaseBusiness, } from 'lucide-react';
-import { shortlistProfile, unshortlistProfile } from '../api';
-import { getCdnUrl } from '@/utils/cdn';
+import {
+  BadgeCheck,
+  Bookmark,
+  Heart,
+  MapPin,
+  Mosque,
+  Scaling,
+  BriefcaseBusiness,
+} from 'lucide-react';
+import { getCdnUrl, getOptionLabel } from '@/utils';
+import {
+  cityOptions,
+  maritalStatusOptions,
+  occupationOptions,
+  religionOptions,
+  stateOptions,
+} from '@/data';
+import {
+  shortlistProfile,
+  unshortlistProfile,
+} from '@/pages/dashboard/matches/api';
 import type { MatchProfile } from '@/types/profile.types';
 
-interface MatchCardProps {
+interface ProfileCardProps {
   match: MatchProfile;
   onShortlistChange: (candidateUserId: string, isShortlisted: boolean) => void;
 }
 
-export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
+export function ProfileCard({ match, onShortlistChange }: ProfileCardProps) {
   const navigate = useNavigate();
 
   const [isUpdating, setIsUpdating] = useState(false);
@@ -28,10 +46,6 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
       .map((part) => part.charAt(0).toUpperCase())
       .slice(0, 2)
       .join('') || '?';
-
-  const location = [match.location.city, match.location.state]
-    .filter(Boolean)
-    .join(', ');
 
   const handleShortlist = async () => {
     if (isUpdating) return;
@@ -160,7 +174,7 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
           <BriefcaseBusiness size={15} className="shrink-0 text-gray-500" />
 
           <span className="flex-1 min-w-0 truncate" title={match.occupation}>
-            {match.occupation}
+            {getOptionLabel(match.occupation, occupationOptions)}
           </span>
         </div>
 
@@ -173,13 +187,11 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
         >
           <MapPin size={16} className="shrink-0 text-gray-500" />
 
-          <span
-            className="flex-1 min-w-0 truncate"
-            title={
-              location || match.location.country || 'Location not specified'
-            }
-          >
-            {location || match.location.country || 'Location not specified'}
+          <span className="flex-1 min-w-0 truncate">
+            {getOptionLabel(match.location.city, cityOptions) +
+              ', ' +
+              getOptionLabel(match.location.state, stateOptions) ||
+              'Location not specified'}
           </span>
         </div>
 
@@ -199,7 +211,7 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
           <span className="flex items-center gap-1.5 shrink-0">
             <Mosque size={15} className="shrink-0 text-gray-500" />
 
-            <span>{match.religion}</span>
+            <span>{getOptionLabel(match.religion, religionOptions)}</span>
           </span>
 
           <span className="flex flex-1 items-center gap-1.5 min-w-0">
@@ -209,7 +221,7 @@ export function MatchCard({ match, onShortlistChange }: MatchCardProps) {
               className="flex-1 min-w-0 truncate"
               title={match.maritalStatus}
             >
-              {match.maritalStatus}
+              {getOptionLabel(match.maritalStatus, maritalStatusOptions)}
             </span>
           </span>
         </div>

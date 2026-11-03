@@ -6,7 +6,7 @@ export type DropdownOption = {
   label: string;
 };
 
-export type FormDropdownProps = {
+export type AuthDropdownProps = {
   id: string;
   label: string;
   value: string;
@@ -19,7 +19,7 @@ export type FormDropdownProps = {
   className?: string;
 };
 
-export function FormDropdown({
+export function AuthDropdown({
   id,
   label,
   value,
@@ -30,7 +30,7 @@ export function FormDropdown({
   onChange,
   onBlur,
   className,
-}: FormDropdownProps) {
+}: AuthDropdownProps) {
   return (
     <div
       className={`

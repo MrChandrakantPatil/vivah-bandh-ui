@@ -1,5 +1,5 @@
 export const familyTypeOptions = [
-  'Joint Family',
-  'Nuclear Family',
-  'Extended Family',
+  { label: 'Joint Family', value: 'jointFamily' },
+  { label: 'Nuclear Family', value: 'nuclearFamily' },
+  { label: 'Extended Family', value: 'extendedFamily' },
 ];

@@ -13,7 +13,7 @@ import {
   ConfirmDetails,
   RegistrationSuccess,
 } from './components';
-import { AuthInfo } from '../component/AuthInfo';
+import { AuthContentSection } from '@/components';
 import { registerProfile } from './api/registrationApi';
 import type { RegistrationStep } from '@/types/profile.types';
 
@@ -207,7 +207,7 @@ export function Register() {
             lg:w-[85%] lg:max-w-325 lg:h-auto
           "
         >
-          <AuthInfo />
+          <AuthContentSection />
 
           <section
             className="

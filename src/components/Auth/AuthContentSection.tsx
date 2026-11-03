@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion, type Variants } from 'framer-motion';
-import logo from '@/assets/images/logo.png';
-import { authBenefits } from '../register/data';
+import { authBenefits } from '../../pages/auth/register/data';
+import { logo } from '@/assets/images';
 
 const containerVariants = {
   hidden: {},
@@ -27,7 +27,7 @@ const itemVariants: Variants = {
   },
 };
 
-export function AuthInfo() {
+export function AuthContentSection() {
   const navigate = useNavigate();
   const location = useLocation();
 

@@ -1,14 +1,28 @@
 import { useState, useRef } from 'react';
-import type { ButtonHTMLAttributes, ReactNode, Dispatch, SetStateAction, } from 'react';
+import type {
+  ButtonHTMLAttributes,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MessageCircleMore, Bell, Menu, X, PanelLeftClose, PanelLeftOpen, Crown, } from 'lucide-react';
+import {
+  Search,
+  MessageCircleMore,
+  Bell,
+  Menu,
+  X,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Crown,
+} from 'lucide-react';
 import { NotificationBadge } from './NotificationBadge';
 import { Avatar } from './Avatar';
-import { ProfileCard } from './ProfileCard';
+import { UserDropdown } from './UserDropdown';
 import { useHandleOutsideClick } from '@/hooks/useHandleOutsideClick';
 import { useAuth } from '@/features/auth';
 import { useProfile } from '@/features/profile';
-import { getCdnUrl } from '@/utils/cdn';
+import { getCdnUrl } from '@/utils/getCdnUrl';
 import { logo, logoIcon } from '@/assets/images';
 
 export interface HeaderIconPropTypes extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -229,7 +243,7 @@ export function DashboardHeader({
                   />
                 </button>
 
-                {showProfileMenu && <ProfileCard onLogout={handleLogout} />}
+                {showProfileMenu && <UserDropdown onLogout={handleLogout} />}
               </div>
             </div>
           </>

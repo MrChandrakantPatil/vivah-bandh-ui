@@ -90,7 +90,6 @@ export function PhotoGallery({
                   group aspect-square
                 "
               >
-                {/* Photo */}
                 <img
                   src={photo.src}
                   alt={photo.name}
@@ -119,7 +118,6 @@ export function PhotoGallery({
                   </div>
                 ) : (
                   <>
-                    {/* Bottom gradient */}
                     <div
                       className="
                         absolute inset-x-0 bottom-0
@@ -192,7 +190,6 @@ export function PhotoGallery({
                       )}
                     </div>
 
-                    {/* Delete — bottom right */}
                     <button
                       type="button"
                       onClick={() => onDelete(photo.key)}
@@ -219,7 +216,6 @@ export function PhotoGallery({
             );
           })}
 
-          {/* Add Photo card */}
           {remainingSlots > 0 && (
             <button
               type="button"

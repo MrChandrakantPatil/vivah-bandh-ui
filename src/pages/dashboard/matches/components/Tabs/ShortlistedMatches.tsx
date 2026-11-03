@@ -1,12 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
 import { initialMatchFilters } from '@/data/initialMatchFilters';
-import { Pagination } from '@/components/Pagination';
+import { ProfileCard, Pagination } from '@/components';
 import { MatchFilters } from '../MatchFilters';
 import { DataState } from '../DataState';
-import { MatchCard } from '../MatchCard';
 import { getShortlistedProfiles } from '../../api';
-import type { MatchFiltersState, Paginations } from "@/types/common.types";
+import type { MatchFiltersState, Paginations } from '@/types/common.types';
 import type { MatchProfile } from '@/types/profile.types';
 
 export function ShortlistedMatches() {
@@ -151,7 +150,7 @@ export function ShortlistedMatches() {
             "
           >
             {matches.map((user) => (
-              <MatchCard
+              <ProfileCard
                 key={user.userId}
                 match={user}
                 onShortlistChange={handleShortlistChange}

@@ -1,16 +1,9 @@
 export type RegistrationStep = 1 | 2 | 3 | 4 | 5;
 
 export type ProfileForOption =
-  'self' |
-  'son' |
-  'daughter' |
-  'brother' |
-  'sister' |
-  'relative' |
-  'friend';
+  'self' | 'son' | 'daughter' | 'brother' | 'sister' | 'relative' | 'friend';
 
 export type Gender = 'male' | 'female';
-
 
 export interface Location {
   country: string | null;
@@ -37,7 +30,7 @@ export interface Profile {
   religion: string | null;
   community: string | null;
   height: number | null;
-  color: string | null;
+  complexion: string | null;
   maritalStatus: string | null;
   motherTongue: string | null;
   education: string | null;

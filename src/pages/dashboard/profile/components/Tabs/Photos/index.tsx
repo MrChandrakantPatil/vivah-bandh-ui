@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { Images, LoaderCircle } from 'lucide-react';
 import { useProfile } from '@/features/profile';
-import { deleteProfilePhotoApi, updateProfileApi, uploadProfilePhotos } from '../../../api';
+import {
+  deleteProfilePhotoApi,
+  updateProfileApi,
+  uploadProfilePhotos,
+} from '../../../api';
 import { SectionCard } from '../../SectionCard';
 import { PhotoGallery } from './PhotoGallery';
 import { PhotoUploadModal } from './PhotoUploadModal';
-import { getCdnUrl } from '@/utils/cdn';
+import { getCdnUrl } from '@/utils/getCdnUrl';
 import type { PhotoItem } from '../../../types';
 
 type SavedPhoto = {

@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ChevronDown, RotateCcw, Search, X, type LucideIcon } from 'lucide-react';
+import {
+  Check,
+  ChevronDown,
+  RotateCcw,
+  Search,
+  X,
+  type LucideIcon,
+} from 'lucide-react';
+import type { SelectOptionType } from '@/types/common.types';
 
 export type MultiSelectFilterProps = {
   title: string;
   icon: LucideIcon;
-  options: string[];
+  options: SelectOptionType[];
   selectedOptions: string[];
   setSelectedOptions: (options: string[]) => void;
 };
@@ -48,16 +56,16 @@ export function MultiSelectFilter({
   const hasDrafSelectedOption = draftSelectedOptions.length > 0;
 
   const filteredOptions = options.filter((option) =>
-    option.toLowerCase().includes(searchQuery.trim().toLowerCase()),
+    option.label.toLowerCase().includes(searchQuery.trim().toLowerCase()),
   );
 
-  const handleFilterOptionClick = (option: string) => {
+  const handleFilterOptionClick = (optionValue: string) => {
     setDraftSelectedOptions((current) => {
-      if (current.includes(option)) {
-        return current.filter((item) => item !== option);
+      if (current.includes(optionValue)) {
+        return current.filter((item) => item !== optionValue);
       }
 
-      return [...current, option];
+      return [...current, optionValue];
     });
   };
 
@@ -260,13 +268,15 @@ export function MultiSelectFilter({
                     "
                   >
                     {filteredOptions.map((option) => {
-                      const isSelected = draftSelectedOptions.includes(option);
+                      const isSelected = draftSelectedOptions.includes(
+                        option.value,
+                      );
 
                       return (
                         <button
-                          key={option}
+                          key={option.value}
                           type="button"
-                          onClick={() => handleFilterOptionClick(option)}
+                          onClick={() => handleFilterOptionClick(option.value)}
                           className="
                             flex items-center gap-3
                             w-full min-w-0 px-2 py-2
@@ -309,7 +319,7 @@ export function MultiSelectFilter({
                               }
                             `}
                           >
-                            {option}
+                            {option.label}
                           </span>
                         </button>
                       );
@@ -375,35 +385,43 @@ export function MultiSelectFilter({
                         hide-scrollbar
                       "
                     >
-                      {draftSelectedOptions.map((option) => (
-                        <span
-                          key={option}
-                          className="
-                            flex items-center gap-1 shrink-0
-                            h-7 px-2.5
-                            bg-gray-100 rounded-full border border-gray-300
-                            font-medium text-gray-700 text-xs
-                          "
-                        >
-                          <span className="max-w-32 truncate">{option}</span>
+                      {draftSelectedOptions.map((optionValue) => {
+                        const selectedOption = options.find(
+                          (option) => option.value === optionValue,
+                        );
 
-                          <button
-                            type="button"
-                            aria-label={`Remove ${option}`}
-                            onClick={() => handleRemoveOption(option)}
+                        return (
+                          <span
+                            key={optionValue}
                             className="
-                              flex items-center justify-center
-                              w-4 h-4
-                              rounded-full
-                              text-gray-500
-                              transition
-                              hover:bg-gray-200
+                              flex items-center gap-1 shrink-0
+                              h-7 px-2.5
+                              bg-gray-100 rounded-full border border-gray-300
+                              font-medium text-gray-700 text-xs
                             "
                           >
-                            <X size={11} />
-                          </button>
-                        </span>
-                      ))}
+                            <span className="max-w-32 truncate">
+                              {selectedOption?.label ?? optionValue}
+                            </span>
+
+                            <button
+                              type="button"
+                              aria-label={`Remove ${optionValue}`}
+                              onClick={() => handleRemoveOption(optionValue)}
+                              className="
+                                flex items-center justify-center
+                                w-4 h-4
+                                rounded-full
+                                text-gray-500
+                                transition
+                                hover:bg-gray-200
+                              "
+                            >
+                              <X size={11} />
+                            </button>
+                          </span>
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="flex items-center h-8">

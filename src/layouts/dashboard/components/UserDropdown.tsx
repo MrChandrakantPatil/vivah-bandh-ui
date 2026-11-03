@@ -13,7 +13,7 @@ import {
 import { Avatar } from './Avatar';
 import { useAuth } from '@/features/auth';
 import { useProfile } from '@/features/profile';
-import { getCdnUrl } from '@/utils/cdn';
+import { getCdnUrl } from '@/utils/getCdnUrl';
 
 export type ProfileMenuVariant = 'default' | 'premium' | 'danger';
 export type ProfileMenuAction = 'logout';
@@ -148,11 +148,11 @@ function MenuItem({
   );
 }
 
-interface ProfileCardProps {
+interface UserDropdownProps {
   onLogout: () => void;
 }
 
-export function ProfileCard({ onLogout }: ProfileCardProps) {
+export function UserDropdown({ onLogout }: UserDropdownProps) {
   const navigate = useNavigate();
 
   const { user } = useAuth();

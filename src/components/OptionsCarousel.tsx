@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-interface ChipCarouselProps {
+interface OptionsCarouselProps {
   values: string[];
   className?: string;
 }
 
-export function ChipCarousel({ values, className = '' }: ChipCarouselProps) {
+export function OptionsCarousel({
+  values,
+  className = '',
+}: OptionsCarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -49,7 +52,6 @@ export function ChipCarousel({ values, className = '' }: ChipCarouselProps) {
       return;
     }
 
-    // Check initial overflow
     updateScrollState();
 
     const handleScroll = () => {
@@ -94,7 +96,6 @@ export function ChipCarousel({ values, className = '' }: ChipCarouselProps) {
         ${className}
       `}
     >
-      {/* Left arrow */}
       {hasOverflow && (
         <button
           type="button"
@@ -114,7 +115,6 @@ export function ChipCarousel({ values, className = '' }: ChipCarouselProps) {
         </button>
       )}
 
-      {/* Chips */}
       <div
         ref={carouselRef}
         className="
@@ -124,22 +124,29 @@ export function ChipCarousel({ values, className = '' }: ChipCarouselProps) {
           scroll-smooth
         "
       >
-        {values.map((value) => (
-          <span
-            key={value}
-            className="
-              shrink-0
-              px-3 py-1.5
-              bg-pink-50 rounded-md
-              font-medium text-pink-600 text-sm
-            "
-          >
-            {value}
-          </span>
-        ))}
+        {values.map((value, index) => {
+          const isFallback =
+            value === '--' || value === '-' || value === 'Not specified';
+
+          return (
+            <span
+              key={`${value}-${index}`}
+              className={`
+                shrink-0
+                font-semibold text-base
+                ${
+                  isFallback
+                    ? 'text-gray-400'
+                    : 'px-3 py-1.5 bg-pink-50 rounded-md font-medium text-pink-600 text-sm'
+                }
+              `}
+            >
+              {value}
+            </span>
+          );
+        })}
       </div>
 
-      {/* Right arrow */}
       {hasOverflow && (
         <button
           type="button"

@@ -1,5 +1,5 @@
 import { Landmark, UsersRound } from 'lucide-react';
-import { FormDropdown } from '../../../component/FormFields/FormDropdown';
+import { AuthDropdown } from '@/components';
 import { religionOptions } from '../../data';
 import { useRegistration } from '@/context/registration/useRegistration';
 import { useRegistrationValidation } from '../../hooks/useRegistrationValidation';
@@ -22,7 +22,7 @@ export function ReligionDetails() {
         Share your religion and community details with us.
       </p>
 
-      <FormDropdown
+      <AuthDropdown
         id="religion"
         label="Religion"
         value={state.formData.religion}
@@ -35,7 +35,7 @@ export function ReligionDetails() {
       />
 
       {selectedReligion && (
-        <FormDropdown
+        <AuthDropdown
           id="community"
           label="Community"
           value={state.formData.community}

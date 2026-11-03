@@ -1,5 +1,5 @@
 import { Mail, Phone, Lock } from 'lucide-react';
-import { FormInput } from '../../../component/FormFields/FormInput';
+import { AuthInput } from '@/components';
 import { useRegistration } from '@/context/registration/useRegistration';
 import { useRegistrationValidation } from '../../hooks/useRegistrationValidation';
 
@@ -41,7 +41,7 @@ export function AccountDetails({
         Set up your account details securely and safely.
       </p>
 
-      <FormInput
+      <AuthInput
         ref={emailInputRef}
         id="email"
         label="Email"
@@ -54,7 +54,7 @@ export function AccountDetails({
         className="mt-6"
       />
 
-      <FormInput
+      <AuthInput
         ref={mobileInputRef}
         id="mobile"
         label="Mobile"
@@ -67,7 +67,7 @@ export function AccountDetails({
         className="mt-6"
       />
 
-      <FormInput
+      <AuthInput
         id="password"
         label="Password"
         value={state.formData.password}
@@ -80,7 +80,7 @@ export function AccountDetails({
         className="mt-6"
       />
 
-      <FormInput
+      <AuthInput
         id="confirmPassword"
         label="Confirm Password"
         value={state.formData.confirmPassword}

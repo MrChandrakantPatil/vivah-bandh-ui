@@ -1,4 +1,4 @@
-import type { MatchFiltersState } from "@/types/common.types";
+import type { MatchFiltersState } from '@/types/common.types';
 
 export const initialMatchFilters: MatchFiltersState = {
   age: [],

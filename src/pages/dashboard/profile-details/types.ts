@@ -10,7 +10,7 @@ export interface ProfileDetailsData {
   religion?: string;
   community?: string;
   height?: number;
-  color?: string;
+  complexion?: string;
   maritalStatus?: string;
   motherTongue?: string;
 

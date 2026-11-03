@@ -1,7 +1,7 @@
 import { useState, type RefObject } from 'react';
 import { Eye, EyeOff, type LucideIcon } from 'lucide-react';
 
-export type FormInputProps = {
+export type AuthInputProps = {
   id: string;
   label: string;
   value: string;
@@ -29,7 +29,7 @@ export type FormInputProps = {
   className?: string;
 };
 
-export function FormInput({
+export function AuthInput({
   id,
   label,
   value,
@@ -45,7 +45,7 @@ export function FormInput({
   onChange,
   onBlur,
   className,
-}: FormInputProps) {
+}: AuthInputProps) {
   const [showPassword, setShowPassword] = useState(false);
 
   const inputType = isPassword ? (showPassword ? 'text' : 'password') : type;

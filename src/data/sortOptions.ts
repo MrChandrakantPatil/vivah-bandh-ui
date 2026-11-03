@@ -1,6 +1,6 @@
-import type { SelectOption } from '@/types/common.types';
+import type { SelectOptionType } from '@/types/common.types';
 
-export const sortOptions: SelectOption[] = [
+export const sortOptions: SelectOptionType[] = [
   {
     label: 'Best Match',
     value: 'bestMatch',

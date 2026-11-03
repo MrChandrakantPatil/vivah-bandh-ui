@@ -1,29 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import { Check, ChevronDown } from 'lucide-react';
-import type { SelectOption } from '@/types/common.types';
+import type { SelectOptionType } from '@/types/common.types';
 
-interface SelectProps {
-  value: string;
-  onChange: (value: string) => void;
-  options?: SelectOption[];
+interface MultiSelectOptionsProps {
+  value: string[];
+  onChange: (value: string[]) => void;
+  options?: SelectOptionType[];
   placeholder?: string;
   disabled?: boolean;
   className?: string;
 }
 
-export function Select({
+export function MultiSelectOption({
   value,
   onChange,
   options = [],
-  placeholder = 'Select an option',
+  placeholder = 'Select options',
   disabled = false,
   className = '',
-}: SelectProps) {
+}: MultiSelectOptionsProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const selectRef = useRef<HTMLDivElement>(null);
-
-  const selectedOption = options.find((option) => option.value === value);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -42,10 +40,19 @@ export function Select({
     };
   }, []);
 
-  const handleSelect = (option: SelectOption) => {
-    onChange(option.value);
-    setIsOpen(false);
+  const handleSelect = (option: SelectOptionType) => {
+    const isSelected = value.includes(option.value);
+
+    if (isSelected) {
+      onChange(value.filter((selectedValue) => selectedValue !== option.value));
+    } else {
+      onChange([...value, option.value]);
+    }
   };
+
+  const selectedLabels = options
+    .filter((option) => value.includes(option.value))
+    .map((option) => option.label);
 
   return (
     <div
@@ -64,7 +71,7 @@ export function Select({
           flex items-center justify-between
           w-full px-3 py-2.5
           bg-white rounded-lg border
-          font-medium text-sm text-left
+          font-medium text-base text-left
           transition
           outline-none
           ${isOpen ? 'border-pink-400 ring-2 ring-pink-100' : 'border-gray-200'}
@@ -75,21 +82,37 @@ export function Select({
           }
         `}
       >
-        <span
-          className={`
-            flex-1
+        <div
+          className="
+            flex flex-1 items-center gap-2
             min-w-0
-            truncate
-            ${!selectedOption ? 'text-gray-400' : ''}
-          `}
+            overflow-x-auto scrollbar-none
+          "
         >
-          {selectedOption?.label || placeholder}
-        </span>
+          {selectedLabels.length > 0 ? (
+            selectedLabels.map((label) => (
+              <span
+                key={label}
+                className="
+                  shrink-0
+                  px-2.5 py-1
+                  bg-pink-50 rounded-md
+                  font-medium text-pink-600 text-xs
+                "
+              >
+                {label}
+              </span>
+            ))
+          ) : (
+            <span className="text-gray-400">{placeholder}</span>
+          )}
+        </div>
 
         <ChevronDown
           size={18}
           className={`
             shrink-0
+            ml-2
             text-gray-400
             transition-transform duration-200
             ${isOpen ? 'rotate-180' : ''}
@@ -113,7 +136,7 @@ export function Select({
               </div>
             ) : (
               options.map((option) => {
-                const isSelected = option.value === value;
+                const isSelected = value.includes(option.value);
 
                 return (
                   <button

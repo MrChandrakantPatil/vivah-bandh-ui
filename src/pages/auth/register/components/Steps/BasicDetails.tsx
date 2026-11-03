@@ -1,5 +1,5 @@
 import { UserRound, CalendarDays } from 'lucide-react';
-import { FormInput } from '../../../component/FormFields/FormInput';
+import { AuthInput } from '@/components';
 import { useRegistration } from '@/context/registration/useRegistration';
 import { useRegistrationValidation } from '../../hooks/useRegistrationValidation';
 
@@ -23,7 +23,7 @@ export function BasicDetails() {
         </label>
 
         <div className="grid grid-cols-2 gap-6 mt-2.5">
-          <FormInput
+          <AuthInput
             id="firstName"
             label="First Name"
             value={state.formData.firstName}
@@ -36,7 +36,7 @@ export function BasicDetails() {
             onBlur={(value: string) => handleBlur('firstName', value)}
           />
 
-          <FormInput
+          <AuthInput
             id="lastName"
             label="Last Name"
             value={state.formData.lastName}
@@ -57,7 +57,7 @@ export function BasicDetails() {
         </label>
 
         <div className="grid grid-cols-3 gap-6 mt-2.5">
-          <FormInput
+          <AuthInput
             id="day"
             label="Day"
             value={state.formData.dob.day}
@@ -73,7 +73,7 @@ export function BasicDetails() {
             onBlur={(value: string) => handleBlur('day', value)}
           />
 
-          <FormInput
+          <AuthInput
             id="month"
             label="Month"
             value={state.formData.dob.month}
@@ -89,7 +89,7 @@ export function BasicDetails() {
             onBlur={(value: string) => handleBlur('month', value)}
           />
 
-          <FormInput
+          <AuthInput
             id="year"
             label="Year"
             value={state.formData.dob.year}

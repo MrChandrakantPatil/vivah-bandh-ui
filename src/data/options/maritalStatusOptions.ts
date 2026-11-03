@@ -1,6 +1,6 @@
 export const maritalStatusOptions = [
-  { value: 'Never Married', label: 'Never Married' },
-  { value: 'Divorced', label: 'Divorced' },
-  { value: 'Widowed', label: 'Widowed' },
-  { value: 'Separated', label: 'Separated' },
+  { label: 'Never Married', value: 'neverMarried' },
+  { label: 'Divorced', value: 'divorced' },
+  { label: 'Widowed', value: 'widowed' },
+  { label: 'Separated', value: 'separated' },
 ];

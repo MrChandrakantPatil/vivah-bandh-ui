@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Camera, Circle, CircleCheck } from 'lucide-react';
 import { useProfile } from '@/features/profile';
-import { getCdnUrl } from '@/utils/cdn';
+import { getCdnUrl } from '@/utils/getCdnUrl';
 import type { Profile } from '@/types/profile.types';
 
 const DEFAULT_MALE_PHOTO = '/images/profile/male.png';
@@ -59,12 +59,12 @@ function getProfileSectionStatus(profile: Profile) {
       label: 'Personal Details',
       completed: Boolean(
         profile.dob &&
-          profile.religion &&
-          profile.community &&
-          profile.height &&
-          profile.color &&
-          profile.maritalStatus &&
-          profile.motherTongue,
+        profile.religion &&
+        profile.community &&
+        profile.height &&
+        profile.complexion &&
+        profile.maritalStatus &&
+        profile.motherTongue,
       ),
     },
     {
@@ -77,19 +77,19 @@ function getProfileSectionStatus(profile: Profile) {
       label: 'Family Details',
       completed: Boolean(
         profile.familyType &&
-          profile.familyStatus &&
-          profile.fatherOccupation &&
-          profile.motherOccupation &&
-          profile.brothers != null &&
-          profile.sisters != null,
+        profile.familyStatus &&
+        profile.fatherOccupation &&
+        profile.motherOccupation &&
+        profile.brothers != null &&
+        profile.sisters != null,
       ),
     },
     {
       label: 'Location',
       completed: Boolean(
         profile.location?.city?.trim() &&
-          profile.location?.state?.trim() &&
-          profile.location?.country?.trim(),
+        profile.location?.state?.trim() &&
+        profile.location?.country?.trim(),
       ),
     },
     {
@@ -153,15 +153,16 @@ export function ProfileSidebar({
     <aside
       className="
         min-w-0 p-6
-        bg-white shadow-[0_4px_24px_rgba(15,23,42,0.04)]
-        rounded-2xl border border-slate-200/80
+        bg-white shadow-[0_4px_24px_rgba(15,23,42,0.04)] rounded-2xl border border-slate-200/80
         overflow-hidden
         xl:sticky xl:top-5 xl:self-start
       "
     >
       <div
         className={`
-          relative rounded-xl overflow-hidden
+          relative
+          rounded-xl
+          overflow-hidden
           ${
             isDefaultPhoto
               ? 'bg-linear-to-br from-pink-50 via-pink-100 to-rose-200'
@@ -205,10 +206,9 @@ export function ProfileSidebar({
             flex items-center justify-center
             w-10 h-10
             bg-white/95 shadow-md rounded-full
-            text-pink-600 transition
-            hover:bg-white
-            focus-visible:outline-none focus-visible:ring-2
-            focus-visible:ring-pink-500
+            text-pink-600
+            transition
+            hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500
           "
         >
           <Camera size={19} />
@@ -216,9 +216,7 @@ export function ProfileSidebar({
       </div>
 
       <div className="pb-4 mt-4 border-b border-gray-200 text-left">
-        <h2 className="font-bold text-[#172554] text-lg">
-          {profile.name}
-        </h2>
+        <h2 className="font-bold text-[#172554] text-lg">{profile.name}</h2>
         <p className="mt-1 text-gray-500 text-sm">{profile.userId}</p>
       </div>
 

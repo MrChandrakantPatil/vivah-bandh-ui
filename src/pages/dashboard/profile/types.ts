@@ -17,7 +17,7 @@ export interface UpdateProfilePayload {
   community?: string;
   motherTongue?: string | null;
   height?: number | null;
-  color?: string | null;
+  complexion?: string | null;
   education?: string | null;
   occupation?: string | null;
   annualIncome?: string | null;
