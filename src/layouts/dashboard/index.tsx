@@ -19,6 +19,7 @@ export function DashboardLayout() {
       <DashboardSidebar
         isSidebarOpen={isSidebarOpen}
         isCollapsed={isCollapsed}
+        setIsSidebarOpen={setIsSidebarOpen}
       />
 
       <div
