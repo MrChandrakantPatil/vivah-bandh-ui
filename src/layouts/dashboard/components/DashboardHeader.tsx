@@ -100,7 +100,7 @@ export function DashboardHeader({
       className="
         sticky top-0 z-30
         h-21.25 min-h-21.25
-        bg-white/95 border-b border-gray-200
+        bg-white shadow-[0_2px_8px_rgba(15,23,42,0.06)] border-b border-slate-200
         md:h-21.25 md:min-h-21.25
         backdrop-blur-md
       "
