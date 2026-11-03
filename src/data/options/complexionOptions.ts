@@ -1,5 +1,5 @@
 export const complexionOptions = [
-  { value: 'Fair', label: 'Fair' },
-  { value: 'Medium', label: 'Medium' },
-  { value: 'Dark', label: 'Dark' },
+  { label: 'Fair', value: 'fair' },
+  { label: 'Medium', value: 'medium' },
+  { label: 'Dark', value: 'dark' },
 ];

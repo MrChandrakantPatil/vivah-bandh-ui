@@ -1,4 +1,11 @@
-import type { AuthAction, AuthState } from './types';
+import type { User, AuthState } from './types';
+
+export type AuthAction =
+  | { type: 'AUTH_START' }
+  | { type: 'LOGIN_SUCCESS'; payload: User }
+  | { type: 'AUTH_FAILURE' }
+  | { type: 'LOGOUT' }
+  | { type: 'AUTH_INITIALIZED' };
 
 export const AuthReducer = (
   state: AuthState,

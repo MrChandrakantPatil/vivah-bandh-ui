@@ -7,13 +7,11 @@ import {
   HeartHandshake,
   RefreshCw,
 } from 'lucide-react';
-
-import { initialMatchFilters } from '@/components/Filters/types';
-import type { MatchFiltersState } from '@/components/Filters/types';
-
-import type { MatchProfile } from '@/pages/dashboard/matches/types';
+import { initialMatchFilters } from '@/data/initialMatchFilters';
 import { getRecommendedMatches } from '@/pages/dashboard/matches/api';
-import { MatchCard } from '@/pages/dashboard/matches/components/MatchCard';
+import { ProfileCard } from '@/components';
+import type { MatchFiltersState } from '@/types/common.types';
+import type { MatchProfile } from '@/types/profile.types';
 
 export function MatchesSection() {
   const navigate = useNavigate();
@@ -110,13 +108,9 @@ export function MatchesSection() {
 
     const tolerance = 3;
 
-    setCanScrollLeft(
-      firstCardRect.left < containerRect.left - tolerance,
-    );
+    setCanScrollLeft(firstCardRect.left < containerRect.left - tolerance);
 
-    setCanScrollRight(
-      lastCardRect.right > containerRect.right + tolerance,
-    );
+    setCanScrollRight(lastCardRect.right > containerRect.right + tolerance);
   }, []);
 
   useEffect(() => {
@@ -173,15 +167,10 @@ export function MatchesSection() {
     const cardWidth = firstCard.getBoundingClientRect().width;
     const track = firstCard.parentElement;
     const trackStyle = track ? window.getComputedStyle(track) : null;
-    const gap = trackStyle
-      ? parseFloat(trackStyle.columnGap) || 0
-      : 0;
+    const gap = trackStyle ? parseFloat(trackStyle.columnGap) || 0 : 0;
 
     container.scrollBy({
-      left:
-        direction === 'right'
-          ? cardWidth + gap
-          : -(cardWidth + gap),
+      left: direction === 'right' ? cardWidth + gap : -(cardWidth + gap),
       behavior: 'smooth',
     });
   };
@@ -192,9 +181,7 @@ export function MatchesSection() {
   ) => {
     setMatches((previousMatches) =>
       previousMatches.map((match) =>
-        match.userId === candidateUserId
-          ? { ...match, isShortlisted }
-          : match,
+        match.userId === candidateUserId ? { ...match, isShortlisted } : match,
       ),
     );
   };
@@ -202,14 +189,14 @@ export function MatchesSection() {
   return (
     <section
       className="
-        rounded-2xl border border-pink-100
-        bg-linear-to-l from-pink-50 to-white
-        px-5 py-5 shadow-sm
+        px-5 py-5
+        bg-linear-to-l shadow-sm rounded-2xl border border-pink-100
         sm:px-6
+        from-pink-50 to-white
       "
     >
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-base font-bold text-slate-900">
+        <h2 className="font-bold text-slate-900 text-base">
           Recommended Matches
         </h2>
 
@@ -218,9 +205,10 @@ export function MatchesSection() {
             type="button"
             onClick={() => navigate('/matches')}
             className="
-              inline-flex shrink-0 items-center gap-1
-              text-xs font-semibold text-[#e63b66]
-              transition hover:underline
+              inline-flex items-center gap-1 shrink-0
+              font-semibold text-[#e63b66] text-xs
+              transition
+              hover:underline
             "
           >
             View All
@@ -231,34 +219,43 @@ export function MatchesSection() {
 
       {isLoading && (
         <div
-          className="flex min-h-52 flex-col items-center justify-center gap-3"
+          className="flex flex-col items-center justify-center gap-3 min-h-52"
           role="status"
         >
           <div
             className="
-              h-8 w-8 animate-spin rounded-full
-              border-2 border-pink-200 border-t-[#e91e63]
+              w-8 h-8
+              rounded-full border-2 border-pink-200 border-t-[#e91e63]
+              animate-spin
             "
           />
 
-          <p className="text-sm text-gray-500">
+          <p className="text-gray-500 text-sm">
             Finding compatible profiles for you...
           </p>
         </div>
       )}
 
       {!isLoading && error && (
-        <div className="flex min-h-52 flex-col items-center justify-center px-4 text-center">
-          <p className="text-sm text-gray-600">{error}</p>
+        <div
+          className="
+            flex flex-col items-center justify-center
+            min-h-52 px-4
+            text-center
+          "
+        >
+          <p className="text-gray-600 text-sm">{error}</p>
 
           <button
             type="button"
             onClick={() => void loadMatches()}
             className="
-              mt-4 inline-flex items-center gap-2
-              rounded-lg border border-gray-200 px-4 py-2
-              text-sm font-semibold text-slate-700
-              transition hover:bg-gray-50
+              inline-flex items-center gap-2
+              px-4 py-2 mt-4
+              rounded-lg border border-gray-200
+              font-semibold text-slate-700 text-sm
+              transition
+              hover:bg-gray-50
             "
           >
             <RefreshCw size={15} />
@@ -268,8 +265,21 @@ export function MatchesSection() {
       )}
 
       {!isLoading && !error && matches.length === 0 && (
-        <div className="flex flex-col items-center px-4 py-9 text-center sm:py-11">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-pink-50">
+        <div
+          className="
+            flex flex-col items-center
+            px-4 py-9
+            text-center
+            sm:py-11
+          "
+        >
+          <div
+            className="
+              flex items-center justify-center
+              w-16 h-16
+              bg-pink-50 rounded-full
+            "
+          >
             <HeartHandshake
               size={34}
               strokeWidth={1.5}
@@ -277,23 +287,25 @@ export function MatchesSection() {
             />
           </div>
 
-          <h3 className="mt-4 text-lg font-bold text-slate-900">
+          <h3 className="mt-4 font-bold text-slate-900 text-lg">
             Your perfect match may be just around the corner!
           </h3>
 
-          <p className="mt-2 max-w-md text-sm leading-6 text-gray-500">
-            We couldn't find compatible profiles right now. New profiles
-            are joining VivahBandh, so check back soon.
+          <p className="max-w-md mt-2 leading-6 text-gray-500 text-sm">
+            We couldn't find compatible profiles right now. New profiles are
+            joining VivahBandh, so check back soon.
           </p>
 
           <button
             type="button"
             onClick={() => navigate('/profile')}
             className="
-              mt-4 inline-flex items-center gap-2
-              rounded-lg px-4 py-2.5
-              text-sm font-semibold text-[#e63b66]
-              transition hover:bg-pink-50
+              inline-flex items-center gap-2
+              px-4 py-2.5 mt-4
+              rounded-lg
+              font-semibold text-[#e63b66] text-sm
+              transition
+              hover:bg-pink-50
             "
           >
             Review Partner Preferences
@@ -310,13 +322,14 @@ export function MatchesSection() {
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}
             className="
-              absolute left-0 top-1/2 z-20
-              flex h-9 w-9 -translate-x-1/2 -translate-y-1/2
-              items-center justify-center
-              rounded-full border border-gray-200
-              bg-white text-gray-700 shadow-md
-              transition hover:bg-pink-50 hover:text-[#e91e63]
-              disabled:cursor-not-allowed disabled:opacity-40
+              absolute top-1/2 left-0 z-20
+              flex items-center justify-center
+              w-9 h-9
+              bg-white shadow-md rounded-full border border-gray-200
+              text-gray-700
+              transition
+              hover:bg-pink-50 disabled:opacity-40 hover:text-[#e91e63] disabled:cursor-not-allowed
+              -translate-x-1/2 -translate-y-1/2
             "
           >
             <ChevronLeft size={21} />
@@ -325,26 +338,26 @@ export function MatchesSection() {
           <div
             ref={scrollRef}
             className="
-              overflow-x-auto snap-x snap-mandatory
               px-[10%] py-3
+              snap-x snap-mandatory
+              overflow-x-auto scrollbar-none
               sm:px-2
-              scroll-smooth
-              scrollbar-none
-              [&::-webkit-scrollbar]:hidden
+              scroll-smooth [&::-webkit-scrollbar]:hidden
             "
           >
-            <div className="flex w-max gap-4 sm:gap-5">
+            <div className="flex gap-4 w-max sm:gap-5">
               {matches.map((match) => (
                 <div
                   key={match.userId}
                   className="
-                    dashboard-match-card
-                    w-[80vw] max-w-80 shrink-0
+                    shrink-0
+                    w-[80vw] max-w-80
                     snap-center
                     sm:w-70 md:w-75
+                    dashboard-match-card
                   "
                 >
-                  <MatchCard
+                  <ProfileCard
                     match={match}
                     onShortlistChange={handleShortlistChange}
                   />
@@ -359,13 +372,14 @@ export function MatchesSection() {
             onClick={() => scroll('right')}
             disabled={!canScrollRight}
             className="
-              absolute right-0 top-1/2 z-20
-              flex h-9 w-9 translate-x-1/2 -translate-y-1/2
-              items-center justify-center
-              rounded-full border border-gray-200
-              bg-white text-gray-700 shadow-md
-              transition hover:bg-pink-50 hover:text-[#e91e63]
-              disabled:cursor-not-allowed disabled:opacity-40
+              absolute top-1/2 right-0 z-20
+              flex items-center justify-center
+              w-9 h-9
+              bg-white shadow-md rounded-full border border-gray-200
+              text-gray-700
+              transition
+              hover:bg-pink-50 disabled:opacity-40 hover:text-[#e91e63] disabled:cursor-not-allowed
+              translate-x-1/2 -translate-y-1/2
             "
           >
             <ChevronRight size={21} />

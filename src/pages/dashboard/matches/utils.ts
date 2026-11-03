@@ -1,4 +1,4 @@
-import type { MatchFiltersState } from '@/components/Filters/types';
+import type { MatchFiltersState } from '@/types/common.types';
 
 const buildArrayParams = (value: string[]) => {
   return value.length > 0 ? value.join(',') : undefined;

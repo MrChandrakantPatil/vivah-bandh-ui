@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { Dispatch, SetStateAction } from 'react';
-import type { MatchFiltersState } from '@/components/Filters/types';
 import {
   Calendar,
   GraduationCap,
@@ -8,21 +7,19 @@ import {
   MapPin,
   UsersRound,
 } from 'lucide-react';
-
 import {
   ageOptions,
-  locationOptions,
+  cityOptions,
   religionOptions,
   communityOptions,
   educationOptions,
   moreFilterOptions,
   sortOptions,
 } from '@/data';
-
-import { MultiSelectFilter } from '@/components/Filters/MultiSelectFilter';
-import { MoreFilters } from '../../../../components/Filters/MoreFilters';
+import { MultiSelectFilter, MoreFilters } from '@/components';
 import { SortBy } from './SortBy';
 import { ProfileSearch } from './ProfileSearch';
+import type { MatchFiltersState } from '@/types/common.types';
 
 type MatchFiltersProps = {
   filters: MatchFiltersState;
@@ -80,7 +77,7 @@ export function MatchFilters({
             <MultiSelectFilter
               title="Location"
               icon={MapPin}
-              options={locationOptions}
+              options={cityOptions}
               selectedOptions={filters.location}
               setSelectedOptions={(value) =>
                 setFilters((previous) => ({

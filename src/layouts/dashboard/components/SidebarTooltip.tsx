@@ -1,6 +1,15 @@
 import { createPortal } from 'react-dom';
-import type { SidebarTooltipProp } from '../types';
 
+export interface SidebarTooltipPosition {
+  left: number;
+  top: number;
+}
+
+export interface SidebarTooltipProp {
+  visible: boolean;
+  label?: string;
+  position: SidebarTooltipPosition | null;
+}
 export function SidebarTooltip({
   visible,
   label,

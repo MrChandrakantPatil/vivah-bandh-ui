@@ -13,6 +13,7 @@ interface DetailRowsProps {
 }
 
 export function DetailRows({ items, className = '' }: DetailRowsProps) {
+  console.log('items-', items);
   return (
     <div
       className={`

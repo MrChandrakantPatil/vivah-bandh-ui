@@ -7,7 +7,6 @@ import {
   Sparkles,
   UsersRound,
 } from 'lucide-react';
-
 import { heightOptions } from './options/heightOptions';
 import { occupationOptions } from './options/occupationOptions';
 import { maritalStatusOptions } from './options/maritalStatusOptions';

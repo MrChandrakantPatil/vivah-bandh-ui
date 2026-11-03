@@ -2,10 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-
 import { useRegistration } from '@/context/registration';
 import { stepValidators } from './utils';
-
 import {
   ProgressBar,
   ProfileDetails,
@@ -15,12 +13,11 @@ import {
   ConfirmDetails,
   RegistrationSuccess,
 } from './components';
-import { AuthInfo } from '../component/AuthInfo';
-
+import { AuthContentSection } from '@/components';
 import { registerProfile } from './api/registrationApi';
+import type { RegistrationStep } from '@/types/profile.types';
 
 type DuplicateField = 'email' | 'mobile';
-type RegistrationStep = 1 | 2 | 3 | 4 | 5;
 
 export function Register() {
   const { state, dispatch } = useRegistration();
@@ -210,7 +207,7 @@ export function Register() {
             lg:w-[85%] lg:max-w-325 lg:h-auto
           "
         >
-          <AuthInfo />
+          <AuthContentSection />
 
           <section
             className="

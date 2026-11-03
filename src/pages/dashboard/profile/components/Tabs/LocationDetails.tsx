@@ -1,69 +1,21 @@
 import { useState } from 'react';
 import { MapPin } from 'lucide-react';
+import { countryOptions, stateOptions, cityOptions } from '@/data';
+import { updateProfileApi } from '../../api';
+import { getOptionLabel } from '@/utils';
+import { SelectOption } from '@/components';
 import { ProfileEditActions } from '../ProfileEditActions';
 import { SectionCard } from '../SectionCard';
-import { Select } from '@/components/ui/Select';
 import { useProfile } from '@/features/profile';
-import type { SelectOption } from '@/data/types';
+import type { SelectOptionType } from '@/types/common.types';
 import type { UpdateProfilePayload } from '../../types';
-import { updateProfileApi } from '../../api';
-
-const countryOptions: SelectOption[] = [{ value: 'India', label: 'India' }];
-
-const stateOptions: SelectOption[] = [
-  { value: 'Maharashtra', label: 'Maharashtra' },
-];
-
-const cityOptions: SelectOption[] = [
-  { value: 'Mumbai', label: 'Mumbai' },
-  { value: 'Pune', label: 'Pune' },
-  { value: 'Nagpur', label: 'Nagpur' },
-  { value: 'Nashik', label: 'Nashik' },
-  { value: 'Thane', label: 'Thane' },
-  { value: 'Navi Mumbai', label: 'Navi Mumbai' },
-  {
-    value: 'Chhatrapati Sambhajinagar',
-    label: 'Chhatrapati Sambhajinagar',
-  },
-  { value: 'Kalyan-Dombivli', label: 'Kalyan-Dombivli' },
-  { value: 'Vasai-Virar', label: 'Vasai-Virar' },
-  { value: 'Mira-Bhayandar', label: 'Mira-Bhayandar' },
-  { value: 'Bhiwandi', label: 'Bhiwandi' },
-  { value: 'Panvel', label: 'Panvel' },
-  { value: 'Solapur', label: 'Solapur' },
-  { value: 'Kolhapur', label: 'Kolhapur' },
-  { value: 'Amravati', label: 'Amravati' },
-  { value: 'Sangli', label: 'Sangli' },
-  { value: 'Satara', label: 'Satara' },
-  { value: 'Jalgaon', label: 'Jalgaon' },
-  { value: 'Akola', label: 'Akola' },
-  { value: 'Latur', label: 'Latur' },
-  { value: 'Nanded', label: 'Nanded' },
-  { value: 'Dhule', label: 'Dhule' },
-  { value: 'Ahmednagar', label: 'Ahmednagar' },
-  { value: 'Chandrapur', label: 'Chandrapur' },
-  { value: 'Parbhani', label: 'Parbhani' },
-  { value: 'Beed', label: 'Beed' },
-  { value: 'Ratnagiri', label: 'Ratnagiri' },
-  { value: 'Wardha', label: 'Wardha' },
-  { value: 'Yavatmal', label: 'Yavatmal' },
-  { value: 'Buldhana', label: 'Buldhana' },
-  { value: 'Jalna', label: 'Jalna' },
-  { value: 'Gondia', label: 'Gondia' },
-  { value: 'Bhandara', label: 'Bhandara' },
-  { value: 'Washim', label: 'Washim' },
-  { value: 'Osmanabad', label: 'Osmanabad' },
-  { value: 'Hingoli', label: 'Hingoli' },
-  { value: 'Sindhudurg', label: 'Sindhudurg' },
-  { value: 'Palghar', label: 'Palghar' },
-];
 
 type LocationDetailKey = 'country' | 'state' | 'city';
 
 interface LocationDetail {
   label: string;
   key: LocationDetailKey;
-  options: SelectOption[];
+  options: SelectOptionType[];
 }
 
 interface FormData {
@@ -74,9 +26,9 @@ interface FormData {
 
 const locationDetails: LocationDetail[] = [
   {
-    label: 'Country',
-    key: 'country',
-    options: countryOptions,
+    label: 'City',
+    key: 'city',
+    options: cityOptions,
   },
   {
     label: 'State',
@@ -84,9 +36,9 @@ const locationDetails: LocationDetail[] = [
     options: stateOptions,
   },
   {
-    label: 'City',
-    key: 'city',
-    options: cityOptions,
+    label: 'Country',
+    key: 'country',
+    options: countryOptions,
   },
 ];
 
@@ -133,12 +85,8 @@ export function LocationDetails() {
   const formatValue = (
     detail: LocationDetail,
     value: string | null | undefined,
-  ) => {
-    if (!value) return '-';
-
-    return (
-      detail.options.find((option) => option.value === value)?.label || value
-    );
+  ): string => {
+    return getOptionLabel(value, detail.options, '--');
   };
 
   const handleSave = async () => {
@@ -220,7 +168,7 @@ export function LocationDetails() {
                 </p>
 
                 {isEditing ? (
-                  <Select
+                  <SelectOption
                     value={String(value ?? '')}
                     onChange={(selectedValue) =>
                       handleSelectChange(detail.key, selectedValue)
@@ -229,7 +177,13 @@ export function LocationDetails() {
                     options={detail.options}
                   />
                 ) : (
-                  <p className="mt-3 font-semibold text-[#172554] text-base">
+                  <p
+                    className={`
+                      mt-3
+                      font-semibold text-base
+                      ${!value ? 'text-gray-400' : 'text-[#172554]'}
+                    `}
+                  >
                     {formatValue(detail, value)}
                   </p>
                 )}

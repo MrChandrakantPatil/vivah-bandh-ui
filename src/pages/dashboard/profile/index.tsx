@@ -1,7 +1,5 @@
 import { User } from 'lucide-react';
-
 import { ProfileSidebar } from './components/ProfileSidebar';
-
 import {
   AboutMe,
   BasicDetails,

@@ -1,4 +1,10 @@
-import type { Tabs } from './types';
+import type { TabId } from './types';
+
+export interface Tabs {
+  id: TabId;
+  label: string;
+  count: number;
+}
 
 export const tabs: Tabs[] = [
   {
@@ -16,14 +22,4 @@ export const tabs: Tabs[] = [
     label: 'Shortlisted',
     count: 0,
   },
-  // {
-  //   id: 'interestedMatches',
-  //   label: 'Interested',
-  //   count: 0,
-  // },
-  // {
-  //   id: 'viewedMatches',
-  //   label: 'Viewed',
-  //   count: 0,
-  // },
 ];

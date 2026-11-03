@@ -2,7 +2,6 @@ import { useCallback, useEffect, useReducer, type ReactNode } from 'react';
 import { AuthContext } from './AuthContext';
 import { AuthReducer } from './authReducer';
 import { initialAuthState } from './initialState';
-
 import { getCurrentUserApi, loginApi, logoutApi } from './authService';
 
 interface AuthProviderProps {

@@ -1,3 +1,4 @@
+// TODO :- try to make common type for this, alradt have in profile.types globally.
 export interface ProfileDetailsData {
   userId: string;
   name: string;
@@ -9,7 +10,7 @@ export interface ProfileDetailsData {
   religion?: string;
   community?: string;
   height?: number;
-  color?: string;
+  complexion?: string;
   maritalStatus?: string;
   motherTongue?: string;
 
