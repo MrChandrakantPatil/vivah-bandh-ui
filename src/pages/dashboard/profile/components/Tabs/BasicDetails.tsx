@@ -1,21 +1,18 @@
-import { useState } from 'react';
-import type { ChangeEvent } from 'react';
+import { useState, type ChangeEvent } from 'react';
 import { UserRound } from 'lucide-react';
-
-import { SectionCard } from '../SectionCard';
-import { ProfileEditActions } from '../ProfileEditActions';
-import { Select } from '@/components/ui/Select';
-import { useProfile } from '@/features/profile';
-import { updateProfileApi } from '../../api';
-
 import {
   complexionOptions,
   genderOptions,
   maritalStatusOptions,
   profileForOptions,
 } from '@/data';
-
-import type { SelectOption } from '@/data/types';
+import { getOptionLabel, formatDate, formatHeight } from '@/utils';
+import { SelectOption } from '@/components';
+import { SectionCard } from '../SectionCard';
+import { ProfileEditActions } from '../ProfileEditActions';
+import { useProfile } from '@/features/profile';
+import { updateProfileApi } from '../../api';
+import type { SelectOptionType } from '@/types/common.types';
 import type { Gender } from '@/types/profile.types';
 import type { UpdateProfilePayload } from '../../types';
 
@@ -25,14 +22,14 @@ type PersonalDetailKey =
   | 'gender'
   | 'dob'
   | 'height'
-  | 'color'
+  | 'complexion'
   | 'maritalStatus';
 
 interface PersonalDetail {
   label: string;
   key: PersonalDetailKey;
   type: 'text' | 'select' | 'date' | 'number';
-  options?: SelectOption[];
+  options?: SelectOptionType[];
 }
 
 interface FormData {
@@ -41,7 +38,7 @@ interface FormData {
   gender: Gender | '';
   dob: string;
   height: string;
-  color: string;
+  complexion: string;
   maritalStatus: string;
 }
 
@@ -63,7 +60,7 @@ const personalDetails: PersonalDetail[] = [
   { label: 'Height', key: 'height', type: 'number' },
   {
     label: 'Complexion',
-    key: 'color',
+    key: 'complexion',
     type: 'select',
     options: complexionOptions,
   },
@@ -81,28 +78,13 @@ const initialFormData: FormData = {
   gender: '',
   dob: '',
   height: '',
-  color: '',
+  complexion: '',
   maritalStatus: '',
 };
 
-function getFormData(
-  profile: NonNullable<ReturnType<typeof useProfile>['profile']>,
-): FormData {
-  return {
-    name: profile.name || '',
-    profileFor: profile.profileFor || '',
-    gender: profile.gender || '',
-    dob: formatDateForInput(profile.dob),
-    height: profile.height != null ? String(profile.height) : '',
-    color: profile.color || '',
-    maritalStatus: profile.maritalStatus || '',
-  };
-}
-
-function formatDateForInput(value: string | null | undefined): string {
+function formatDateForInput(value?: string | null): string {
   if (!value) return '';
 
-  // Handle date-only values without timezone shifting.
   const dateOnlyMatch = /^(\d{4})-(\d{2})-(\d{2})/.exec(value);
 
   if (dateOnlyMatch) {
@@ -120,38 +102,18 @@ function formatDateForInput(value: string | null | undefined): string {
   ].join('-');
 }
 
-function formatValue(
-  detail: PersonalDetail,
-  value: string | number | null | undefined,
-): string | number {
-  if (value == null || value === '') {
-    return '-';
-  }
-
-  if (detail.type === 'select') {
-    return (
-      detail.options?.find((option) => option.value === String(value))?.label ??
-      value
-    );
-  }
-
-  if (detail.key === 'dob') {
-    const date = new Date(value);
-
-    if (Number.isNaN(date.getTime())) return '-';
-
-    return date.toLocaleDateString('en-IN', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-    });
-  }
-
-  if (detail.key === 'height') {
-    return `${value} cm`;
-  }
-
-  return value;
+function getFormData(
+  profile: NonNullable<ReturnType<typeof useProfile>['profile']>,
+): FormData {
+  return {
+    name: profile.name || '',
+    profileFor: profile.profileFor || '',
+    gender: profile.gender || '',
+    dob: formatDateForInput(profile.dob),
+    height: profile.height != null ? String(profile.height) : '',
+    complexion: profile.complexion || '',
+    maritalStatus: profile.maritalStatus || '',
+  };
 }
 
 export function BasicDetails() {
@@ -171,12 +133,7 @@ export function BasicDetails() {
   };
 
   const handleCancel = () => {
-    if (profile) {
-      setFormData(getFormData(profile));
-    } else {
-      setFormData(initialFormData);
-    }
-
+    setFormData(profile ? getFormData(profile) : initialFormData);
     setSaveError(null);
     setIsEditing(false);
   };
@@ -196,6 +153,28 @@ export function BasicDetails() {
       [name]: value,
     }));
   };
+
+  function formatValue(
+    detail: PersonalDetail,
+    value: string | number | null | undefined,
+  ): string | number {
+    if (value == null || value === '') return '--';
+
+    switch (detail.key) {
+      case 'dob':
+        return formatDate(value);
+
+      case 'height':
+        return formatHeight(value);
+
+      default:
+        if (detail.type === 'select') {
+          return getOptionLabel(value, detail.options ?? [], '--');
+        }
+
+        return value;
+    }
+  }
 
   const handleSave = async () => {
     if (!formData.name.trim()) {
@@ -237,7 +216,7 @@ export function BasicDetails() {
       gender: formData.gender,
       dob: formData.dob,
       height: formData.height ? Number(formData.height) : null,
-      color: formData.color || undefined,
+      complexion: formData.complexion || undefined,
       maritalStatus: formData.maritalStatus || undefined,
     };
 
@@ -257,7 +236,7 @@ export function BasicDetails() {
         gender: response.data?.gender ?? updatedProfile.gender,
         dob: response.data?.dob ?? updatedProfile.dob,
         height: response.data?.height ?? updatedProfile.height,
-        color: response.data?.color ?? updatedProfile.color,
+        complexion: response.data?.complexion ?? updatedProfile.complexion,
         maritalStatus:
           response.data?.maritalStatus ?? updatedProfile.maritalStatus,
       });
@@ -310,7 +289,7 @@ export function BasicDetails() {
 
                 {isEditing ? (
                   detail.type === 'select' ? (
-                    <Select
+                    <SelectOption
                       value={String(value ?? '')}
                       onChange={(selectedValue) =>
                         handleSelectChange(detail.key, selectedValue)
@@ -325,13 +304,7 @@ export function BasicDetails() {
                       value={value == null ? '' : String(value)}
                       onChange={handleInputChange}
                       disabled={isSaving}
-                      min={
-                        detail.key === 'height'
-                          ? 1
-                          : detail.key === 'dob'
-                            ? undefined
-                            : undefined
-                      }
+                      min={detail.key === 'height' ? 1 : undefined}
                       max={
                         detail.key === 'dob'
                           ? formatDateForInput(new Date().toISOString())
@@ -348,7 +321,13 @@ export function BasicDetails() {
                     />
                   )
                 ) : (
-                  <p className="mt-3 font-semibold text-[#172554] text-base">
+                  <p
+                    className={`
+                      mt-3
+                      font-semibold text-base
+                      ${!value ? 'text-gray-400' : 'text-[#172554]'}
+                    `}
+                  >
                     {formatValue(detail, value)}
                   </p>
                 )}

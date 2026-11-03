@@ -5,11 +5,16 @@ export { complexionOptions } from './options/complexionOptions';
 export { ageOptions } from './options/ageOptions';
 export { educationOptions } from './options/educationOptions';
 export { familyTypeOptions } from './options/familyTypeOptions';
+export { familyStatusOptions } from './options/familyStatusOptions';
 export { heightOptions } from './options/heightOptions';
 export { hobbiesOptions } from './options/hobbiesOptions';
 export { incomeOptions } from './options/incomeOptions';
 export { lifestyleOptions } from './options/lifestyleOptions';
-export { locationOptions } from './options/locationOptions';
+export {
+  countryOptions,
+  stateOptions,
+  cityOptions,
+} from './options/locationOptions';
 export { maritalStatusOptions } from './options/maritalStatusOptions';
 export { occupationOptions } from './options/occupationOptions';
 export { religionOptions, communityOptions } from './options/religionOptions';

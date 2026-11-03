@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import type { AvatarProp } from '../types';
+
+export interface AvatarProp {
+  name: string;
+  image?: string;
+  className?: string;
+}
 
 export function Avatar({ name, image, className = '' }: AvatarProp) {
   const [imageError, setImageError] = useState(false);

@@ -1,6 +1,5 @@
 import { Heart, ShieldCheck, Users, Headphones } from 'lucide-react';
-
-type GenderOptionValue = 'male' | 'female';
+import type { Gender } from '@/types/profile.types';
 
 export const authBenefits = [
   {
@@ -64,7 +63,7 @@ export const profileOptions = [
 ] as const;
 
 export const gender: {
-  value: GenderOptionValue;
+  value: Gender;
   label: string;
 }[] = [
   {

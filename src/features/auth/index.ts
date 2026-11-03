@@ -3,5 +3,3 @@ export { AuthContext } from './AuthContext';
 export { useAuth } from './useAuth';
 export { ProtectedRoute } from './ProtectedRoute';
 export { PublicRoute } from './PublicRoute';
-
-export type { User, AuthState, AuthAction } from './types';

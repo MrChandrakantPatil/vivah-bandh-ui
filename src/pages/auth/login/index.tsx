@@ -4,8 +4,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '@/features/auth';
-import { AuthInfo } from '../component/AuthInfo';
-import { FormInput } from '../component/FormFields/FormInput';
+import { AuthInput, AuthContentSection } from '@/components';
 import { loginValidators, validateLogin } from './utils';
 
 type LoginField = 'username' | 'password';
@@ -110,7 +109,7 @@ export function Login() {
           lg:w-[85%] lg:max-w-325 lg:h-auto
         "
       >
-        <AuthInfo />
+        <AuthContentSection />
 
         <section
           className="
@@ -166,7 +165,7 @@ export function Login() {
               </p>
 
               <form onSubmit={handleSubmit} className="mt-9">
-                <FormInput
+                <AuthInput
                   id="username"
                   label="Email Address / Mobile Number"
                   placeholder="Enter your email or mobile number"
@@ -178,7 +177,7 @@ export function Login() {
                   className="mt-6"
                 />
 
-                <FormInput
+                <AuthInput
                   isPassword
                   id="password"
                   label="Password"

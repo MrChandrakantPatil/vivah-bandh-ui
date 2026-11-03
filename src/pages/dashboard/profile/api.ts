@@ -1,7 +1,7 @@
 import { apiClient } from '@/api/client';
-import type { UpdateProfilePayload, UpdateProfileResponse } from './types';
+import type { UpdateProfilePayload } from './types';
 import type { Profile } from '@/types/profile.types';
-import type { ApiResponse } from '@/api/types';
+import type { ApiResponse } from '@/types/api.types';
 
 export type PhotoUploadRequest = {
   files: {
@@ -32,6 +32,12 @@ export type DeleteProfilePhotoResponse = {
     primaryPhoto: string | null;
   };
 };
+
+export interface UpdateProfileResponse {
+  success: boolean;
+  message: string;
+  data: UpdateProfilePayload;
+}
 
 export const getProfileApi = async (): Promise<ApiResponse<Profile>> => {
   const response = await apiClient.get<ApiResponse<Profile>>('/profile');

@@ -1,7 +1,6 @@
-import { useRef, useState } from 'react';
-import type { TouchEvent } from 'react';
+import { useRef, useState, type TouchEvent } from 'react';
 import { Bookmark, UserRound, ChevronLeft, ChevronRight } from 'lucide-react';
-import { getCdnUrl } from '@/utils/cdn';
+import { getCdnUrl } from '@/utils/getCdnUrl';
 
 interface ProfilePhotoSectionProps {
   photos: string[];

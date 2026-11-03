@@ -1,6 +1,5 @@
 import type { ReactNode, ComponentType } from 'react';
-import type { LucideProps } from 'lucide-react';
-import { Pencil } from 'lucide-react';
+import { Pencil, type LucideProps } from 'lucide-react';
 
 type SectionCardProps = {
   title: string;
@@ -24,7 +23,6 @@ export function SectionCard({
       className={`
         min-w-0
         bg-white shadow-[0_3px_18px_rgba(15,23,42,0.035)] rounded-2xl border border-slate-200/80
-        overflow-hidden
         ${className}
       `}
     >
@@ -32,7 +30,7 @@ export function SectionCard({
         className="
           flex items-center justify-between gap-3
           px-5 py-4
-          bg-linear-to-r border-b border-slate-100
+          bg-linear-to-r rounded-t-2xl border-b border-slate-100
           sm:px-6
           from-pink-50/80 to-white
         "

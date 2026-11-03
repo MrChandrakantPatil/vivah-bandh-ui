@@ -4,8 +4,16 @@ import {
   Settings,
   User,
   CircleQuestionMark,
+  type LucideIcon,
 } from 'lucide-react';
-import type { SidebarMenu } from './types';
+
+export interface SidebarMenu {
+  id: number;
+  label: string;
+  icon: LucideIcon;
+  path: string;
+  badge?: number;
+}
 
 export const sidebarMenu: SidebarMenu[] = [
   {

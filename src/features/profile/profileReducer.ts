@@ -1,4 +1,12 @@
-import type { ProfileAction, ProfileState } from './types';
+import type { Profile } from '@/types/profile.types';
+import type { ProfileState } from './types';
+
+export type ProfileAction =
+  | { type: 'PROFILE_LOADING' }
+  | { type: 'SET_PROFILE'; payload: Profile }
+  | { type: 'UPDATE_PROFILE'; payload: Partial<Profile> }
+  | { type: 'CLEAR_PROFILE' }
+  | { type: 'PROFILE_ERROR'; payload: string };
 
 export const profileReducer = (
   state: ProfileState,

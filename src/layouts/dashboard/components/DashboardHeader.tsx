@@ -1,4 +1,10 @@
 import { useState, useRef } from 'react';
+import type {
+  ButtonHTMLAttributes,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Search,
@@ -10,19 +16,25 @@ import {
   PanelLeftOpen,
   Crown,
 } from 'lucide-react';
-
 import { NotificationBadge } from './NotificationBadge';
 import { Avatar } from './Avatar';
-import { ProfileCard } from './ProfileCard';
-
+import { UserDropdown } from './UserDropdown';
 import { useHandleOutsideClick } from '@/hooks/useHandleOutsideClick';
 import { useAuth } from '@/features/auth';
 import { useProfile } from '@/features/profile';
-import { getCdnUrl } from '@/utils/cdn';
-
-import type { HeaderIconPropTypes, DashboardHeaderPropTypes } from '../types';
-
+import { getCdnUrl } from '@/utils/getCdnUrl';
 import { logo, logoIcon } from '@/assets/images';
+
+export interface HeaderIconPropTypes extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  count?: number;
+}
+
+export interface DashboardHeaderPropTypes {
+  setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
+  isCollapsed: boolean;
+  setIsCollapsed: Dispatch<SetStateAction<boolean>>;
+}
 
 function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
   return (
@@ -231,7 +243,7 @@ export function DashboardHeader({
                   />
                 </button>
 
-                {showProfileMenu && <ProfileCard onLogout={handleLogout} />}
+                {showProfileMenu && <UserDropdown onLogout={handleLogout} />}
               </div>
             </div>
           </>
