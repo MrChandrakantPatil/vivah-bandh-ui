@@ -10,7 +10,7 @@ import {
 
 const profileSteps = [
   {
-    title: 'Personal Details',
+    title: 'Basic Details',
     description: 'Tell us about yourself and your background.',
     icon: UserRound,
   },
