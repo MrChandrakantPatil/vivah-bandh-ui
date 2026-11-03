@@ -36,7 +36,7 @@ export type DeleteProfilePhotoResponse = {
 export interface UpdateProfileResponse {
   success: boolean;
   message: string;
-  data: UpdateProfilePayload;
+  data: Profile;
 }
 
 export const getProfileApi = async (): Promise<ApiResponse<Profile>> => {
@@ -98,7 +98,18 @@ export async function uploadProfilePhotos(files: File[]) {
       });
 
       if (!response.ok) {
-        throw new Error(`Failed to upload ${file.name} to S3.`);
+        const errorDetails = await response.text();
+
+        console.error('S3 Upload Error:', {
+          fileName: file.name,
+          status: response.status,
+          statusText: response.statusText,
+          details: errorDetails,
+        });
+
+        throw new Error(
+          `Failed to upload ${file.name}: ${response.status} ${response.statusText}`,
+        );
       }
 
       return {

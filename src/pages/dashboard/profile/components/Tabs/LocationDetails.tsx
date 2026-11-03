@@ -104,22 +104,11 @@ export function LocationDetails() {
 
       const response = await updateProfileApi(updatedProfile);
 
-      updateProfileData({
-        location: {
-          country:
-            response.data?.location?.country ??
-            updatedProfile.location?.country ??
-            null,
-          state:
-            response.data?.location?.state ??
-            updatedProfile.location?.state ??
-            null,
-          city:
-            response.data?.location?.city ??
-            updatedProfile.location?.city ??
-            null,
-        },
-      });
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to update profile');
+      }
+
+      updateProfileData(response.data);
 
       setIsEditing(false);
     } catch (error) {
@@ -147,7 +136,7 @@ export function LocationDetails() {
       isEditing={isEditing}
     >
       <div className="relative">
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
           {locationDetails.map((detail) => {
             const value = isEditing
               ? formData[detail.key]
@@ -157,30 +146,33 @@ export function LocationDetails() {
               <div
                 key={detail.key}
                 className="
-                  px-5 py-5
-                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+                  px-4 py-3.5
+                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-xl border border-slate-200/80
                   transition
-                  hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
+                  hover:shadow-[0_4px_12px_rgba(15,23,42,0.05)] hover:border-pink-100
                 "
               >
-                <p className="font-medium text-gray-500 text-sm">
+                <p className="font-medium text-gray-500 text-xs sm:text-sm">
                   {detail.label}
                 </p>
 
                 {isEditing ? (
-                  <SelectOption
-                    value={String(value ?? '')}
-                    onChange={(selectedValue) =>
-                      handleSelectChange(detail.key, selectedValue)
-                    }
-                    placeholder={`Select ${detail.label}`}
-                    options={detail.options}
-                  />
+                  <div className="mt-2">
+                    <SelectOption
+                      value={String(value ?? '')}
+                      onChange={(selectedValue) =>
+                        handleSelectChange(detail.key, selectedValue)
+                      }
+                      placeholder={`Select ${detail.label}`}
+                      options={detail.options}
+                    />
+                  </div>
                 ) : (
                   <p
                     className={`
-                      mt-3
-                      font-semibold text-base
+                      mt-2
+                      font-semibold text-sm
+                      sm:text-[15px]
                       ${!value ? 'text-gray-400' : 'text-[#172554]'}
                     `}
                   >
