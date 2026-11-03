@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Check, ChevronDown } from 'lucide-react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Check, ChevronDown, Search, X } from 'lucide-react';
 import type { SelectOptionType } from '@/types/common.types';
 
 interface MultiSelectOptionsProps {
@@ -20,8 +20,77 @@ export function MultiSelectOption({
   className = '',
 }: MultiSelectOptionsProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [search, setSearch] = useState('');
 
   const selectRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const searchSectionRef = useRef<HTMLDivElement>(null);
+  const optionsListRef = useRef<HTMLDivElement>(null);
+
+  const showSearch = options.length > 10;
+
+  const selectedOptions = options.filter((option) =>
+    value.includes(option.value),
+  );
+
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(search.trim().toLowerCase()),
+  );
+
+  useLayoutEffect(() => {
+    if (!isOpen) return;
+
+    const updatePlacement = () => {
+      const trigger = triggerRef.current;
+      const menu = menuRef.current;
+      const optionsList = optionsListRef.current;
+      const searchSection = searchSectionRef.current;
+
+      if (!trigger || !menu || !optionsList) return;
+
+      const gap = 8;
+
+      optionsList.style.maxHeight = '';
+
+      const triggerRect = trigger.getBoundingClientRect();
+      const menuHeight = menu.getBoundingClientRect().height;
+
+      const spaceBelow = window.innerHeight - triggerRect.bottom - gap;
+
+      const spaceAbove = triggerRect.top - gap;
+
+      const openUpward = spaceBelow < menuHeight && spaceAbove > spaceBelow;
+
+      const availableSpace = Math.max(0, openUpward ? spaceAbove : spaceBelow);
+
+      menu.style.top = openUpward ? 'auto' : `calc(100% + ${gap}px)`;
+
+      menu.style.bottom = openUpward ? `calc(100% + ${gap}px)` : 'auto';
+
+      const searchHeight = searchSection?.getBoundingClientRect().height ?? 0;
+
+      const availableOptionsHeight = Math.max(
+        0,
+        availableSpace - searchHeight - 2,
+      );
+
+      optionsList.style.maxHeight = `${Math.min(
+        240,
+        availableOptionsHeight,
+      )}px`;
+    };
+
+    updatePlacement();
+
+    window.addEventListener('resize', updatePlacement);
+    window.addEventListener('scroll', updatePlacement, true);
+
+    return () => {
+      window.removeEventListener('resize', updatePlacement);
+      window.removeEventListener('scroll', updatePlacement, true);
+    };
+  }, [isOpen, filteredOptions.length, showSearch]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -30,6 +99,7 @@ export function MultiSelectOption({
         !selectRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
+        setSearch('');
       }
     };
 
@@ -39,6 +109,17 @@ export function MultiSelectOption({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const handleToggle = () => {
+    if (disabled) return;
+
+    if (isOpen) {
+      setIsOpen(false);
+      setSearch('');
+    } else {
+      setIsOpen(true);
+    }
+  };
 
   const handleSelect = (option: SelectOptionType) => {
     const isSelected = value.includes(option.value);
@@ -50,28 +131,43 @@ export function MultiSelectOption({
     }
   };
 
-  const selectedLabels = options
-    .filter((option) => value.includes(option.value))
-    .map((option) => option.label);
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
+  const handleSearchKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (event.key === 'Escape') {
+      setIsOpen(false);
+      setSearch('');
+    }
+  };
+
+  const handleClearSearch = () => {
+    setSearch('');
+  };
 
   return (
     <div
       ref={selectRef}
       className={`
         relative
-        mt-3
+        mt-2
         ${className}
       `}
     >
       <button
+        ref={triggerRef}
         type="button"
         disabled={disabled}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={handleToggle}
+        aria-expanded={isOpen}
         className={`
           flex items-center justify-between
-          w-full px-3 py-2.5
+          w-full px-3 py-2
           bg-white rounded-lg border
-          font-medium text-base text-left
+          font-medium text-sm text-left
           transition
           outline-none
           ${isOpen ? 'border-pink-400 ring-2 ring-pink-100' : 'border-gray-200'}
@@ -89,10 +185,10 @@ export function MultiSelectOption({
             overflow-x-auto scrollbar-none
           "
         >
-          {selectedLabels.length > 0 ? (
-            selectedLabels.map((label) => (
+          {selectedOptions.length > 0 ? (
+            selectedOptions.map((option) => (
               <span
-                key={label}
+                key={option.value}
                 className="
                   shrink-0
                   px-2.5 py-1
@@ -100,7 +196,7 @@ export function MultiSelectOption({
                   font-medium text-pink-600 text-xs
                 "
               >
-                {label}
+                {option.label}
               </span>
             ))
           ) : (
@@ -122,20 +218,80 @@ export function MultiSelectOption({
 
       {isOpen && (
         <div
+          ref={menuRef}
           className="
-            absolute top-full right-0 left-0 z-50
-            p-1 mt-2
-            bg-white shadow-[0_8px_24px_rgba(15,23,42,0.12)] rounded-xl border border-gray-100
+            absolute left-1/2 z-50
+            flex flex-col
+            w-fit max-w-[90vw] min-w-full
+            bg-white shadow-[0_8px_24px_rgba(15,23,42,0.10)] rounded-xl border border-slate-200
             overflow-hidden
+            -translate-x-1/2
           "
+          style={{
+            top: 'calc(100% + 8px)',
+          }}
         >
-          <div className="max-h-60 overflow-y-auto">
-            {options.length === 0 ? (
-              <div className="px-3 py-2.5 text-gray-400 text-sm">
-                No options available
+          {showSearch && (
+            <div
+              ref={searchSectionRef}
+              className="shrink-0 p-3 bg-slate-50 border-b border-slate-200"
+            >
+              <div className="relative">
+                <Search
+                  size={17}
+                  className="absolute top-1/2 left-3 text-gray-400 -translate-y-1/2"
+                />
+
+                <input
+                  type="text"
+                  autoFocus
+                  value={search}
+                  onChange={handleSearchChange}
+                  onKeyDown={handleSearchKeyDown}
+                  placeholder="Search options..."
+                  aria-label="Search options"
+                  className="
+                    w-full py-2.5 pr-9 pl-9
+                    bg-white rounded-lg border border-slate-200
+                    text-[#172554] placeholder:text-gray-400 text-sm
+                    transition-all duration-200
+                    focus:border-gray-400 focus:ring-2 focus:ring-gray-100
+                    outline-none
+                  "
+                />
+
+                {search && (
+                  <button
+                    type="button"
+                    onClick={handleClearSearch}
+                    aria-label="Clear search"
+                    className="
+                      absolute top-1/2 right-3
+                      text-gray-400
+                      transition
+                      hover:text-gray-600
+                      -translate-y-1/2
+                    "
+                  >
+                    <X size={15} />
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
+
+          <div
+            ref={optionsListRef}
+            className="flex-1 max-h-60 min-h-0 p-1.5 bg-white overflow-y-auto"
+          >
+            {filteredOptions.length === 0 ? (
+              <div className="px-3 py-3 text-gray-400 text-sm text-center">
+                {options.length === 0
+                  ? 'No options available'
+                  : 'No options found'}
               </div>
             ) : (
-              options.map((option) => {
+              filteredOptions.map((option) => {
                 const isSelected = value.includes(option.value);
 
                 return (
@@ -144,10 +300,10 @@ export function MultiSelectOption({
                     type="button"
                     onClick={() => handleSelect(option)}
                     className={`
-                      flex items-center justify-between
-                      w-full px-3 py-2.5
+                      flex items-center justify-between gap-2
+                      w-full px-3 py-2.5 mb-1
                       rounded-lg
-                      text-sm text-left
+                      whitespace-nowrap text-sm text-left
                       transition
                       ${
                         isSelected
@@ -158,9 +314,11 @@ export function MultiSelectOption({
                   >
                     <span>{option.label}</span>
 
-                    {isSelected && (
-                      <Check size={16} className="shrink-0 text-pink-500" />
-                    )}
+                    <span className="flex items-center justify-center shrink-0 w-4">
+                      {isSelected && (
+                        <Check size={16} className="text-pink-500" />
+                      )}
+                    </span>
                   </button>
                 );
               })

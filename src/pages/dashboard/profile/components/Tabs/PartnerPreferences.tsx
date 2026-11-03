@@ -170,18 +170,12 @@ export function PartnerPreferences() {
       setSaveError(null);
 
       const response = await updateProfileApi(updatedProfile);
-      const savedPreferences = response.data?.partnerPreference;
 
-      updateProfileData({
-        partnerPreference: {
-          minAge: savedPreferences?.minAge ?? minAge,
-          maxAge: savedPreferences?.maxAge ?? maxAge,
-          religion: savedPreferences?.religion ?? formData.religion,
-          community: savedPreferences?.community ?? formData.community,
-          education: savedPreferences?.education ?? formData.education,
-          occupation: savedPreferences?.occupation ?? formData.occupation,
-        },
-      });
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to update profile');
+      }
+
+      updateProfileData(response.data);
 
       setIsEditing(false);
     } catch (error) {
@@ -256,7 +250,7 @@ export function PartnerPreferences() {
         isEditing={isEditing}
       >
         <div className="relative">
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {[
               {
                 label: 'Minimum Age',
@@ -272,11 +266,13 @@ export function PartnerPreferences() {
               <div
                 key={item.key}
                 className="
-                  px-5 py-5
-                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+                  px-4 py-3.5
+                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-xl border border-slate-200/80
+                  transition
+                  hover:shadow-[0_4px_12px_rgba(15,23,42,0.05)] hover:border-pink-100
                 "
               >
-                <p className="font-medium text-gray-500 text-sm">
+                <p className="font-medium text-gray-500 text-xs sm:text-sm">
                   {item.label}
                 </p>
 
@@ -290,16 +286,16 @@ export function PartnerPreferences() {
                       handleAgeChange(item.key, event.target.value)
                     }
                     className="
-                      w-full px-3 py-2.5 mt-3
+                      w-full px-3 py-2 mt-2
                       bg-white rounded-lg border border-gray-200
-                      font-semibold text-[#172554] text-base
+                      font-semibold text-[#172554] text-sm
                       transition
                       focus:border-pink-400 focus:ring-2 focus:ring-pink-100
                       outline-none
                     "
                   />
                 ) : (
-                  <p className="mt-3 font-semibold text-[#172554] text-base">
+                  <p className="mt-2 font-semibold text-[#172554] text-sm sm:text-[15px]">
                     {item.value != null ? `${item.value} years` : '--'}
                   </p>
                 )}
@@ -307,7 +303,7 @@ export function PartnerPreferences() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 gap-5 mt-5 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 mt-3 md:grid-cols-2">
             {partnerPreferenceDetails.map((detail) => {
               const values = isEditing
                 ? formData[detail.key]
@@ -321,13 +317,13 @@ export function PartnerPreferences() {
                 <div
                   key={detail.key}
                   className="
-                    px-5 py-5
-                    bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+                    px-4 py-3.5
+                    bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-xl border border-slate-200/80
                     transition
-                    hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
+                    hover:shadow-[0_4px_12px_rgba(15,23,42,0.05)] hover:border-pink-100
                   "
                 >
-                  <p className="mb-4 font-medium text-gray-500 text-sm">
+                  <p className="mb-3 font-medium text-gray-500 text-xs sm:text-sm">
                     {detail.label}
                   </p>
 
@@ -355,9 +351,9 @@ export function PartnerPreferences() {
                           }}
                           className="
                             max-w-full min-w-0
-                            font-semibold text-[#172554] text-base
+                            font-semibold text-[#172554] text-sm
                             overflow-hidden
-                            sm:block sm:flex-1 sm:whitespace-nowrap sm:break-normal sm:text-ellipsis
+                            sm:block sm:flex-1 sm:whitespace-nowrap sm:text-[15px] sm:break-normal sm:text-ellipsis
                             wrap-break-words [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]
                           "
                         >

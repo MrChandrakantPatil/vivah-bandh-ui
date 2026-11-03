@@ -16,7 +16,7 @@ import type { SelectOptionType } from '@/types/common.types';
 import type { Gender } from '@/types/profile.types';
 import type { UpdateProfilePayload } from '../../types';
 
-type PersonalDetailKey =
+type BasicDetailsKey =
   | 'name'
   | 'profileFor'
   | 'gender'
@@ -25,9 +25,9 @@ type PersonalDetailKey =
   | 'complexion'
   | 'maritalStatus';
 
-interface PersonalDetail {
+interface BasicDetails {
   label: string;
-  key: PersonalDetailKey;
+  key: BasicDetailsKey;
   type: 'text' | 'select' | 'date' | 'number';
   options?: SelectOptionType[];
 }
@@ -42,7 +42,7 @@ interface FormData {
   maritalStatus: string;
 }
 
-const personalDetails: PersonalDetail[] = [
+const BasicDetailss: BasicDetails[] = [
   { label: 'Full Name', key: 'name', type: 'text' },
   {
     label: 'Profile Created For',
@@ -147,7 +147,7 @@ export function BasicDetails() {
     }));
   };
 
-  const handleSelectChange = (name: PersonalDetailKey, value: string) => {
+  const handleSelectChange = (name: BasicDetailsKey, value: string) => {
     setFormData((previous) => ({
       ...previous,
       [name]: value,
@@ -155,7 +155,7 @@ export function BasicDetails() {
   };
 
   function formatValue(
-    detail: PersonalDetail,
+    detail: BasicDetails,
     value: string | number | null | undefined,
   ): string | number {
     if (value == null || value === '') return '--';
@@ -230,16 +230,7 @@ export function BasicDetails() {
         throw new Error(response.message || 'Failed to update profile.');
       }
 
-      updateProfileData({
-        name: response.data?.name ?? updatedProfile.name,
-        profileFor: response.data?.profileFor ?? updatedProfile.profileFor,
-        gender: response.data?.gender ?? updatedProfile.gender,
-        dob: response.data?.dob ?? updatedProfile.dob,
-        height: response.data?.height ?? updatedProfile.height,
-        complexion: response.data?.complexion ?? updatedProfile.complexion,
-        maritalStatus:
-          response.data?.maritalStatus ?? updatedProfile.maritalStatus,
-      });
+      updateProfileData(response.data);
 
       setIsEditing(false);
     } catch (error) {
@@ -253,7 +244,7 @@ export function BasicDetails() {
 
   if (!profile) {
     return (
-      <SectionCard title="Personal Information" icon={UserRound}>
+      <SectionCard title="Basic Details" icon={UserRound}>
         <p className="text-gray-500 text-sm">Loading profile...</p>
       </SectionCard>
     );
@@ -261,14 +252,14 @@ export function BasicDetails() {
 
   return (
     <SectionCard
-      title="Personal Information"
+      title="Basic Details"
       icon={UserRound}
       onEdit={handleEdit}
       isEditing={isEditing}
     >
       <div className="relative">
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-          {personalDetails.map((detail) => {
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {BasicDetailss.map((detail) => {
             const value = isEditing
               ? formData[detail.key]
               : profile[detail.key];
@@ -277,13 +268,13 @@ export function BasicDetails() {
               <div
                 key={detail.key}
                 className="
-                  px-5 py-5
-                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-2xl border border-gray-100
+                  px-4 py-3.5
+                  bg-white shadow-[0_1px_3px_rgba(15,23,42,0.04)] rounded-xl border border-gray-100
                   transition
                   hover:shadow-[0_4px_12px_rgba(15,23,42,0.06)] hover:border-pink-100
                 "
               >
-                <p className="font-medium text-gray-500 text-sm">
+                <p className="font-medium text-gray-500 text-xs sm:text-sm">
                   {detail.label}
                 </p>
 
@@ -311,9 +302,9 @@ export function BasicDetails() {
                           : undefined
                       }
                       className="
-                        w-full px-3 py-2.5 mt-3
+                        w-full px-3 py-2 mt-2
                         bg-white rounded-lg border border-gray-200
-                        font-medium text-[#172554] text-base
+                        font-medium text-[#172554] text-sm
                         transition
                         disabled:opacity-60 focus:border-pink-400 focus:ring-2 focus:ring-pink-100
                         outline-none
@@ -323,8 +314,9 @@ export function BasicDetails() {
                 ) : (
                   <p
                     className={`
-                      mt-3
-                      font-semibold text-base
+                      mt-2
+                      font-semibold text-sm
+                      sm:text-[15px]
                       ${!value ? 'text-gray-400' : 'text-[#172554]'}
                     `}
                   >
@@ -349,7 +341,9 @@ export function BasicDetails() {
         />
 
         {isSaving && (
-          <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
+          <p className="mt-2 text-gray-500 text-sm" role="status">
+            Saving changes...
+          </p>
         )}
       </div>
     </SectionCard>

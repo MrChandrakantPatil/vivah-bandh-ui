@@ -41,9 +41,7 @@ export function AboutMe() {
         throw new Error(response.message || 'Failed to update About Me');
       }
 
-      updateProfileData({
-        aboutMe: response.data?.aboutMe ?? (updatedAboutMe || null),
-      });
+      updateProfileData(response.data);
 
       setIsEditing(false);
     } catch (error) {
@@ -67,22 +65,22 @@ export function AboutMe() {
           value={aboutMe}
           onChange={(event) => setAboutMe(event.target.value)}
           placeholder="Tell us something about yourself..."
-          rows={8}
+          rows={6}
           maxLength={1000}
           autoFocus
           disabled={isSaving}
           className="
-            w-full px-4 py-3
-            bg-white rounded-xl border border-gray-200
-            leading-7 text-[#172554] text-base
+            w-full px-3 py-2.5
+            bg-white rounded-lg border border-gray-200
+            leading-6 text-[#172554] text-sm
             transition
-            resize-none
+            resize-y
             disabled:opacity-60 focus:border-pink-400 focus:ring-2 focus:ring-pink-100
             outline-none
           "
         />
       ) : (
-        <p className="leading-7 text-[#172554] text-base lg:leading-8">
+        <p className="whitespace-pre-line leading-6 text-[#172554] text-sm sm:text-[15px]">
           {profile.aboutMe || 'Tell us something about yourself.'}
         </p>
       )}
@@ -100,7 +98,9 @@ export function AboutMe() {
       />
 
       {isSaving && (
-        <p className="mt-2 text-gray-500 text-sm">Saving changes...</p>
+        <p className="mt-2 text-gray-500 text-sm" role="status">
+          Saving changes...
+        </p>
       )}
     </SectionCard>
   );
