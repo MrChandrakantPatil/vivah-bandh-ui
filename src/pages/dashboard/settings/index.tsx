@@ -2,7 +2,13 @@ import { Telescope } from 'lucide-react';
 
 export function Settings() {
   return (
-    <div className="flex items-center justify-center mt-50">
+    <div
+      className="
+        flex items-center justify-center
+        max-w-7xl mx-auto mt-50
+        text-slate-900
+      "
+    >
       <div className="flex flex-col items-center text-center">
         <Telescope size={125} strokeWidth={1.5} className="text-(--primary)" />
         <div>
