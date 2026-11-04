@@ -33,8 +33,7 @@ export function Dashboard() {
   }
 
   return (
-    <div className="space-y-6 pb-8">
-      {/* Welcome header */}
+    <div className="space-y-6 max-w-7xl mx-auto text-slate-900">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="font-semibold text-slate-900 text-xl sm:text-2xl lg:text-3xl">
@@ -46,7 +45,6 @@ export function Dashboard() {
           </p>
         </div>
 
-        {/* Partner preferences */}
         <button
           type="button"
           onClick={() => navigate('/profile')}
@@ -64,10 +62,8 @@ export function Dashboard() {
         </button>
       </div>
 
-      {/* Recommended matches */}
       <MatchesSection />
 
-      {/* Trust and safety banner */}
       <section
         className="
           p-5
@@ -121,7 +117,6 @@ export function Dashboard() {
         </div>
       </section>
 
-      {/* Trust-focused information cards */}
       <section>
         <div className="mb-4">
           <h2 className="font-bold text-slate-900 text-lg">
@@ -134,7 +129,6 @@ export function Dashboard() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {/* Profile verification */}
           <article
             className="
               flex flex-col
@@ -178,7 +172,6 @@ export function Dashboard() {
             </button>
           </article>
 
-          {/* Family guide */}
           <article
             className="
               flex flex-col
@@ -222,7 +215,6 @@ export function Dashboard() {
             </button>
           </article>
 
-          {/* Matrimonial journey guide */}
           <article
             className="
               flex flex-col
@@ -268,7 +260,6 @@ export function Dashboard() {
         </div>
       </section>
 
-      {/* Help and support */}
       <section
         className="
           p-5

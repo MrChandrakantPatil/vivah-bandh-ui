@@ -34,7 +34,7 @@ export function ProfileDetailsSidebar({
       <section
         className="
           p-3
-          bg-white shadow-[0_4px_24px_rgba(15,23,42,0.04)] rounded-2xl border border-slate-200/80
+          bg-white shadow-[0_4px_24px_rgba(15,23,42,0.04)] rounded-2xl border border-pink-100
           overflow-hidden
           sm:p-4
         "

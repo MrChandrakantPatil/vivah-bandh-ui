@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import type { Dispatch, SetStateAction, MouseEvent } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+
+import { NavLink } from 'react-router-dom';
+
 import { sidebarMenu } from '../data';
 import { NotificationBadge } from './NotificationBadge';
 import { SidebarTooltip } from './SidebarTooltip';
-import { logo, logoIcon, devider } from '@/assets/images';
-import { Crown } from 'lucide-react';
 
 export interface DashboardSidebarProp {
   isSidebarOpen: boolean;
@@ -35,45 +35,19 @@ export function DashboardSidebar({
   return (
     <aside
       className={`
-        fixed top-0 left-0 z-50
+        fixed top-18 bottom-0 left-0 z-50
         flex flex-col
-        h-full
-        bg-white shadow-[2px_0_12px_rgba(15,23,42,0.07)] border-r border-slate-200
+        w-68
+        bg-white border-r border-slate-200
         transition-all duration-300 ease-in-out
         md:translate-x-0
+        ${isCollapsed ? 'md:w-20' : ''}
         ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
         }
-        ${isCollapsed ? 'w-17.5' : 'w-68.5'}
       `}
     >
-      <div className="overflow-hidden">
-        <Link to="/" className="grid items-center w-full h-21 px-1">
-          <img
-            src={logo}
-            alt="Vivah Bandh"
-            className={`
-              w-60 h-auto mx-auto
-              transition-opacity duration-300
-              col-start-1 row-start-1
-              ${isCollapsed ? 'opacity-0' : 'opacity-100'}
-            `}
-          />
-
-          <img
-            src={logoIcon}
-            alt="Vivah Bandh"
-            className={`
-              w-12 h-12 mx-auto
-              transition-opacity duration-300
-              col-start-1 row-start-1 object-contain
-              ${isCollapsed ? 'opacity-100' : 'opacity-0'}
-            `}
-          />
-        </Link>
-      </div>
-
-      <nav className="flex-1 px-3 py-4 overflow-y-auto">
+      <nav className="flex-1 px-4 py-4 overflow-y-auto">
         {sidebarMenu.map((item) => {
           const Icon = item.icon;
 
@@ -84,16 +58,18 @@ export function DashboardSidebar({
               title={isCollapsed ? item.label : ''}
               onClick={handleMenuClick}
               className={({ isActive }) => `
-                flex items-center p-3 mb-2 rounded-xl transition-all duration-300
-                ${isCollapsed ? '' : 'justify-between'}
+                flex items-center p-3 mb-2 rounded-xl
+                transition-all duration-300
+                justify-between
+                ${isCollapsed ? 'md:justify-start' : ''}
                 ${
                   isActive
-                    ? 'bg-[#fdeff1] text-[#e13060] font-semibold'
-                    : 'text-slate-700 hover:bg-[#fdeff1] hover:text-[#e13060] hover:translate-x-1'
+                    ? 'bg-[#fff0f4] text-[#e21c56] font-semibold'
+                    : 'text-slate-700 hover:bg-[#fff0f4] hover:text-[#e21c56] hover:translate-x-1'
                 }
               `}
               onMouseEnter={(e: MouseEvent<HTMLAnchorElement>) => {
-                if (!isCollapsed) return;
+                if (!isCollapsed || window.innerWidth < 768) return;
 
                 const rect = e.currentTarget.getBoundingClientRect();
 
@@ -112,84 +88,29 @@ export function DashboardSidebar({
                   className={`
                     whitespace-nowrap font-medium
                     transition-opacity duration-300
-                    ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100'}
+                    ${
+                      isCollapsed
+                        ? 'opacity-100 w-auto md:opacity-0 md:w-0'
+                        : 'opacity-100'
+                    }
                   `}
                 >
                   {item.label}
                 </span>
               </div>
 
-              {!isCollapsed && item.badge ? (
-                <NotificationBadge count={item.badge} />
+              {item.badge ? (
+                <div className={isCollapsed ? 'md:hidden' : ''}>
+                  <NotificationBadge count={item.badge} />
+                </div>
               ) : null}
             </NavLink>
           );
         })}
       </nav>
 
-      <div
-        className="
-          shrink-0
-          w-full px-3 pt-2 pb-6 mt-auto
-          overflow-hidden
-        "
-      >
-        <div className="w-full h-4 mb-4">
-          <img
-            src={devider}
-            alt="Vivah Bandh"
-            className="h-auto mx-auto transition-opacity duration-300 col-start-1 row-start-1"
-          />
-        </div>
-
-        <div className="text-center">
-          <div
-            className="
-              flex items-center justify-center
-              w-9 h-9 mx-auto
-              bg-[#e21c56] rounded-full
-            "
-          >
-            <Crown size={20} className="text-white fill-white" />
-          </div>
-
-          <div
-            className={`
-              transition-all duration-300
-              overflow-hidden
-              ${
-                isCollapsed
-                  ? 'max-h-0 opacity-0 pointer-events-none'
-                  : 'max-h-40 opacity-100'
-              }
-            `}
-          >
-            <h3 className="my-2 font-semibold text-[#e21c56]">
-              Upgrade to Premium
-            </h3>
-
-            <p className="mb-4 text-gray-600 text-sm">
-              Unlock all features and connect with the right matches.
-            </p>
-
-            <button
-              type="button"
-              className="
-                flex items-center justify-center
-                px-4 py-2 mx-auto
-                bg-[#e21c56] rounded-md border border-[#e21c56]
-                font-bold text-white text-sm
-                hover:bg-red-600
-              "
-            >
-              Upgrade Now
-            </button>
-          </div>
-        </div>
-      </div>
-
       <SidebarTooltip
-        visible={!!tooltip}
+        visible={isCollapsed && !!tooltip}
         label={tooltip?.label}
         position={tooltip}
       />

@@ -135,9 +135,9 @@ export function ProfileSidebar({
     <aside
       className="
         min-w-0 p-6
-        bg-white shadow-[0_4px_24px_rgba(15,23,42,0.04)] rounded-2xl border border-slate-200/80
+        bg-white shadow-[0_4px_24px_rgba(15,23,42,0.04)] rounded-2xl border border-pink-100
         overflow-hidden
-        xl:sticky xl:top-2 xl:self-start
+        xl:sticky xl:top-8 xl:self-start
       "
     >
       <ProfilePhoto
@@ -148,13 +148,13 @@ export function ProfileSidebar({
         onManagePhotos={navigateToPhotosSection}
       />
 
-      <div className="pb-4 mt-4 border-b border-gray-200 text-left">
+      <div className="pb-4 mt-4 border-b border-pink-100 text-left">
         <h2 className="font-bold text-[#172554] text-lg">{profile.name}</h2>
 
         <p className="mt-1 text-gray-500 text-sm">{profile.userId || '--'}</p>
       </div>
 
-      <div className="flex flex-col w-full py-5 border-b border-gray-200">
+      <div className="flex flex-col w-full py-5 border-b border-pink-100">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold text-[#172554] text-sm">
             Profile Strength

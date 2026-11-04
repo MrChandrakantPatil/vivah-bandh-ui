@@ -18,7 +18,7 @@ export function Profile() {
   };
 
   return (
-    <div className="max-w-7xl min-w-0 pb-10 mx-auto text-slate-900">
+    <div className="max-w-7xl mx-auto text-slate-900">
       <div className="flex items-center gap-3 shrink-0 sm:gap-4">
         <div
           className="
@@ -33,7 +33,7 @@ export function Profile() {
         </div>
 
         <div className="min-w-0">
-          <h1 className="tracking-tight font-bold text-[#172554] text-2xl sm:text-3xl lg:text-4xl">
+          <h1 className="tracking-tight font-semibold text-[#172554] text-xl sm:text-2xl lg:text-3xl">
             My Profile
           </h1>
 
@@ -47,8 +47,8 @@ export function Profile() {
         className="
           grid grid-cols-1 items-start gap-5
           min-w-0 pt-8 mt-6
-          border-t border-gray-200
-          xl:grid-cols-[minmax(320px,380px)_minmax(0,1fr)] xl:gap-8
+          border-t border-pink-100
+          xl:grid-cols-[minmax(350px,400px)_minmax(0,1fr)] xl:gap-8
         "
       >
         <ProfileSidebar navigateToPhotosSection={scrollToPhotos} />

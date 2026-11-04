@@ -31,25 +31,26 @@ export function Matches() {
   }, [activeTab]);
 
   return (
-    <div>
-      <div className="flex items-center gap-4">
+    <div className="max-w-7xl mx-auto text-slate-900">
+      <div className="flex items-center gap-3 shrink-0 sm:gap-4">
         <div
           className="
-            flex items-center justify-center
-            w-16 h-16
-            bg-pink-50 rounded-full
-            text-pink-500
+            flex items-center justify-center shrink-0
+            w-12 h-12
+            bg-pink-100 shadow-sm rounded-2xl border border-pink-200
+            text-pink-600
+            sm:w-16 sm:h-16
           "
         >
-          <Heart size={24} />
+          <Heart size={28} />
         </div>
 
-        <div>
-          <h1 className="font-semibold text-xl sm:text-2xl lg:text-3xl">
+        <div className="min-w-0">
+          <h1 className="tracking-tight font-semibold text-[#172554] text-xl sm:text-2xl lg:text-3xl">
             Matches
           </h1>
 
-          <p className="mt-1 text-gray-500 text-sm sm:text-base">
+          <p className="mt-1.5 text-gray-600 text-xs sm:text-sm lg:text-base">
             Find people who could be a great match for you.
           </p>
         </div>

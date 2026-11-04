@@ -128,7 +128,7 @@ export function ProfileDetails({ userId: propUserId }: ProfileDetailsProps) {
   const matchPercentage = profile.matchPercentage ?? 0;
 
   return (
-    <div className="max-w-7xl min-w-0 pb-10 mx-auto bg-white text-slate-900">
+    <div className="max-w-7xl mx-auto text-slate-900">
       <div className="pb-5">
         <button
           type="button"
@@ -154,7 +154,7 @@ export function ProfileDetails({ userId: propUserId }: ProfileDetailsProps) {
           xl:grid-cols-[minmax(400px,460px)_minmax(0,1fr)] xl:gap-6
         "
       >
-        <div className="xl:sticky xl:top-0 xl:self-start">
+        <div className="xl:sticky xl:top-8 xl:self-start">
           <ProfileDetailsSidebar
             profile={profile}
             photos={photos}

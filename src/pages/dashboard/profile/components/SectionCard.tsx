@@ -22,7 +22,7 @@ export function SectionCard({
     <section
       className={`
         min-w-0
-        bg-white shadow-[0_2px_12px_rgba(15,23,42,0.035)] rounded-xl border border-slate-200/80
+        bg-white shadow-[0_2px_12px_rgba(15,23,42,0.035)] rounded-xl border border-pink-100
         ${className}
       `}
     >
@@ -30,7 +30,7 @@ export function SectionCard({
         className="
           flex items-center justify-between gap-3
           px-4 py-3
-          bg-linear-to-r rounded-t-xl border-b border-slate-100
+          bg-linear-to-r rounded-t-xl border-b border-pink-100
           sm:px-5
           from-pink-50/80 to-white
         "
