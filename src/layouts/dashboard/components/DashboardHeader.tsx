@@ -5,17 +5,8 @@ import type {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Search,
-  MessageCircleMore,
-  Bell,
-  Menu,
-  X,
-  PanelLeftClose,
-  PanelLeftOpen,
-  Crown,
-} from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Search, MessageCircleMore, Bell, Menu, X } from 'lucide-react';
 import { NotificationBadge } from './NotificationBadge';
 import { Avatar } from './Avatar';
 import { UserDropdown } from './UserDropdown';
@@ -36,26 +27,32 @@ export interface DashboardHeaderPropTypes {
   setIsCollapsed: Dispatch<SetStateAction<boolean>>;
 }
 
-function HeaderIcon({ children, count = 0, ...props }: HeaderIconPropTypes) {
+function HeaderIcon({
+  children,
+  count = 0,
+  className = '',
+  ...props
+}: HeaderIconPropTypes) {
   return (
     <button
-      className="
+      type="button"
+      className={`
         relative
-        flex items-center justify-center
-        w-5 h-5
-        text-slate-600
-        hover:text-slate-800
-        sm:w-6 lg:w-7 sm:h-6 lg:h-7
-      "
+        flex items-center justify-center shrink-0
+        w-9 h-9
+        bg-[#fff0f4] rounded-full
+        text-[#e21c56]
+        transition-all duration-200
+        hover:bg-[#ffe3eb]
+        sm:w-10 sm:h-10
+        ${className}
+      `}
       {...props}
     >
       {children}
 
       {!!count && (
-        <NotificationBadge
-          count={count}
-          className="absolute -top-1.5 -right-1.5 md:-top-2 md:-right-2"
-        />
+        <NotificationBadge count={count} className="absolute -top-1 -right-1" />
       )}
     </button>
   );
@@ -77,6 +74,7 @@ export function DashboardHeader({
   const navigate = useNavigate();
 
   const imageKey = profile?.primaryPhoto ?? profile?.profilePhotos?.[0] ?? null;
+
   const image = imageKey ? getCdnUrl(imageKey) : '';
 
   useHandleOutsideClick(profileRef, () => {
@@ -95,33 +93,41 @@ export function DashboardHeader({
     }
   };
 
+  const handleSidebarToggle = () => {
+    if (window.innerWidth >= 768) {
+      setIsCollapsed((prev) => !prev);
+    } else {
+      setIsSidebarOpen((prev) => !prev);
+    }
+  };
+
   return (
     <header
       className="
-        sticky top-0 z-30
-        h-21.25 min-h-21.25
-        bg-white shadow-[0_2px_8px_rgba(15,23,42,0.06)] border-b border-slate-200
-        md:h-21.25 md:min-h-21.25
-        backdrop-blur-md
+        relative z-60
+        flex items-center shrink-0
+        w-full h-18 min-h-18
+        bg-white shadow-[0_3px_10px_rgba(15,23,42,0.08)] border-b border-slate-200
       "
     >
       <div
         className="
-          flex items-center justify-between
-          h-full px-4
-          sm:px-8 md:px-8 lg:px-10
+          flex items-center justify-between gap-3
+          w-full h-full px-5
+          md:px-0
         "
       >
         {showSearch ? (
-          <div className="flex items-center gap-2 w-full">
+          <div className="flex items-center gap-3 w-full">
             <button
               type="button"
               onClick={() => setShowSearch(false)}
               aria-label="Close search"
               className="
-                flex items-center justify-center
+                flex items-center justify-center shrink-0
                 w-9 h-9
                 rounded-full
+                text-slate-600
                 hover:bg-gray-100
               "
             >
@@ -131,57 +137,88 @@ export function DashboardHeader({
             <div
               className="
                 flex flex-1 items-center
-                px-3 py-2
-                bg-gray-50 rounded-lg border border-gray-300
+                px-3 py-2.5
+                bg-[#fff5f7] rounded-xl border border-pink-100
               "
             >
-              <Search size={18} className="text-gray-500" />
+              <Search size={18} className="text-slate-400" />
 
               <input
                 autoFocus
                 type="text"
                 placeholder="Search profiles..."
-                className="flex-1 ml-2 bg-transparent text-gray-700 text-sm outline-none"
+                className="
+                  flex-1
+                  min-w-0 ml-2
+                  bg-transparent
+                  text-slate-700 placeholder:text-slate-400 text-sm
+                  outline-none
+                "
               />
             </div>
           </div>
         ) : (
           <>
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-                onClick={() => {
-                  if (window.innerWidth >= 768) {
-                    setIsCollapsed((prev) => !prev);
-                  } else {
-                    setIsSidebarOpen(true);
-                  }
-                }}
+            <div className="flex flex-1 items-center min-w-0 h-full">
+              <div
                 className="
-                  flex items-center justify-center
-                  rounded-full
-                  text-gray-600
-                  transition-all duration-200
-                  hover:bg-gray-100
+                  flex items-center justify-center shrink-0
+                  w-6.25 max-w-6.25 min-w-6.25 h-full
+                  md:w-19.5 md:max-w-20 md:min-w-19.5
                 "
               >
-                <Menu className="md:hidden" size={22} />
+                <button
+                  type="button"
+                  aria-label={
+                    isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+                  }
+                  onClick={handleSidebarToggle}
+                  className="
+                    flex items-center justify-center
+                    w-auto h-auto p-0
+                    rounded-none
+                    text-slate-600
+                    transition-all duration-200
+                    hover:bg-transparent
+                    md:w-10 md:h-10 md:hover:bg-slate-100 md:rounded-lg
+                  "
+                >
+                  <Menu size={25} strokeWidth={1.8} />
+                </button>
+              </div>
 
-                <div className="md:flex hidden">
-                  {isCollapsed ? (
-                    <PanelLeftOpen size={24} />
-                  ) : (
-                    <PanelLeftClose size={24} />
-                  )}
-                </div>
-              </button>
+              <div
+                className={`
+                  items-center shrink-0
+                  h-full
+                  transition-[width] duration-300 ease-in-out
+                  overflow-hidden
+                  md:flex
+                  hidden
+                  ${isCollapsed ? 'w-6.25' : 'w-0'}
+                `}
+              >
+                <div
+                  className={`
+                    shrink-0
+                    w-px h-12
+                    bg-linear-to-b
+                    transition-opacity duration-300
+                    from-transparent via-slate-300 to-transparent
+                    ${isCollapsed ? 'opacity-100' : 'opacity-0'}
+                  `}
+                />
+              </div>
 
-              <div className="flex w-full max-w-50 md:hidden">
+              <Link
+                to="/"
+                aria-label="Vivah Bandh home"
+                className="flex items-center shrink-0 ml-3 md:ml-0"
+              >
                 <img
                   src={logo}
                   alt="Vivah Bandh"
-                  className="w-full h-auto sm:block hidden"
+                  className="w-52 h-auto sm:block hidden object-contain"
                 />
 
                 <img
@@ -189,57 +226,64 @@ export function DashboardHeader({
                   alt="Vivah Bandh"
                   className="w-10 h-10 sm:hidden object-contain"
                 />
-              </div>
+              </Link>
             </div>
 
-            <div className="flex items-center gap-4 lg:gap-5">
-              <button
-                type="button"
-                className="
-                  flex items-center justify-center
-                  w-7 h-7 p-0
-                  bg-[#e21c56] rounded-full border border-[#e21c56]
-                  md:w-auto md:h-auto md:px-4 md:py-2 md:bg-[#fdf6f7] md:rounded-md md:border-[#fcb4ca]
-                "
-              >
-                <Crown
-                  size={16}
-                  className="text-white md:text-[#feac09] md:fill-[#feac09] fill-white"
-                />
-
-                <span className="ml-2 font-bold text-[#e21c56] text-xs md:inline hidden">
-                  Upgrade to Premium
-                </span>
-              </button>
-
-              <div className="w-px h-7 bg-gray-200" />
-
+            <div
+              className="
+                flex items-center gap-1.5 shrink-0
+                px-0
+                sm:gap-3 lg:gap-4 md:px-6 lg:px-5
+              "
+            >
               <HeaderIcon
                 aria-label="Search"
+                className="md:hidden"
                 onClick={() => setShowSearch(true)}
               >
-                <Search className="w-full h-full" />
+                <Search size={20} strokeWidth={1.8} />
+              </HeaderIcon>
+
+              <HeaderIcon aria-label="Search" className="md:flex hidden">
+                <Search size={23} strokeWidth={1.8} />
               </HeaderIcon>
 
               <HeaderIcon aria-label="Messages" count={0}>
-                <MessageCircleMore className="w-full h-full" />
+                <MessageCircleMore
+                  size={20}
+                  className="sm:w-5.75 sm:h-5.75"
+                  strokeWidth={1.8}
+                />
               </HeaderIcon>
 
               <HeaderIcon aria-label="Notifications" count={0}>
-                <Bell className="w-full h-full" />
+                <Bell
+                  size={20}
+                  className="sm:w-5.75 sm:h-5.75"
+                  strokeWidth={1.8}
+                />
               </HeaderIcon>
 
-              <div ref={profileRef} className="relative">
+              <div ref={profileRef} className="relative ml-0.5 sm:ml-1">
                 <button
                   type="button"
                   aria-label="Toggle profile menu"
                   aria-expanded={showProfileMenu}
                   onClick={() => setShowProfileMenu((prev) => !prev)}
+                  className="
+                    flex items-center justify-center
+                    w-9 h-9
+                    bg-[#fde8ee] rounded-full
+                    transition
+                    hover:ring-pink-200
+                    sm:w-10 sm:h-10
+                    ring-2 ring-transparent
+                  "
                 >
                   <Avatar
                     name={profile?.name || user?.email || 'User'}
                     image={image}
-                    className="w-6 h-6 text-lg md:w-9 md:h-9 md:text-xl"
+                    className="w-9 h-9 text-lg sm:w-10 sm:h-10 sm:text-xl"
                   />
                 </button>
 
