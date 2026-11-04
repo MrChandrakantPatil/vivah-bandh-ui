@@ -1,10 +1,15 @@
 import {
   CalendarDays,
+  Cake,
+  Flower2,
   Heart,
-  MoveVertical,
+  MapPin,
+  Ruler,
   UserRound,
   Users,
+  UsersRound,
 } from 'lucide-react';
+
 import {
   maritalStatusOptions,
   profileForOptions,
@@ -14,7 +19,9 @@ import {
   religionOptions,
   communityOptions,
 } from '@/data';
+
 import { getOptionLabel, formatDate, formatHeight } from '@/utils';
+
 import { SectionCard } from '../SectionCard';
 import { DetailRows } from '../DetailRows';
 import type { ProfileDetailsData } from '../../types';
@@ -38,17 +45,17 @@ export function BasicDetails({ profile }: BasicDetailsProps) {
     {
       label: 'Profile Created For',
       value: getOptionLabel(profile.profileFor, profileForOptions),
-      icon: Users,
+      icon: UsersRound,
     },
     {
       label: 'Age',
       value: profile.age != null ? `${profile.age} years` : 'Not specified',
-      icon: UserRound,
+      icon: Cake,
     },
     {
       label: 'Height',
       value: formatHeight(profile.height),
-      icon: MoveVertical,
+      icon: Ruler,
     },
     {
       label: 'Date of Birth',
@@ -63,17 +70,17 @@ export function BasicDetails({ profile }: BasicDetailsProps) {
     {
       label: 'Lives In',
       value: getProfileLocation(profile),
-      icon: Heart,
+      icon: MapPin,
     },
     {
       label: 'Religion',
       value: getOptionLabel(profile.religion, religionOptions),
-      icon: Heart,
+      icon: Flower2,
     },
     {
       label: 'Community',
       value: getOptionLabel(profile.community, communityOptions),
-      icon: Heart,
+      icon: Users,
     },
   ];
 

@@ -26,9 +26,9 @@ export function SectionCard({
       <div
         className="
           flex items-center gap-3
-          px-5 py-4
+          px-4 py-3
           bg-linear-to-r border-b border-slate-100
-          sm:px-6
+          sm:px-5
           from-pink-50/80 to-white
         "
       >
@@ -48,7 +48,7 @@ export function SectionCard({
         </h2>
       </div>
 
-      <div className="px-8 py-5 sm:px-9.5 sm:py-6">{children}</div>
+      <div className="px-4 py-4 sm:px-5 sm:py-5">{children}</div>
     </section>
   );
 }
