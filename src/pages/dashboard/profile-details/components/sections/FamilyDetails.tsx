@@ -1,9 +1,11 @@
-import { Users, UserRound } from 'lucide-react';
+import { BriefcaseBusiness, House, UsersRound, Wallet } from 'lucide-react';
+
 import {
   familyStatusOptions,
   familyTypeOptions,
   occupationOptions,
 } from '@/data';
+
 import { getOptionLabel } from '@/utils';
 import type { ProfileDetailsData } from '../../types';
 import { SectionCard } from '../SectionCard';
@@ -18,32 +20,32 @@ export function FamilyDetails({ profile }: FamilyDetailsProps) {
     {
       label: 'Family Type',
       value: getOptionLabel(profile.familyType, familyTypeOptions),
-      icon: Users,
+      icon: House,
     },
     {
       label: 'Family Status',
       value: getOptionLabel(profile.familyStatus, familyStatusOptions),
-      icon: Users,
+      icon: Wallet,
     },
     {
       label: "Father's Occupation",
       value: getOptionLabel(profile.fatherOccupation, occupationOptions),
-      icon: UserRound,
+      icon: BriefcaseBusiness,
     },
     {
       label: "Mother's Occupation",
       value: getOptionLabel(profile.motherOccupation, occupationOptions),
-      icon: UserRound,
+      icon: BriefcaseBusiness,
     },
     {
       label: 'Siblings',
       value: `${profile.brothers ?? 0} brother(s), ${profile.sisters ?? 0} sister(s)`,
-      icon: Users,
+      icon: UsersRound,
     },
   ];
 
   return (
-    <SectionCard title="Family Details" icon={Users}>
+    <SectionCard title="Family Details" icon={UsersRound}>
       <DetailRows items={familyInfo} />
     </SectionCard>
   );
