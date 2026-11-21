@@ -1,31 +1,21 @@
 import type { ReactNode, ComponentType } from 'react';
 import { Pencil, type LucideProps } from 'lucide-react';
 
-type SectionCardProps = {
+type ProfileSectionCardProps = {
   title: string;
   icon: ComponentType<LucideProps>;
   children: ReactNode;
-  className?: string;
   onEdit?: () => void;
-  isEditing?: boolean;
 };
 
-export function SectionCard({
+export function ProfileSectionCard({
   title,
   icon: Icon,
   children,
-  className = '',
   onEdit,
-  isEditing = false,
-}: SectionCardProps) {
+}: ProfileSectionCardProps) {
   return (
-    <section
-      className={`
-        min-w-0
-        bg-white shadow-[0_2px_12px_rgba(15,23,42,0.035)] rounded-xl border border-pink-100
-        ${className}
-      `}
-    >
+    <section className="min-w-0 bg-white shadow-[0_2px_12px_rgba(15,23,42,0.035)] rounded-xl border border-pink-100">
       <div
         className="
           flex items-center justify-between gap-3
@@ -52,7 +42,7 @@ export function SectionCard({
           </h2>
         </div>
 
-        {onEdit && !isEditing && (
+        {onEdit && (
           <button
             type="button"
             onClick={onEdit}

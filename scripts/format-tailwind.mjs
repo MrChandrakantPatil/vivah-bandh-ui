@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import ts from 'typescript';
 
 const ROOT = process.cwd();
 
@@ -847,17 +848,28 @@ function extractTemplateParts(value) {
 function formatTernary(expression, indent) {
   const value = expression.trim();
 
-  const match = value.match(/^\$\{\s*(.+?)\s*\?\s*(.+?)\s*:\s*(.+?)\s*\}$/);
+  const source = ts.createSourceFile('className.ts', '`' + value + '`', ts.ScriptTarget.Latest);
+  const statement = source.statements[0];
 
-  if (!match) {
+  if (
+    source.parseDiagnostics.length > 0 ||
+    !ts.isExpressionStatement(statement) ||
+    !ts.isTemplateExpression(statement.expression)
+  ) {
     return `${indent}${value}`;
   }
 
-  const condition = match[1].trim();
+  const conditional = statement.expression.templateSpans[0].expression;
 
-  const trueValue = match[2].trim();
+  if (!ts.isConditionalExpression(conditional)) {
+    return `${indent}${value}`;
+  }
 
-  const falseValue = match[3].trim();
+  const question = conditional.questionToken.getStart(source) - 1;
+  const colon = conditional.colonToken.getStart(source) - 1;
+  const condition = value.slice(2, question).trim();
+  const trueValue = value.slice(question + 1, colon).trim();
+  const falseValue = value.slice(colon + 1, -1).trim();
 
   const nestedIndent = indent + ' '.repeat(INDENT_SIZE);
 
