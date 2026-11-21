@@ -1,27 +1,13 @@
 import { useState } from 'react';
 import { Camera } from 'lucide-react';
+import {
+  DEFAULT_MALE_PHOTO,
+  DEFAULT_FEMALE_PHOTO,
+  getDefaultProfilePhoto,
+  getInitials,
+} from '../utils';
 import { useProfile } from '@/features/profile';
 import { getCdnUrl } from '@/utils/getCdnUrl';
-
-const DEFAULT_MALE_PHOTO = '/images/profile/male.png';
-const DEFAULT_FEMALE_PHOTO = '/images/profile/female.png';
-
-const getDefaultProfilePhoto = (gender?: string | null): string => {
-  return gender?.toLowerCase() === 'female'
-    ? DEFAULT_FEMALE_PHOTO
-    : DEFAULT_MALE_PHOTO;
-};
-
-const getInitials = (name?: string | null): string => {
-  if (!name?.trim()) return 'NA';
-
-  return name
-    .trim()
-    .split(/\s+/)
-    .map((word) => word[0])
-    .join('')
-    .toUpperCase();
-};
 
 type ProfilePhotoProps = {
   profilePhoto: string;
@@ -37,7 +23,6 @@ function ProfilePhoto({
   onManagePhotos,
 }: ProfilePhotoProps) {
   const [imageError, setImageError] = useState(false);
-
   const initials = getInitials(name);
 
   return (
@@ -151,7 +136,9 @@ export function ProfileSidebar({
       <div className="pb-4 mt-4 border-b border-pink-100 text-left">
         <h2 className="font-bold text-[#172554] text-lg">{profile.name}</h2>
 
-        <p className="mt-1 text-gray-500 text-sm">{profile.userId || '--'}</p>
+        <p className="mt-1 text-gray-500 text-sm">
+          {profile.profileId || '--'}
+        </p>
       </div>
 
       <div className="flex flex-col w-full py-5 border-b border-pink-100">

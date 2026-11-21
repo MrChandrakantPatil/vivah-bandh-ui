@@ -20,8 +20,13 @@ export interface PartnerPreference {
   occupation: string[];
 }
 
+export interface ProfileHobby {
+  category: string;
+  value: string;
+}
+
 export interface Profile {
-  userId: string;
+  profileId: string;
   profileFor: string;
   gender: Gender;
   name: string;
@@ -47,7 +52,7 @@ export interface Profile {
   profilePhotos: string[] | null;
   primaryPhoto: string | null;
   aboutMe: string | null;
-  hobbies: string[] | null;
+  hobbies: ProfileHobby[] | null;
   lifestyle: string | null;
   profileCompleted: boolean;
   profilePercentage: number | null;

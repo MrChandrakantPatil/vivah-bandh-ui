@@ -1,5 +1,5 @@
 import { ImagePlus, LoaderCircle, Star, Trash2 } from 'lucide-react';
-import type { PhotoItem } from '../../../types';
+import type { PhotoItem } from '../../types';
 
 type PhotoGalleryProps = {
   photos: PhotoItem[];
@@ -146,6 +146,7 @@ export function PhotoGallery({
                             className="md:hidden"
                             fill="currentColor"
                           />
+
                           <Star
                             size={18}
                             className="md:block hidden"
@@ -175,6 +176,7 @@ export function PhotoGallery({
                                 size={15}
                                 className="animate-spin md:hidden"
                               />
+                              
                               <LoaderCircle
                                 size={18}
                                 className="animate-spin md:block hidden"

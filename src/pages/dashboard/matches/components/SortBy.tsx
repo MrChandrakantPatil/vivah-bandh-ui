@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { ArrowDownUp, Check } from 'lucide-react';
-import type { SelectOption } from '@/data/types';
+import type { SelectOptionType } from '@/types/common.types';
 
 type SortByProps = {
   value: string;
-  options: SelectOption[];
+  options: SelectOptionType[];
   onChange: (value: string) => void;
 };
 

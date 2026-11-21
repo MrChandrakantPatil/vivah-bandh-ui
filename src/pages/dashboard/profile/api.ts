@@ -53,6 +53,10 @@ export const updateProfileApi = async (
     payload,
   );
 
+  if (!response.data.success) {
+    throw new Error(response.data.message || 'Failed to update profile.');
+  }
+
   return response.data;
 };
 

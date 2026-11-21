@@ -1,16 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
-import { Images, LoaderCircle } from 'lucide-react';
+import { toast } from 'sonner';
+import { Images, ImagePlus, LoaderCircle } from 'lucide-react';
+import {
+  getProfileSectionSuccessMessage,
+  releasePhotoPreviews,
+} from '../utils';
 import { useProfile } from '@/features/profile';
 import {
   deleteProfilePhotoApi,
   updateProfileApi,
   uploadProfilePhotos,
-} from '../../../api';
-import { SectionCard } from '../../SectionCard';
-import { PhotoGallery } from './PhotoGallery';
-import { PhotoUploadModal } from './PhotoUploadModal';
+} from '../api';
 import { getCdnUrl } from '@/utils/getCdnUrl';
-import type { PhotoItem } from '../../../types';
+import {
+  ProfileSectionCard,
+  ProfileEditDrawer,
+  PhotoGallery,
+  UploadPhotos,
+  type UploadPhotosHandle,
+} from '../components';
+import type { PhotoItem } from '../types';
 
 type SavedPhoto = {
   id: string;
@@ -21,16 +30,19 @@ type SavedPhoto = {
 
 const MAX_PHOTOS = 5;
 
+const SECTION_TITLE = 'Profile Photos';
+
 export function Photos() {
   const { profile, updateProfileData } = useProfile();
-
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [hasSelectedPhotos, setHasSelectedPhotos] = useState(false);
+  const [isUploadDrawerOpen, setIsUploadDrawerOpen] = useState(false);
   const [savedPhotos, setSavedPhotos] = useState<SavedPhoto[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [isSettingPrimary, setIsSettingPrimary] = useState(false);
   const [deletingPhotoKey, setDeletingPhotoKey] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const uploadRef = useRef<UploadPhotosHandle>(null);
   const savedPhotosRef = useRef<SavedPhoto[]>([]);
 
   useEffect(() => {
@@ -39,17 +51,15 @@ export function Photos() {
 
   useEffect(() => {
     return () => {
-      savedPhotosRef.current.forEach((photo) => {
-        URL.revokeObjectURL(photo.previewUrl);
-      });
+      releasePhotoPreviews(savedPhotosRef.current);
     };
   }, []);
 
   if (!profile) {
     return (
-      <SectionCard title="Profile Photos" icon={Images}>
+      <ProfileSectionCard title={SECTION_TITLE} icon={Images}>
         <div>Loading profile...</div>
-      </SectionCard>
+      </ProfileSectionCard>
     );
   }
 
@@ -68,7 +78,8 @@ export function Photos() {
     if (remainingSlots <= 0 || isBusy) return;
 
     setError(null);
-    setIsUploadModalOpen(true);
+    setHasSelectedPhotos(false);
+    setIsUploadDrawerOpen(true);
   };
 
   const handleSavePhotos = async (files: File[]) => {
@@ -120,7 +131,9 @@ export function Photos() {
         primaryPhoto: nextPrimary,
       });
 
-      setIsUploadModalOpen(false);
+      setIsUploadDrawerOpen(false);
+      
+      toast.success(getProfileSectionSuccessMessage(SECTION_TITLE));
     } catch (err) {
       createdPreviewUrls.forEach((url) => URL.revokeObjectURL(url));
 
@@ -150,6 +163,8 @@ export function Photos() {
       updateProfileData({
         primaryPhoto: photoKey,
       });
+
+      toast.success('Primary photo updated successfully');
     } catch (err) {
       setError(
         err instanceof Error
@@ -187,6 +202,8 @@ export function Photos() {
           previous.filter((photo) => photo.key !== photoKey),
         );
       }
+
+      toast.success('Photo deleted successfully');
     } catch (err) {
       setError(
         err instanceof Error
@@ -217,58 +234,78 @@ export function Photos() {
   ];
 
   return (
-    <SectionCard title="Profile Photos" icon={Images}>
-      <div className="relative h-full">
-        <PhotoGallery
-          photos={displayedPhotos}
-          primaryPhoto={primaryPhoto}
-          remainingSlots={remainingSlots}
-          isSaving={isSaving}
-          isSettingPrimary={isSettingPrimary}
-          deletingPhotoKey={deletingPhotoKey}
-          onAddPhoto={handleAddPhoto}
-          onSetPrimary={handleSetPrimary}
-          onDelete={handleDeletePhoto}
-        />
+    <div id="profile-photos" className="scroll-mt-8">
+      <ProfileSectionCard title={SECTION_TITLE} icon={Images}>
+        <div className="relative h-full">
+          <PhotoGallery
+            photos={displayedPhotos}
+            primaryPhoto={primaryPhoto}
+            remainingSlots={remainingSlots}
+            isSaving={isSaving}
+            isSettingPrimary={isSettingPrimary}
+            deletingPhotoKey={deletingPhotoKey}
+            onAddPhoto={handleAddPhoto}
+            onSetPrimary={handleSetPrimary}
+            onDelete={handleDeletePhoto}
+          />
 
-        {error && (
-          <div
-            role="alert"
-            className="
-              px-4 py-3 mt-4
-              bg-red-50 rounded-lg
-              text-red-600 text-sm
-            "
-          >
-            {error}
-          </div>
+          {error && (
+            <div
+              role="alert"
+              className="
+                px-4 py-3 mt-4
+                bg-red-50 rounded-lg
+                text-red-600 text-sm
+              "
+            >
+              {error}
+            </div>
+          )}
+
+          {(isSaving || isSettingPrimary) && (
+            <div role="status" aria-live="polite" className="mt-4 sr-only">
+              {isSaving ? 'Saving photos...' : 'Updating primary photo...'}
+            </div>
+          )}
+
+          {isBusy && (
+            <div className="sr-only" role="status" aria-live="polite">
+              <LoaderCircle className="animate-spin" />
+              Please wait while your photo operation completes.
+            </div>
+          )}
+        </div>
+      </ProfileSectionCard>
+
+      <ProfileEditDrawer
+        isOpen={isUploadDrawerOpen}
+        icon={ImagePlus}
+        title="Add Profile Photos"
+        saveLabel="Save Photos"
+        description="Choose photos to upload to your profile."
+        isSaving={isSaving}
+        onClose={() => {
+          if (!isSaving) setIsUploadDrawerOpen(false);
+        }}
+        onCancel={() => {
+          if (!isSaving) setIsUploadDrawerOpen(false);
+        }}
+        saveDisabled={!hasSelectedPhotos}
+        onSave={() => {
+          void uploadRef.current?.save();
+        }}
+        contentClassName="px-6 sm:px-8"
+      >
+        {isUploadDrawerOpen && (
+          <UploadPhotos
+            ref={uploadRef}
+            remainingSlots={remainingSlots}
+            isSaving={isSaving}
+            onSave={handleSavePhotos}
+            onSelectionChange={setHasSelectedPhotos}
+          />
         )}
-
-        {(isSaving || isSettingPrimary) && (
-          <div role="status" aria-live="polite" className="mt-4 sr-only">
-            {isSaving ? 'Saving photos...' : 'Updating primary photo...'}
-          </div>
-        )}
-
-        <PhotoUploadModal
-          isOpen={isUploadModalOpen}
-          remainingSlots={remainingSlots}
-          isSaving={isSaving}
-          onClose={() => {
-            if (!isSaving) {
-              setIsUploadModalOpen(false);
-            }
-          }}
-          onSave={handleSavePhotos}
-        />
-
-        {isBusy && (
-          <div className="sr-only" role="status" aria-live="polite">
-            <LoaderCircle className="animate-spin" />
-            Please wait while your photo operation completes.
-          </div>
-        )}
-      </div>
-    </SectionCard>
+      </ProfileEditDrawer>
+    </div>
   );
 }

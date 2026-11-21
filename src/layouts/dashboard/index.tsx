@@ -41,9 +41,7 @@ export function DashboardLayout() {
             transition-[margin] duration-300 ease-in-out
             overflow-y-auto
             from-[#fff5f7] via-white to-[#fff0f4]
-            ${isCollapsed
-              ? 'md:ml-18' : 'md:ml-68'
-            }
+            ${isCollapsed ? 'md:ml-18' : 'md:ml-68'}
           `}
         >
           <div

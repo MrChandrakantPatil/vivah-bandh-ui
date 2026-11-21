@@ -1,0 +1,10 @@
+export { AboutMe } from './AboutMe';
+export { BasicDetails } from './BasicDetails';
+export { EducationCareerDetails } from './EducationCareerDetails';
+export { FamilyDetails } from './FamilyDetails';
+export { LocationDetails } from './LocationDetails';
+export { Photos } from './Photos';
+export { PartnerPreferences } from './PartnerPreferences';
+export { ReligiousDetails } from './ReligiousDetails';
+export { AstroDetails } from './AstroDetails';
+export { HobbiesAndInterests } from './HobbiesAndInterests';
