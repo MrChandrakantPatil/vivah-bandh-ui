@@ -39,7 +39,7 @@ type BasicDetailsKey =
   | 'dob'
   | 'maritalStatus'
   | 'height'
-  | 'diet'
+  | 'lifestyle.diet'
   | 'disability'
   | 'healthInformation'
   | 'bloodGroup'
@@ -96,7 +96,7 @@ const basicDetails: BasicDetailsConfig[] = [
   },
   {
     label: 'Diet',
-    key: 'diet',
+    key: 'lifestyle.diet',
     type: 'select',
     icon: Apple,
     options: dietOptions,
@@ -171,15 +171,13 @@ export function BasicDetails() {
     );
   }
 
-  const values: Partial<Record<BasicDetailsKey, unknown>> = profile;
-
   return (
     <>
       <ProfileViewSection
         title={SECTION_TITLE}
         icon={UserRound}
         fields={basicDetails}
-        values={values}
+        values={profile}
         onEdit={handleEdit}
       />
 

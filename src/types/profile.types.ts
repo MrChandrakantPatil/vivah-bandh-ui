@@ -53,7 +53,7 @@ export interface Profile {
   primaryPhoto: string | null;
   aboutMe: string | null;
   hobbies: ProfileHobby[] | null;
-  lifestyle: string | null;
+  lifestyle: { diet: string | null } | null;
   profileCompleted: boolean;
   profilePercentage: number | null;
   status:
