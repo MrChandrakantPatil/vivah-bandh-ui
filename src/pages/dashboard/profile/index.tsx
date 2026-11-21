@@ -1,15 +1,17 @@
 import { User } from 'lucide-react';
-import { ProfileSidebar } from './components/ProfileSidebar';
+import { ProfileSidebar } from './components';
 import {
   AboutMe,
   BasicDetails,
-  EducationCareer,
+  ReligiousDetails,
+  AstroDetails,
   FamilyDetails,
+  EducationCareerDetails,
   LocationDetails,
+  HobbiesAndInterests,
   Photos,
   PartnerPreferences,
-} from './components/Tabs';
-
+} from './sections';
 export function Profile() {
   const scrollToPhotos = () => {
     document
@@ -58,15 +60,19 @@ export function Profile() {
 
           <BasicDetails />
 
-          <EducationCareer />
+          <ReligiousDetails />
+
+          <AstroDetails />
 
           <FamilyDetails />
 
+          <EducationCareerDetails />
+
           <LocationDetails />
 
-          <div id="profile-photos" className="scroll-mt-13">
-            <Photos />
-          </div>
+          <HobbiesAndInterests />
+
+          <Photos />
 
           <PartnerPreferences />
         </main>
